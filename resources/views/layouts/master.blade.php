@@ -100,7 +100,7 @@
                         <ul class="profile-dropdown onhover-show-div p-20">                         
                             
                             <!-- <li>
-                                <a href="#">
+                                <a href="{{ route('admin.change_password') }}">
                                     <i class="icon-check-box"></i>
                                     Change Password
                                 </a>
@@ -182,7 +182,7 @@
                     </a>
                     <ul class="sidebar-submenu">
                     <li><a href="{{route('admin.area_view')}}"><i class="fa fa-angle-right"></i>Add Area</a></li>     
-                    <li><a href="{{route('admin.manage_areas')}}"><i class="fa fa-angle-right"></i>Manage Driver</a></li>                 
+                    <li><a href="{{route('admin.manage_areas')}}"><i class="fa fa-angle-right"></i>Manage Area</a></li>                 
                     </ul>
                 </li>
                

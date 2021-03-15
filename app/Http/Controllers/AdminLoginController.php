@@ -63,30 +63,30 @@ class AdminLoginController extends Controller
        return view('admin.dashboard');
     }
     
-    //  /**
-    //  * Go to  Business Profile.
-    //  *
-    //  * @return view
-    //  */
-    // public function changePassword()
-    // {
-    //     return view('/admin.change_password');
-    // }
-    //    /**
-    //  * Show the application dashboard.
-    //  *
-    //  * @return \Illuminate\Contracts\Support\Renderable
-    //  */
-    // public function updatePassword(Request $request)
-    // {
-    //     $request->validate([
-    //         'old_pass' => ['required', new MatchOldPassword],
-    //         'new_pass' => ['required'],
-    //         'conf_pass' => ['same:new_pass'],
-    //     ]);
+     /**
+     * Go to  Business Profile.
+     *
+     * @return view
+     */
+    public function changePassword()
+    {
+        return view('/auth.passwords.change_password');
+    }
+       /**
+     * Show the application dashboard.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function updatePassword(Request $request)
+    {
+        $request->validate([
+            'old_pass' => ['required', new MatchOldPassword],
+            'new_pass' => ['required'],
+            'conf_pass' => ['same:new_pass'],
+        ]);
    
-    //     $updatedpassdata = User::find(auth()->user()->id)->update(['password'=> Hash::make($request->new_pass)]);
-    //     // dd('Password change successfully.');
-    //     return redirect()->route('admin.logout');
-    // }
+        $updatedpassdata = Admin::find(auth()->user()->id)->update(['password'=> Hash::make($request->new_pass)]);
+        // dd('Password change successfully.');
+        return redirect()->route('admin.logout');
+    }
 }
