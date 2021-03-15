@@ -109,10 +109,10 @@ Route::prefix('admin')->group(function () {
           Route::post('/delete_areas', 'AreaController@deleteArea')->name('delete_areas');
 
           
-// //--------------------------------------------------------------Admin Logout Section-----------------------------------------------//
-// Route::get('change_password', 'AdminLoginController@changePassword')->name('admin.change_password');	
+//--------------------------------------------------------------Admin Logout Section-----------------------------------------------//
+Route::get('change_password', 'AdminLoginController@changePassword')->name('admin.change_password');	
 
-// Route::post('update_password', 'AdminLoginController@updatePassword')->name('admin.update_password');
+Route::post('update_password', 'AdminLoginController@updatePassword')->name('admin.update_password');
         
     });
 });

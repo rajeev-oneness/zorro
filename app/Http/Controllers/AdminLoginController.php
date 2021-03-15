@@ -5,6 +5,8 @@ use Auth;
 
 use Illuminate\Http\Request;
 use App\Admin;
+use Illuminate\Support\Facades\Hash;
+use App\Rules\MatchOldPassword;
 use Validator;
 
 class AdminLoginController extends Controller
