@@ -5,7 +5,7 @@
 <head>
 
     <meta charset="utf-8" />
-    <title>Admin | Add Vehicle</title>
+    <title>Admin | Edit Area</title>
 
     @extends('layouts.master')
     @section('content')
@@ -27,7 +27,7 @@
                     <div class="col-sm-12 ">
                         <div class="card">
                             <div class="card-header">
-                                <h5>Add Vehicle Type</h5>
+                                <h5>Edit Area Type</h5>
                             </div>
                             <div class="card-body">
                                 <form class="needs-validation" method="post" name="" action="{{route('admin.update_driver1')}}" enctype="multipart/form-data" novalidate>

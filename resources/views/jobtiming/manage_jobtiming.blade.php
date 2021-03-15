@@ -5,7 +5,7 @@
 <head>
 
     <meta charset="utf-8" />
-    <title>Admin | Job Timing</title>
+    <title>Admin | Manage Job Timing</title>
 
     @extends('layouts.master')
     @section('content')

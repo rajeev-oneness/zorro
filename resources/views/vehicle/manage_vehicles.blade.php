@@ -73,7 +73,7 @@
 
     
     $(".edit_vehicletype").click(function(){
-        alert('hi');
+        
         var app_id=this.id;
                var fd = {'app_id': app_id,'_token':$('input[name="_token"]').val()};
                     redirectPost('edit_vehicletype', fd);

@@ -69,7 +69,7 @@
     <div class="page-main-header">
         <div class="main-header-left">
             <div class="logo-wrapper">
-                <a href="index.html">
+                <a href="{{route('admin.dashboard')}}">
                     <img src="{{asset('assets/images/logo-light.png')}}" class="image-dark" alt=""/>
                     <img src="{{asset('assets/images/logo-light-dark-layout.png')}}" class="image-light" alt=""/>
                 </a>

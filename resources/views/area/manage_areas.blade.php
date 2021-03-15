@@ -5,7 +5,7 @@
 <head>
 
     <meta charset="utf-8" />
-    <title>Admin | Job Timing</title>
+    <title>Admin | Manage Areas</title>
 
     @extends('layouts.master')
     @section('content')
@@ -28,7 +28,7 @@
                     <div class="col-sm-12">
                         <div class="card">
                             <div class="card-header">
-                                <h5>Manage Job Timings</h5>
+                                <h5>Manage Areas Details</h5>
                                 @csrf
                             </div>
                             <div class="card-body">

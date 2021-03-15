@@ -5,7 +5,7 @@
 <head>
 
     <meta charset="utf-8" />
-    <title>Admin | Add Drivers</title>
+    <title>Admin | Edit Drivers</title>
 
     @extends('layouts.master')
     @section('content')
@@ -27,7 +27,7 @@
                 <div class="col-sm-12 ">
                     <div class="card">
                         <div class="card-header">
-                            <h5>Add Driver Details</h5>
+                            <h5>Edit Driver Details</h5>
                         </div>
                         <div class="card-body">
                             <form class="needs-validation" method="POST" name="" action="{{route('admin.update_driver')}}" enctype="multipart/form-data" novalidate>
