@@ -38,7 +38,7 @@ class JobtimingController extends Controller
         $JobTiming->end_time = $request->end_time;          
         $JobTiming->save();
            
-            return redirect()->route('admin.dashboard');
+            return redirect()->route('admin.manage_jobtiming');
     }
 
      /**

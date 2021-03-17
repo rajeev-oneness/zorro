@@ -37,7 +37,7 @@ class AreaController extends Controller
         $Area->lon = $request->lon;          
         $Area->save();
            
-            return redirect()->route('admin.dashboard');
+            return redirect()->route('admin.manage_areas');
     }
 
       /**

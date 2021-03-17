@@ -100,7 +100,7 @@ class DriverController extends Controller
     
         $Driver->save();
            
-            return redirect()->route('admin.dashboard');
+            return redirect()->route('admin.manage_drivers');
     }
 
      /**

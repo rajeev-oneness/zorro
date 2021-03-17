@@ -34,7 +34,7 @@ class VehicleController extends Controller
         $Vehicle->name = $request->name;           
         $Vehicle->save();
            
-            return redirect()->route('admin.dashboard');
+            return redirect()->route('admin.manage_vehicles');
     }
 
      /**
