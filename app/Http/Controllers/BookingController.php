@@ -26,7 +26,7 @@ class BookingController extends Controller
     }
 
     /**
-     * Go to Add Offers.
+     * Go to Add Booking.
      *
      * @return view
      */
@@ -81,7 +81,7 @@ class BookingController extends Controller
     }
 
      /**
-     * Go to manage events view.
+     * Go to manage Bookings view.
      *
      * @param  Request $request
      * @return view
@@ -94,7 +94,7 @@ class BookingController extends Controller
 
 
     /**
-     * Go to Edit VehicletType 
+     * Go to Edit Bookings 
      *
      * @param  Request $request
      * @return view
@@ -110,7 +110,7 @@ class BookingController extends Controller
     }
 
     /**
-     * Go to Update Offers.
+     * Go to Update Bokings.
      *
      * @return view
      */
@@ -128,7 +128,7 @@ class BookingController extends Controller
     }
 
     /**
-     * Go to Delete Offers.
+     * Go to Delete Bookings.
      *
      * @param  Request $request
      * @return view

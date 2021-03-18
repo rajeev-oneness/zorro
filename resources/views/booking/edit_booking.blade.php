@@ -5,7 +5,7 @@
 <head>
 
     <meta charset="utf-8" />
-    <title>Admin | Add Bookings</title>
+    <title>Admin | Edit Bookings</title>
 
     @extends('layouts.master')
     @section('content')
@@ -34,7 +34,7 @@
                 <div class="col-sm-12 ">
                     <div class="card">
                         <div class="card-header">
-                            <h5>Add Booking Details</h5>
+                            <h5>Edit Booking Details</h5>
                         </div>
                         <div class="card-body">
                             <form class="needs-validation" method="post" name="" action="{{route('admin.update_booking')}}" enctype="multipart/form-data" novalidate>
