@@ -12,7 +12,9 @@
     <!--Page Sidebar Ends-->
 
     <div class="page-body">
-
+    @if (session('error'))
+<div class="alert alert-danger">{{ session('error') }}</div>
+@endif
         <!-- Container-fluid starts -->
         <div class="container-fluid">
             <div class="page-header">
