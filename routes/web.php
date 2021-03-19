@@ -114,5 +114,13 @@ Route::get('change_password', 'AdminLoginController@changePassword')->name('admi
 
 Route::post('update_password', 'AdminLoginController@updatePassword')->name('admin.update_password');
         
+
+        //--------------------------------------------------------------Admin Logout Section-----------------------------------------------//
+        Route::get('view-booking', 'BookingController@viewBooking')->name('admin.view_bookings');
+        Route::get('manage-booking', 'BookingController@manageBooking')->name('admin.manage_bookings');
+        Route::post('add-booking', 'BookingController@addBooking')->name('admin.add_bookings');
+        Route::get('edit-booking/{id}', 'BookingController@editBooking')->name('admin.edit_bookings');
+        Route::post('update-booking', 'BookingController@updateBooking')->name('admin.update_bookings');
+        Route::get('delete-booking/{id}', 'BookingController@deleteBooking')->name('admin.delete_bookings');
     });
 });

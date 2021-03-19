@@ -141,7 +141,16 @@
                 
                 </li>
               
-                
+                <li>
+                    <a href="javascript:void(0)" class="sidebar-header">
+                        <i class="icon-notepad"></i> <span>Bookings</span>
+                        <i class="fa fa-angle-right pull-right"></i>
+                    </a>
+                    <ul class="sidebar-submenu">
+                    <li><a href="{{route('admin.view_bookings')}}"><i class="fa fa-angle-right"></i>Add Booking</a></li>     
+                    <li><a href="{{route('admin.manage_bookings')}}"><i class="fa fa-angle-right"></i>Manage Bookings</a></li>                 
+                    </ul>
+                </li>
               
                
                 <li>
