@@ -108,23 +108,6 @@ Route::prefix('admin')->group(function () {
   
           Route::post('/delete_areas', 'AreaController@deleteArea')->name('delete_areas');
 
-           //-------------------------------------------------------------- Booking Section-----------------------------------------------//
-
-
-           Route::get('booking', 'BookingController@bookingView')->name('admin.booking');
-
-           Route::post('/add_booking', 'BookingController@addBooking')->name('admin.add_booking');
-   
-           //--------------------------------------------------------------manage Booking Section-----------------------------------------------//
-   
-           Route::get('/manage_booking', 'BookingController@manageBookingView')->name('admin.manage_booking');
-   
-   
-           Route::post('/edit_booking', 'BookingController@editBooking')->name('edit_booking');
-   
-           Route::post('/update_booking', 'BookingController@updateBooking')->name('admin.update_booking');
-   
-           Route::post('/delete_booking', 'BookingController@deleteBooking')->name('delete_booking');
 
           
 //--------------------------------------------------------------Admin Logout Section-----------------------------------------------//
@@ -133,7 +116,7 @@ Route::get('change_password', 'AdminLoginController@changePassword')->name('admi
 Route::post('update_password', 'AdminLoginController@updatePassword')->name('admin.update_password');
         
 
-        //--------------------------------------------------------------Admin Logout Section-----------------------------------------------//
+        //--------------------------------------------------------------Booking Section-----------------------------------------------//
         Route::get('view-booking', 'BookingController@viewBooking')->name('admin.view_bookings');
         Route::get('manage-booking', 'BookingController@manageBooking')->name('admin.manage_bookings');
         Route::post('add-booking', 'BookingController@addBooking')->name('admin.add_bookings');

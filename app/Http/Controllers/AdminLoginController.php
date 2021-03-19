@@ -55,8 +55,8 @@ class AdminLoginController extends Controller
 
     public function logout(Request $request)
     {
-        \Auth::logout();
-        return redirect('/');
+        Auth::logout();
+        // return redirect('/');
     }
 
     public function dashboardView(Request $request)
