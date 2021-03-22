@@ -66,7 +66,7 @@ Route::prefix('admin')->group(function () {
         Route::get('/manage_jobtiming', 'JobtimingController@manageJobtimingView')->name('admin.manage_jobtiming');
 
 
-        Route::post('/edit_jobtiming', 'JobtimingController@editJobTiming')->name('edit_jobtiming');
+        Route::get('/edit_jobtiming/{id}', 'JobtimingController@editJobTiming')->name('edit_jobtiming');
 
         Route::post('/update_jobtiming', 'JobtimingController@updateJobTiming')->name('admin.update_jobtiming');
 
@@ -84,7 +84,7 @@ Route::prefix('admin')->group(function () {
         Route::get('/manage_drivers', 'DriverController@manageDriversView')->name('admin.manage_drivers');
 
 
-        Route::post('/edit_driver', 'DriverController@editDriver')->name('edit_driver');
+        Route::get('/edit_driver/{id}', 'DriverController@editDriver')->name('edit_driver');
 
         Route::post('/update_driver', 'DriverController@updateDriver')->name('admin.update_driver');
 
@@ -102,14 +102,14 @@ Route::prefix('admin')->group(function () {
           Route::get('/manage_areas', 'AreaController@manageAreaView')->name('admin.manage_areas');
   
   
-          Route::post('/edit_areas', 'AreaController@editAreas')->name('edit_areas');
+          Route::get('/edit_areas/{id}', 'AreaController@editAreas')->name('edit_areas');
   
           Route::post('/update_driver1', 'AreaController@updateArea')->name('admin.update_driver1');
   
           Route::post('/delete_areas', 'AreaController@deleteArea')->name('delete_areas');
 
            //-------------------------------------------------------------- Booking Section-----------------------------------------------//
-
+           Route::resource('booking', 'BookingController');
 
            Route::get('booking', 'BookingController@bookingView')->name('admin.booking');
 
@@ -120,7 +120,7 @@ Route::prefix('admin')->group(function () {
            Route::get('/manage_booking', 'BookingController@manageBookingView')->name('admin.manage_booking');
    
    
-           Route::post('/edit_booking', 'BookingController@editBooking')->name('edit_booking');
+           Route::get('/edit_booking/{id}', 'BookingController@editBooking')->name('edit_booking');
    
            Route::post('/update_booking', 'BookingController@updateBooking')->name('admin.update_booking');
    

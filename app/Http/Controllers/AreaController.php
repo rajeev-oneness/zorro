@@ -58,14 +58,26 @@ class AreaController extends Controller
      * @param  Request $request
      * @return view
      */
-    public function editAreas(Request $request) {      
-        $lead_events_id = $request->app_id;
+    // public function editAreas(Request $request) {      
+    //     $lead_events_id = $request->app_id;
       
-        $editedoffers_data = Area::where('id', $lead_events_id)->first();
-        // echo json_encode($businessSerData);die;
-        return view('/area.edit_area', compact('editedoffers_data'));
+    //     $editedoffers_data = Area::where('id', $lead_events_id)->first();
+    //     // echo json_encode($businessSerData);die;
+    //     return view('/area.edit_area', compact('editedoffers_data'));
         
-    }
+    // }
+     /**
+     * Go to Edit VehicletType 
+     *
+     * @param  Request $request
+     * @return view
+     */
+
+    public function editAreas($id)
+   {
+       $editedoffers_data = Area::findOrFail(decrypt($id));
+       return view('/area.edit_area', compact('editedoffers_data'));
+   }
 
     /**
     * Go to Update Offers.
@@ -75,9 +87,9 @@ class AreaController extends Controller
     public function updateArea(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required',
-            'lat' => 'required', 
-            'lon' => 'required',       
+            'name' => 'string|min:2',
+            'lat' => 'required|numeric', 
+            'lon' => 'required|numeric',       
         ]);
        $validator->validate();
 

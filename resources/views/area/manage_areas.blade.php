@@ -48,7 +48,7 @@
     <td>{{$offercategories->name}}</td> 
     <td>{{$offercategories->lat}}</td>  
     <td>{{$offercategories->lon}}</td> 
-    <td><a class="edit_areas" id="{{$offercategories->id}}"><i class="fa fa-edit"></i></a><a class="delete_app" id="{{$offercategories->id}}"><i class="fa fa-trash" style="margin-left: 25px;"></i></a></td>
+    <td><a class="edit_areas" href="{{route('edit_areas', encrypt($offercategories->id))}}" id=""><i class="fa fa-edit"></i></a><a class="delete_app" id="{{$offercategories->id}}"><i class="fa fa-trash" style="margin-left: 25px;"></i></a></td>
   </tr>
 @endforeach
 </tbody>

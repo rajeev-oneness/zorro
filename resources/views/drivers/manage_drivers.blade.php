@@ -50,7 +50,7 @@
     <td>{{$offercategories->address}}</td>
     <td>{{$offercategories->mobile}}</td> 
     <td>{{$offercategories->pan_no}}</td>   
-    <td><a class="edit_driver" id="{{$offercategories->id}}"><i class="fa fa-edit"></i></a><a class="delete_app" id="{{$offercategories->id}}"><i class="fa fa-trash" style="margin-left: 25px;"></i></a></td>
+    <td><a class="edit_driver"  href="{{route('edit_driver', encrypt($offercategories->id))}}" id=""><i class="fa fa-edit"></i></a><a class="delete_app" id="{{$offercategories->id}}"><i class="fa fa-trash" style="margin-left: 25px;"></i></a></td>
   </tr>
 @endforeach
 </tbody>
