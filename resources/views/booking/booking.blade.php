@@ -30,6 +30,16 @@
                             <h5>Add Booking Details</h5>
                         </div>
                         <div class="card-body">
+                        
+                        @if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
                             <form class="needs-validation" method="post" name="" action="{{route('admin.add_booking')}}" enctype="multipart/form-data" novalidate>
                                 {{csrf_field()}}
                                 <div class="row g-3">

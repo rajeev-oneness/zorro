@@ -121,16 +121,32 @@ class DriverController extends Controller
      * @param  Request $request
      * @return view
      */
-    public function editDriver(Request $request) {      
-        $lead_events_id = $request->app_id;
-        $categoriesveh = Vehicle::all();
-        $categoriesjob = JobTiming::all();
-        $categoriesarea = Area::all();
-        $editedoffers_data = Driver::where('id', $lead_events_id)->first();
-        // echo json_encode($businessSerData);die;
-        return view('/drivers.edit_driver', compact('editedoffers_data', 'categoriesveh', 'categoriesjob', 'categoriesarea'));
+//     public function editDriver(Request $request) {      
+//         $lead_events_id = $request->app_id;
+//         $categoriesveh = Vehicle::all();
+//         $categoriesjob = JobTiming::all();
+//         $categoriesarea = Area::all();
+//         $editedoffers_data = Driver::where('id', $lead_events_id)->first();
+//         // echo json_encode($businessSerData);die;
+//         return view('/drivers.edit_driver', compact('editedoffers_data', 'categoriesveh', 'categoriesjob', 'categoriesarea'));
         
-    }
+//     }
+
+
+     /**
+     * Go to Edit VehicletType 
+     *
+     * @param  Request $request
+     * @return view
+     */
+  public function editDriver($id)
+  {
+    $categoriesveh = Vehicle::all();
+            $categoriesjob = JobTiming::all();
+            $categoriesarea = Area::all();
+      $editedoffers_data = Driver::findOrFail(decrypt($id));
+        return view('/drivers.edit_driver', compact('editedoffers_data', 'categoriesveh', 'categoriesjob', 'categoriesarea'));
+}
 
     /**
     * Go to Update Offers.
@@ -141,17 +157,17 @@ class DriverController extends Controller
     {
         // echo 'hi';die;
         $validator = Validator::make($request->all(), [
-            'fname' => 'required',
-            'lname' => 'required',
-            'email' => 'required',
-            'password' => 'required',  
-            'mobile' => 'required',
+            'fname' => 'required|string',
+            'lname' => 'required|string',
+            'email' => 'required|email',
+            'password' => 'required',
+            'mobile' => 'required|digits:10|numeric',
             'dob' => 'required',  
             'address' => 'required',
-            'image' => 'required',  
-            'landmark' => 'required',
-            'vehicle_name' => 'required',  
-            'pan_no' => 'required:max:10',
+            'image' => 'required|mimes:jpeg,png,jpg,gif,svg|max:2048',  
+            'landmark' => 'required|string',
+            'vehicle_name' => 'required|string',  
+            'pan_no' => 'required|max:10',
             'aadhar' => 'required|max:12',         
         ]);
        $validator->validate();

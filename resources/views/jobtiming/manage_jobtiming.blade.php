@@ -46,7 +46,7 @@
     <tr>
     <td>{{$offercategories->start_time}}</td> 
     <td>{{$offercategories->end_time}}</td>  
-    <td><a class="edit_jobtiming" id="{{$offercategories->id}}"><i class="fa fa-edit"></i></a><a class="delete_app" id="{{$offercategories->id}}"><i class="fa fa-trash" style="margin-left: 25px;"></i></a></td>
+    <td><a class="edit_jobtiming" href="{{route('edit_jobtiming', encrypt($offercategories->id))}}" id=""><i class="fa fa-edit"></i></a><a class="delete_app" id="{{$offercategories->id}}"><i class="fa fa-trash" style="margin-left: 25px;"></i></a></td>
   </tr>
 @endforeach
 </tbody>

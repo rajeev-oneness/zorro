@@ -53,20 +53,28 @@ class JobtimingController extends Controller
         return view('/jobtiming.manage_jobtiming',compact('categories'));
     }
 
-      /**
-     * Go to Edit VehicletType 
+    
+    // public function editJobTiming(Request $request) {      
+    //     $lead_events_id = $request->app_id;
+      
+    //     $editedoffers_data = JobTiming::where('id', $lead_events_id)->first();
+    //     // echo json_encode($businessSerData);die;
+    //     return view('/jobtiming.edit_jobtiming', compact('editedoffers_data'));
+        
+    // }
+
+    /**
+     * Go to Edit Edit Job Timings 
      *
      * @param  Request $request
      * @return view
      */
-    public function editJobTiming(Request $request) {      
-        $lead_events_id = $request->app_id;
-      
-        $editedoffers_data = JobTiming::where('id', $lead_events_id)->first();
-        // echo json_encode($businessSerData);die;
-        return view('/jobtiming.edit_jobtiming', compact('editedoffers_data'));
-        
-    }
+
+  public function editJobTiming($id)
+  {
+      $editedoffers_data = JobTiming::findOrFail(decrypt($id));
+      return view('/jobtiming.edit_jobtiming', compact('editedoffers_data'));
+  }
 
     /**
     * Go to Update Offers.

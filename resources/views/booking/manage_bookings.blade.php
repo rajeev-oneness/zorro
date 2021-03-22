@@ -56,7 +56,7 @@
     <td>{{$offercategories->to_landmark}}</td> 
     <td>{{$offercategories->to_mobile}}</td>
     <td>{{$offercategories->description}}</td>   
-    <td><a class="edit_booking" id="{{$offercategories->id}}"><i class="fa fa-edit"></i></a><a class="delete_app" id="{{$offercategories->id}}"><i class="fa fa-trash" style="margin-left: 25px;"></i></a></td>
+    <td><a class="edit_booking" href="{{route('edit_booking', encrypt($offercategories->id))}}" id=""><i class="fa fa-edit"></i></a><a class="delete_app" id="{{$offercategories->id}}"><i class="fa fa-trash" style="margin-left: 25px;"></i></a></td>
   </tr>
 @endforeach
 </tbody>
