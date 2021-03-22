@@ -2,27 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
+use App\Model\Vehicle;
 use App\Model\Booking;
 use App\Model\Driver;
-use DB;
-use Illuminate\Http\Request;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-
-use Validator, Redirect, Response;
-
 
 class BookingController extends Controller
 {
     /**
-     * Go to Bookin View.
-     *
-     * @return view
-     */
-    public function bookingView()
-    {
-        $driver = Driver::all();
-
-        return view('/booking.booking', compact('driver'));
+    * Go to Add Vehicle Types.
+    *
+    * @return view
+    */
+    public function viewBooking(){
+        $drivers = Driver::all();
+        return view('/bookings.add_bookings', compact('drivers'));
     }
 
     /**
@@ -94,52 +88,36 @@ try {
     }
 
      /**
-     * Go to manage Bookings view.
+     * Go to manage events view.
      *
      * @param  Request $request
      * @return view
      */
-    public function manageBookingView(Request $request){
-        $categoriesbook = Booking::all();
-        // echo json_encode($categoriesbook);die;
-        return view('/booking.manage_bookings',compact('categoriesbook'));
+    public function manageBooking(Request $request){
+        $bookings = Booking::orderBy('created_at', 'DESC')->get();
+        // dd($bookings);
+        return view('/bookings.manage_bookings',compact('bookings'));
     }
 
-
-    /**
-     * Go to Edit Bookings 
+     /**
+     * Go to Edit VehicletType 
      *
      * @param  Request $request
      * @return view
      */
-    // public function editBooking(Request $request)
-    // {
-    //     $lead_events_id = $request->app_id;
-    //     $drivername = Driver::get();
-
-    //     $editedoffers_data = Booking::where('id', $lead_events_id)->first();
-    //     // echo json_encode($businessSerData);die;
-    //     return view('/booking.edit_booking', compact('editedoffers_data', 'drivername'));
-    // }
-  /**
-     * Go to Edit Bookings 
-     *
-     * @param  Request $request
-     * @return view
-     */
-
-   public function editBooking($id)
-   {
-    $drivername = Driver::get();
-       $editedoffers_data = Booking::findOrFail(decrypt($id));
-       return view('/booking.edit_booking', compact('editedoffers_data', 'drivername'));
-   }
+    public function editBooking($bookingId) {
+        $booking = Booking::find($bookingId);
+        $drivers = Driver::all();
+        $sel_driver = Driver::find($booking->driver_id);
+        return view('/bookings.edit_booking', compact('booking', 'drivers', 'sel_driver'));
+        
+    }
 
     /**
-     * Go to Update Bokings.
-     *
-     * @return view
-     */
+    * Go to Update Offers.
+    *
+    * @return view
+    */
     public function updateBooking(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -170,18 +148,40 @@ try {
          
                 return redirect()->route('admin.manage_booking');
             
-            }
+            
+        $booking = Booking::find($request->bookingId);
+        $booking->from_location = $request->from_location;
+        $booking->from_lat = $request->from_lat;
+        $booking->from_lon = $request->from_lon;
+        $booking->from_landmark = $request->from_landmark;
+        $booking->from_name = $request->from_name;
+        $booking->from_mobile = $request->from_mobile;
+        $booking->from_email = $request->from_email;
+        $booking->to_location = $request->to_location;
+        $booking->to_lat = $request->to_lat;
+        $booking->to_lon = $request->to_lon;
+        $booking->to_landmark = $request->to_landmark;
+        $booking->to_name = $request->to_name;
+        $booking->to_mobile = $request->to_mobile;
+        $booking->to_email = $request->to_email;
+        $booking->description = $request->description;
+        $booking->distance = $request->distance;
+        $booking->time = $request->time;
+        $booking->driver_id = $request->driver_id;
+        $booking->price = $request->price;
+        $booking->is_delivered = 0;         
+        $booking->save();
+        return redirect()->route('admin.manage_bookings');
+    }
 
-    /**
-     * Go to Delete Bookings.
+     /**
+     * Go to Delete Offers.
      *
      * @param  Request $request
      * @return view
      */
-    public function deleteBooking(Request $request)
-    {
-        $lead_delete_id = $request->appdel_id;
-        $delete_booking = Booking::where('id', $lead_delete_id)->delete();
-        return redirect()->route('admin.manage_booking');
+    public function deleteBooking($bookingId) {
+        Booking::where('id', $bookingId)->delete();
+        return redirect()->route('admin.manage_bookings');
     }
 }

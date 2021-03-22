@@ -126,11 +126,20 @@ Route::prefix('admin')->group(function () {
    
            Route::post('/delete_booking', 'BookingController@deleteBooking')->name('delete_booking');
 
+
           
 //--------------------------------------------------------------Admin Logout Section-----------------------------------------------//
 Route::get('change_password', 'AdminLoginController@changePassword')->name('admin.change_password');	
 
 Route::post('update_password', 'AdminLoginController@updatePassword')->name('admin.update_password');
         
+
+        //--------------------------------------------------------------Booking Section-----------------------------------------------//
+        Route::get('view-booking', 'BookingController@viewBooking')->name('admin.view_bookings');
+        Route::get('manage-booking', 'BookingController@manageBooking')->name('admin.manage_bookings');
+        Route::post('add-booking', 'BookingController@addBooking')->name('admin.add_bookings');
+        Route::get('edit-booking/{id}', 'BookingController@editBooking')->name('admin.edit_bookings');
+        Route::post('update-booking', 'BookingController@updateBooking')->name('admin.update_bookings');
+        Route::get('delete-booking/{id}', 'BookingController@deleteBooking')->name('admin.delete_bookings');
     });
 });

@@ -141,7 +141,16 @@
                 
                 </li>
               
-                
+                <li>
+                    <a href="javascript:void(0)" class="sidebar-header">
+                        <i class="icon-notepad"></i> <span>Bookings</span>
+                        <i class="fa fa-angle-right pull-right"></i>
+                    </a>
+                    <ul class="sidebar-submenu">
+                    <li><a href="{{route('admin.view_bookings')}}"><i class="fa fa-angle-right"></i>Add Booking</a></li>     
+                    <li><a href="{{route('admin.manage_bookings')}}"><i class="fa fa-angle-right"></i>Manage Bookings</a></li>                 
+                    </ul>
+                </li>
               
                
                 <li>
@@ -183,16 +192,6 @@
                     <ul class="sidebar-submenu">
                     <li><a href="{{route('admin.area_view')}}"><i class="fa fa-angle-right"></i>Add Area</a></li>     
                     <li><a href="{{route('admin.manage_areas')}}"><i class="fa fa-angle-right"></i>Manage Area</a></li>                 
-                    </ul>
-                </li>
-                <li>
-                    <a href="javascript:void(0)" class="sidebar-header">
-                        <i class="icon-notepad"></i> <span>Booking</span>
-                        <i class="fa fa-angle-right pull-right"></i>
-                    </a>
-                    <ul class="sidebar-submenu">
-                    <li><a href="{{route('admin.booking')}}"><i class="fa fa-angle-right"></i>Add Bookings</a></li>     
-                    <li><a href="{{route('admin.manage_booking')}}"><i class="fa fa-angle-right"></i>Manage Bookings</a></li>                 
                     </ul>
                 </li>
                
