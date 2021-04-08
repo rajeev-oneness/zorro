@@ -1,25 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('ui.master')
 
+@section('title')
+    Add Drivers
+@endsection
 
-<head>
+@section('content')
 
-    <meta charset="utf-8" />
-    <title>Admin | Add Drivers</title>
-
-    @extends('layouts.master')
-    @section('content')
-    <!--Page Sidebar Ends-->
-
-    <div class="page-body">
-
-        <!-- Container-fluid starts -->
-        <div class="container-fluid">
-            <div class="page-header">
-
-            </div>
-        </div>
-        <!-- Container-fluid Ends -->
 
         <!-- Container-fluid starts -->
         <div class="container-fluid">
@@ -129,7 +115,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="validationCustom01" class="form-label">Vehicle Type</label>
-                                            <select id="business_categoryId" name="vehicle_type" class="form-select" required aria-label="select example">
+                                            <select id="business_categoryId" name="vehicle_type" class="form-control" required aria-label="select example">
                                                 <option value="{{old('vehicle_type')}}">Select Typ</option>
                                                 @foreach($categories as $vehicleType)
                                                 <option value="{{$vehicleType->id}}">{{$vehicleType->name}}</option>
@@ -198,7 +184,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="validationCustom01" class="form-label">Job Start Time</label>
-                                            <select id="preferred_job_timing_id" name="preferred_job_timing_id" class="form-select" required aria-label="select example">
+                                            <select id="preferred_job_timing_id" name="preferred_job_timing_id" class="form-control" required aria-label="select example">
                                                 <option value="{{old('preferred_job_timing_id')}}">Select Period</option>
                                                 @foreach($categories1 as $jobtimingType)
                                                 <option value="{{$jobtimingType->id}}">{{$jobtimingType->start_time}}</option>
@@ -212,7 +198,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="validationCustom01" class="form-label">Area</label>
-                                            <select id="preferred_area_id" name="preferred_area_id" class="form-select" required aria-label="select example">
+                                            <select id="preferred_area_id" name="preferred_area_id" class="form-control" required aria-label="select example">
                                                 <option value="{{old('preferred_area_id')}}">Select Area</option>
                                                 @foreach($categories2 as $areaType)
                                                 <option value="{{$areaType->id}}">{{$areaType->name}}</option>
@@ -291,12 +277,7 @@
         </div>
         <!-- Container-fluid Ends -->
 
-    </div>
-    </div>
-    <!--Page Body Ends-->
-
-    </div>
-    <!--page-wrapper Ends-->
+    
     <script>
  function readURL(input) {
         if (input.files && input.files[0]) {

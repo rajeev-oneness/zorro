@@ -1,27 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('ui.master')
 
+@section('title')
+    Edit Job Timing
+@endsection
 
-<head>
+@section('content')
 
-    <meta charset="utf-8" />
-    <title>Admin | Edit Job Timing</title>
-
-    @extends('layouts.master')
-    @section('content')
-        <!--Page Sidebar Ends-->
-
-        <div class="page-body">
-
-            <!-- Container-fluid starts -->
-            <div class="container-fluid">
-                <div class="page-header">
-                  
-                </div>
-            </div>
-            <!-- Container-fluid Ends -->
-
-            <!-- Container-fluid starts -->
+        <!-- Container-fluid starts -->
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-sm-12 ">
@@ -37,14 +22,14 @@
                                     <div class="row g-3">
                                         <div class="col-md-4">
                                             <label for="validationCustom01" class="form-label">Start Time</label>
-                                            <input type="text" class="form-control" name="start_time" id="start_time" value="{{$editedoffers_data->start_time}}" required>
+                                            <input type="time" class="form-control" name="start_time" id="start_time" value="{{$editedoffers_data->start_time}}" required>
                                             @error('start_time')
 					<span class="text-danger">{{ $message }}</span>
 					@enderror
                                         </div>
                                         <div class="col-md-4">
                                             <label for="validationCustom01" class="form-label">End Time</label>
-                                            <input type="text" class="form-control" name="end_time" id="end_time" value="{{$editedoffers_data->end_time}}" required>
+                                            <input type="time" class="form-control" name="end_time" id="end_time" value="{{$editedoffers_data->end_time}}" required>
                                             @error('end_time')
 					<span class="text-danger">{{ $message }}</span>
 					@enderror
@@ -65,12 +50,6 @@
                     </div>
                 </div>
             </div>
-            <!-- Container-fluid Ends -->
+        <!-- Container-fluid Ends -->
 
-        </div>
-    </div>
-    <!--Page Body Ends-->
-
-</div>
-<!--page-wrapper Ends-->
 @endsection

@@ -1,29 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('ui.master')
 
+@section('title')
+    Edit Drivers
+@endsection
 
-<head>
+@section('content')
 
-    <meta charset="utf-8" />
-    <title>Admin | Edit Drivers</title>
-
-    @extends('layouts.master')
-    @section('content')
-    <!--Page Sidebar Ends-->
-
-    <div class="page-body">
-    @if (session('error'))
-<div class="alert alert-danger">{{ session('error') }}</div>
-@endif
-        <!-- Container-fluid starts -->
-        <div class="container-fluid">
-            <div class="page-header">
-
-            </div>
-        </div>
-        <!-- Container-fluid Ends -->
-
-        <!-- Container-fluid starts -->
+    <!-- Container-fluid starts -->
         <div class="container-fluid">
             <div class="row">
                 <div class="col-sm-12 ">
@@ -132,7 +115,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="validationCustom01" class="form-label">Vehicle Type</label>
-                                            <select id="business_categoryId" name="vehicle_type" class="form-select" required aria-label="select example">
+                                            <select id="business_categoryId" name="vehicle_type" class="form-control" required aria-label="select example">
                                                 <option value="{{old('vehicle_type')}}">Select Typ</option>
                                                 @foreach($categoriesveh as $vehicleType)
                                                 <option value="{{$vehicleType->id}}" <?php echo $editedoffers_data->vehicle_type ==  $vehicleType->id ? "selected" : ""; ?>>{{$vehicleType->name}}</option>
@@ -201,7 +184,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="validationCustom01" class="form-label">Job Start Time</label>
-                                            <select id="preferred_job_timing_id" name="preferred_job_timing_id" class="form-select" required aria-label="select example">
+                                            <select id="preferred_job_timing_id" name="preferred_job_timing_id" class="form-control" required aria-label="select example">
                                                 <option value="{{old('preferred_job_timing_id')}}">Select Period</option>
                                                 @foreach($categoriesjob as $jobtimingType)
                                                 <option value="{{$jobtimingType->id}}" <?php echo $editedoffers_data->preferred_job_timing_id ==  $jobtimingType->id ? "selected" : ""; ?>>{{$jobtimingType->start_time}}</option>
@@ -215,7 +198,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="validationCustom01" class="form-label">Area</label>
-                                            <select id="preferred_area_id" name="preferred_area_id" class="form-select" required aria-label="select example">
+                                            <select id="preferred_area_id" name="preferred_area_id" class="form-control" required aria-label="select example">
                                                 <option value="{{old('preferred_area_id')}}">Select Area</option>
                                                 @foreach($categoriesarea as $areaType)
                                                 <option value="{{$areaType->id}}" <?php echo $editedoffers_data->preferred_area_id ==  $areaType->id ? "selected" : ""; ?>>{{$areaType->name}}</option>
@@ -294,12 +277,7 @@
         </div>
         <!-- Container-fluid Ends -->
 
-    </div>
-    </div>
-    <!--Page Body Ends-->
-
-    </div>
-    <!--page-wrapper Ends-->
+    
     <script>
  function readURL(input) {
         if (input.files && input.files[0]) {

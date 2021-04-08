@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::get('/', function () {
-    return view('admin.login');
+    return view('ui.login');
 })->name('adminlogin');
 
 Route::post('login_get','AdminLoginController@loginGet')->name('admins.login');

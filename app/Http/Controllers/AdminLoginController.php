@@ -9,6 +9,9 @@ use Illuminate\Support\Facades\Hash;
 use App\Rules\MatchOldPassword;
 use Validator;
 
+use App\Model\Driver;
+use App\Model\Booking;
+
 class AdminLoginController extends Controller
 {
     /**
@@ -56,13 +59,15 @@ class AdminLoginController extends Controller
     public function logout(Request $request)
     {
         Auth::logout();
-        // return redirect('/');
+        return redirect('/');
     }
 
     public function dashboardView(Request $request)
     {
-        
-       return view('admin.dashboard');
+        $drivers = Driver::all();
+        $bookings = Booking::all()->count();
+        $revenue = Booking::where('is_delivered', 1)->sum('price');
+        return view('ui.dashboard', compact('drivers', 'bookings','revenue'));
     }
     
      /**

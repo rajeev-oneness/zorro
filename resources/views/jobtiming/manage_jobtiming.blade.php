@@ -1,108 +1,95 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('ui.master')
 
+@section('title')
+    Manage Job Timing
+@endsection
 
-<head>
+@section('content')
 
-    <meta charset="utf-8" />
-    <title>Admin | Manage Job Timing</title>
-
-    @extends('layouts.master')
-    @section('content')
-
-        <!-- Sidebar End -->
-        <div class="page-body">
-            <div class="container-fluid">
-                <div class="page-header">
-                    <div class="row">
-                        <div class="col-lg-6">
-                            
-                        </div>
-                       
-                    </div>
+<main>
+    <div class="container-fluid">
+        <div class="row mt-4">
+          <div class="col-12 pl-2 pl-md-4">
+            <div class="card border-0">
+              <div class="card-body">
+                <div class="row m-0 ">
+                  <h5 class="card-title col-8 p-0">Business Database</h5>
+                  <div class="col-4 text-right ml-auto filter-div">
+                    <a href="#"><img src="{{asset('ui/img/export-icon.png')}}"> &nbsp; Export</a> &nbsp; &nbsp;
+                    <a href="#"><i class="fas fa-filter"></i> &nbsp; Filter</a>
+                  </div>
                 </div>
-            </div>
-            <div class="container-fluid">
-                <div class="row">
-                    <!--Zero Configuration  Starts -->
-                    <div class="col-sm-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <h5>Manage Job Timings</h5>
-                                @csrf
-                            </div>
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                    <table id="basic-1" class="display">
-                                        <thead>
-                                        <tr>
-                                            <th>Start Time</th>
-                                            <th>End Time</th>
-                                            <th>Action</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-  @foreach ($categories as $offercategories)
-    <tr>
-    <td>{{$offercategories->start_time}}</td> 
-    <td>{{$offercategories->end_time}}</td>  
-    <td><a class="edit_jobtiming" href="{{route('edit_jobtiming', encrypt($offercategories->id))}}" id=""><i class="fa fa-edit"></i></a><a class="delete_app" id="{{$offercategories->id}}"><i class="fa fa-trash" style="margin-left: 25px;"></i></a></td>
-  </tr>
-@endforeach
-</tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!--Zero Configuration  Ends -->
-
-
-
+                <div class="table-responsive">
+                  <table class="table table-striped table-sm">
+                    <thead>
+                        <tr>
+                            <th class="l-redious-15 pl-15">Sl.</th>
+                            <th>Start Time</th>
+                            <th>End Time</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @php
+                            $i = 1;
+                        @endphp
+                        @foreach ($categories as $offercategories)
+                        <tr>
+                            <td>{{$i++}}</td>
+                            <td>{{$offercategories->start_time}}</td> 
+                            <td>{{$offercategories->end_time}}</td>  
+                            <td><a class="edit_jobtiming" href="{{route('edit_jobtiming', encrypt($offercategories->id))}}" id=""><i class="fa fa-edit"></i></a></td>
+                            <td><a class="delete_app" id="{{$offercategories->id}}"><i class="fa fa-trash" style="margin-left: 25px;"></i></a></td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                  </table>
                 </div>
+              </div>
             </div>
+          </div>
         </div>
     </div>
-</div>
+</main>
+
+@csrf
+
 <script>
        
-               $(document).ready(function (){
-                   
-                $('.display').DataTable({
-      'order':[]
+$(document).ready(function (){
+
+    $(".edit_jobtiming").click(function(){
+        var app_id=this.id;
+        var fd = {'app_id': app_id,'_token':$('input[name="_token"]').val()};
+        redirectPost('edit_jobtiming', fd);
+    });
+    $(".delete_app").click(function(){
+        if (confirm('Are you sure?')) {
+            var appdel_id=this.id;
+            var fd = {'appdel_id': appdel_id,'_token':$('input[name="_token"]').val()};
+            redirectPost('delete_jobtiming', fd);
+        }
     });
 
 
-    
-    $(".edit_jobtiming").click(function(){
-     
-        var app_id=this.id;
-               var fd = {'app_id': app_id,'_token':$('input[name="_token"]').val()};
-                    redirectPost('edit_jobtiming', fd);
-            });
-            $(".delete_app").click(function(){
-               
-        var appdel_id=this.id;
-               var fd = {'appdel_id': appdel_id,'_token':$('input[name="_token"]').val()};
-                    redirectPost('delete_jobtiming', fd);
-            });
-   
+});
+    var redirectPost = function (url, data = null, method = 'post') {
+         var form = document.createElement('form');
+         form.method = method;
+         form.action = url;
+         for (var name in data) {
+             var input = document.createElement('input');
+             input.type = 'hidden';
+             input.name = name;
+             input.value = data[name];
+             form.appendChild(input);
+         }
+         $('body').append(form);
+         form.submit();
+     }
   
-               });
-               var redirectPost = function (url, data = null, method = 'post') {
-                    var form = document.createElement('form');
-                    form.method = method;
-                    form.action = url;
-                    for (var name in data) {
-                        var input = document.createElement('input');
-                        input.type = 'hidden';
-                        input.name = name;
-                        input.value = data[name];
-                        form.appendChild(input);
-                    }
-                    $('body').append(form);
-                    form.submit();
-                }
-             
-            </script>
+ </script>
+
+
 @endsection

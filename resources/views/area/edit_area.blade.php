@@ -1,27 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('ui.master')
 
+@section('title')
+    Edit Area
+@endsection
 
-<head>
+@section('content')
 
-    <meta charset="utf-8" />
-    <title>Admin | Edit Area</title>
-
-    @extends('layouts.master')
-    @section('content')
-        <!--Page Sidebar Ends-->
-
-        <div class="page-body">
-
-            <!-- Container-fluid starts -->
-            <div class="container-fluid">
-                <div class="page-header">
-                  
-                </div>
-            </div>
-            <!-- Container-fluid Ends -->
-
-            <!-- Container-fluid starts -->
+        <!-- Container-fluid starts -->
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-sm-12 ">
@@ -72,12 +57,6 @@
                     </div>
                 </div>
             </div>
-            <!-- Container-fluid Ends -->
+        <!-- Container-fluid Ends -->
 
-        </div>
-    </div>
-    <!--Page Body Ends-->
-
-</div>
-<!--page-wrapper Ends-->
 @endsection
