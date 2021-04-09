@@ -93,7 +93,8 @@
                       <tr>
                         <th class="br-l-15 pl-3">Lower</th>
                         <th>Upper</th>
-                        <th class="br-r-15">Cost</th>
+                        <th>Cost</th>
+                        <th class="br-r-15">Action</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -102,6 +103,7 @@
                         <td class="pl-3">{{$item->lower}} KM</td>
                         <td>{{$item->upper}} KM</td>
                         <td>Rs. {{$item->cost}}</td>
+                        <td> <a href="{{route('dashboard.modal.delete', ['id'=>encrypt($item->id), 'modal_name'=>'pb'])}}"><i class="fas fa-trash"></i></a> </td>
                       </tr> 
                       @endforeach
                     </tbody>
@@ -119,7 +121,8 @@
                       <tr>
                         <th class="br-l-15 pl-3">Lower</th>
                         <th>Upper</th>
-                        <th class="br-r-15">Cost</th>
+                        <th>Cost</th>
+                        <th class="br-r-15">Action</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -128,6 +131,7 @@
                         <td class="pl-3">{{$item->lower}} KM</td>
                         <td>{{$item->upper}} KM</td>
                         <td>Rs. {{$item->cost}}</td>
+                        <td> <a href="{{route('dashboard.modal.delete', ['id'=>encrypt($item->id), 'modal_name'=>'rf'])}}"><i class="fas fa-trash"></i></a> </td>
                       </tr> 
                       @endforeach
                     </tbody>
@@ -144,7 +148,8 @@
                     <thead>
                       <tr>
                         <th class="br-l-15 pl-3">No. of Orders</th>
-                        <th class="br-r-15">Amount</th>
+                        <th>Amount</th>
+                        <th class="br-r-15">Action</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -152,6 +157,7 @@
                       <tr>
                         <td class="pl-3">{{$item->no_of_orders}} KM</td>
                         <td>Rs. {{$item->cost}}</td>
+                        <td> <a href="{{route('dashboard.modal.delete', ['id'=>encrypt($item->id), 'modal_name'=>'ib'])}}"><i class="fas fa-trash"></i></a> </td>
                       </tr> 
                       @endforeach
                     </tbody>

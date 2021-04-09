@@ -242,6 +242,38 @@
             }
         }); 
     }
+
+    google.maps.event.addDomListener(window,'load',initialize);
+
+    function initialize(){
+
+        var autocomplete= new google.maps.places.Autocomplete(document.getElementById('from_location'));
+
+        google.maps.event.addListener(autocomplete, 'place_changed', function(){
+
+            var places = autocomplete.getPlace();
+            console.log(places);
+
+            $('#from_location').val(places.formatted_address);
+            $('#from_lon').val(places.geometry.location.lng());
+            $('#from_lat').val(places.geometry.location.lat());
+
+        });
+
+        var autocomplete2= new google.maps.places.Autocomplete(document.getElementById('to_location'));
+
+        google.maps.event.addListener(autocomplete2, 'place_changed', function(){
+
+            var places = autocomplete2.getPlace();
+            console.log(places);
+
+            $('#to_location').val(places.formatted_address);
+            $('#to_lon').val(places.geometry.location.lng());
+            $('#to_lat').val(places.geometry.location.lat());
+
+        });
+
+    }
 </script>
 
 @endsection

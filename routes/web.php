@@ -156,5 +156,6 @@ Route::post('update_password', 'AdminLoginController@updatePassword')->name('adm
         });
         
         Route::post('modalstore', 'AdminLoginController@modalStore')->name('dashboard.modal.store');
+        Route::get('modaldelete/{id}/{modal_name}', 'AdminLoginController@modalDelete')->name('dashboard.modal.delete');
     });
 });

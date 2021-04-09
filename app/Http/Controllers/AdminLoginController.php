@@ -125,4 +125,18 @@ class AdminLoginController extends Controller
         $data->save();
         return redirect()->route('admin.dashboard');
     }
+    public function modalDelete($id, $modal_name) {
+        if($modal_name == 'pb' || $modal_name == 'rf'){
+            switch($modal_name){
+                case 'pb':
+                    $data = PricingBracket::find(decrypt($id));break;
+                case 'rf':
+                    $data = RiderFee::find(decrypt($id));break;
+            }
+        }elseif($modal_name == 'ib'){
+            $data = IncentiveBracket::find(decrypt($id));
+        }
+        $data->delete();
+        return redirect()->route('admin.dashboard');
+    }
 }
