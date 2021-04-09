@@ -78,7 +78,7 @@
                               
                             </div>
                         </div>
-                        <button class="btn btn-primary" id="submitButton" type="submit">Update Customer</button>
+                        <button class="btn order-btn" id="submitButton" type="submit">Update Customer</button>
                     </form>
                 </div>
             </div>

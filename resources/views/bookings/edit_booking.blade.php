@@ -187,7 +187,7 @@
                               
                             </div>
                         </div>
-                        <button class="btn btn-primary" type="submit">Update</button>
+                        <button class="btn order-btn" type="submit">Update</button>
                     </form>
                 </div>
             </div>

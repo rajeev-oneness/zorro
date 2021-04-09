@@ -45,7 +45,7 @@
       <!-- Navbar-->
       <ul class="navbar-nav justify-content-end ml-auto">
         <li class="pt-2">
-          <button class="btn order-btn" type="button">Place Order</button>
+          <a href="{{route('admin.view_bookings')}}" role="button" class="btn order-btn">Place Order</a>
         </li>
           <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle user-img" id="userDropdown" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="{{asset('ui/img/userpic.jpg')}}"></a>

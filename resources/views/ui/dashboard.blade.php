@@ -56,7 +56,7 @@
                     <div class="col-8 pr-md-0">
                       <p>
                         Total Customer
-                        <span>48</span>
+                        <span>{{count($customers)}}</span>
                       </p>
                     </div>
                   </div>
@@ -83,7 +83,9 @@
               <div class="col-12 col-md-4 p-0">
                 <div class="d-b-title d-flex">
                   <h5>Pricing Bracket</h5>
-                  <span class="ml-auto"><a href=""><i class="fas fa-pencil-alt"></i></a></span>
+                  <span class="ml-auto">
+                    <a data-toggle="modal" data-target="#exampleModal" href="#" id="pricing-bracket"><i class="fas fa-pencil-alt"></i></a>
+                  </span>
                 </div>
                 <div class="card-body card border-0 p-0 das-table">
                   <table class="table table-striped">
@@ -95,26 +97,13 @@
                       </tr>
                     </thead>
                     <tbody>
+                      @foreach ($pb as $item)
                       <tr>
-                        <td class="pl-3">0 KM</td>
-                        <td>3 KM</td>
-                        <td>Rs. 0</td>
-                      </tr>
-                      <tr>
-                        <td class="pl-3">0 KM</td>
-                        <td>3 KM</td>
-                        <td>Rs. 0</td>
-                      </tr>
-                      <tr>
-                        <td class="pl-3">0 KM</td>
-                        <td>3 KM</td>
-                        <td>Rs. 0</td>
-                      </tr>
-                      <tr>
-                        <td class="pl-3">0 KM</td>
-                        <td>3 KM</td>
-                        <td>Rs. 0</td>
-                      </tr>
+                        <td class="pl-3">{{$item->lower}} KM</td>
+                        <td>{{$item->upper}} KM</td>
+                        <td>Rs. {{$item->cost}}</td>
+                      </tr> 
+                      @endforeach
                     </tbody>
                   </table>
                 </div>
@@ -122,7 +111,7 @@
               <div class="col-12 col-md-4">
                 <div class="d-b-title d-flex">
                   <h5>Rider Fee</h5>
-                  <span class="ml-auto"><a href=""><i class="fas fa-pencil-alt"></i></a></span>
+                  <span class="ml-auto"><a data-toggle="modal" data-target="#exampleModal2" href="#" id="rider-fee"><i class="fas fa-pencil-alt"></i></a></span>
                 </div>
                 <div class="card-body card border-0 p-0 das-table">
                   <table class="table table-striped">
@@ -134,26 +123,13 @@
                       </tr>
                     </thead>
                     <tbody>
+                      @foreach ($rf as $item)
                       <tr>
-                        <td class="pl-3">0 KM</td>
-                        <td>3 KM</td>
-                        <td>Rs. 0</td>
-                      </tr>
-                      <tr>
-                        <td class="pl-3">0 KM</td>
-                        <td>3 KM</td>
-                        <td>Rs. 0</td>
-                      </tr>
-                      <tr>
-                        <td class="pl-3">0 KM</td>
-                        <td>3 KM</td>
-                        <td>Rs. 0</td>
-                      </tr>
-                      <tr>
-                        <td class="pl-3">0 KM</td>
-                        <td>3 KM</td>
-                        <td>Rs. 0</td>
-                      </tr>
+                        <td class="pl-3">{{$item->lower}} KM</td>
+                        <td>{{$item->upper}} KM</td>
+                        <td>Rs. {{$item->cost}}</td>
+                      </tr> 
+                      @endforeach
                     </tbody>
                   </table>
                 </div>
@@ -161,7 +137,7 @@
               <div class="col-12 col-md-4 p-0">
                 <div class="d-b-title d-flex">
                   <h5>Incentive Bracket</h5>
-                  <span class="ml-auto"><a href=""><i class="fas fa-pencil-alt"></i></a></span>
+                  <span class="ml-auto"><a data-toggle="modal" data-target="#exampleModal3" href="#" id="pricing-bracket"><i class="fas fa-pencil-alt"></i></a></span>
                 </div>
                 <div class="card-body card border-0 p-0 das-table">
                   <table class="table table-striped">
@@ -172,22 +148,12 @@
                       </tr>
                     </thead>
                     <tbody>
+                      @foreach ($ib as $item)
                       <tr>
-                        <td class="pl-3">03</td>
-                        <td>Rs. 0</td>
-                      </tr>
-                      <tr>
-                        <td class="pl-3">04</td>
-                        <td>Rs. 0</td>
-                      </tr>
-                      <tr>
-                        <td class="pl-3">05</td>
-                        <td>Rs. 0</td>
-                      </tr>
-                      <tr>
-                        <td class="pl-3">06</td>
-                        <td>Rs. 0</td>
-                      </tr>
+                        <td class="pl-3">{{$item->no_of_orders}} KM</td>
+                        <td>Rs. {{$item->cost}}</td>
+                      </tr> 
+                      @endforeach
                     </tbody>
                   </table>
                 </div>
@@ -195,62 +161,119 @@
             </div>
           </div><!--dashboard-bodyleft-->
 
+          {{-- modal 1 start --}}
+          <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel"> Pricing Bracket </h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <form action="{{route('dashboard.modal.store')}}" method="post">
+                  @csrf
+                  <div class="modal-body">
+                    <input type="hidden" name="modal_name" value="pb">
+                    <label for="lower">Lower</label>
+                    <input type="number" placeholder="In Kilometer" class="form-control" name="lower" id="lower">
+                    <label for="upper">Upper</label>
+                    <input type="number" placeholder="In Kilometer" class="form-control" name="upper" id="upper">
+                    <label for="cost">Cost</label>
+                    <input type="number" placeholder="In Ruppess" class="form-control" name="cost" id="cost">
+                  </div>
+                  <div class="modal-footer">
+                    <button type="submit" class="btn order-btn" id="save-modal">Save changes</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          {{-- modal 1 end --}}
+
+          {{-- modal 2 start --}}
+          <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel"> Rider Fee </h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <form action="{{route('dashboard.modal.store')}}" method="post">
+                  @csrf
+                  <div class="modal-body">
+                    <input type="hidden" name="modal_name" value="rf">
+
+                    <label for="lower">Lower</label>
+                    <input type="number" placeholder="In Kilometer" class="form-control" name="lower" id="lower">
+                    <label for="upper">Upper</label>
+                    <input type="number" placeholder="In Kilometer" class="form-control" name="upper" id="upper">
+                    <label for="cost">Cost</label>
+                    <input type="number" placeholder="In Ruppess" class="form-control" name="cost" id="cost">
+                  </div>
+                  <div class="modal-footer">
+                    <button type="submit" class="btn order-btn" id="save-modal">Save changes</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          {{-- modal 2 end --}}
+
+          {{-- modal 3 start --}}
+          <div class="modal fade" id="exampleModal3" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel"> Incentive Bracket </h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <form action="{{route('dashboard.modal.store')}}" method="post">
+                  @csrf
+                  <div class="modal-body">
+                    <input type="hidden" name="modal_name" value="ib">
+                    <label for="upper">Orders</label>
+                    <input type="number" placeholder="No of order" class="form-control" name="no_of_orders" id="no_of_orders">
+                    <label for="cost">Cost</label>
+                    <input type="number" placeholder="In Ruppess" class="form-control" name="cost" id="cost">
+                  </div>
+                  <div class="modal-footer">
+                    <button type="submit" class="btn order-btn" id="save-modal">Save changes</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          {{-- modal 3 end --}}
+
           <div class="col-12 col-md-4 dashboard_b_right">
             <div class="card border-0 mb-4">
               <div class="card-body">
                 <h5 class="card-title">Top 5 Customers</h5>
-                <div class="d-flex order-text">
-                  <div class="cu-img">C</div>
-                  <p>Cook Your Own Dish<span>29 Orders</span></p>
-                  <div class="dropdown dropleft ml-auto pt-2">
-                    <i class="fas fa-ellipsis-v icon-light" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    </i>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                      <a class="dropdown-item" href="#">Action</a>
-                      <a class="dropdown-item" href="#">Another action</a>
-                      <a class="dropdown-item" href="#">Something else here</a>
+                
+                @foreach ($customers as $customer)
+                  <div class="d-flex order-text">
+                    <div class="cu-img">{{ucfirst(substr($customer->name, 0, 1))}}</div>
+                    <p>
+                      {{$customer->name}}
+                      <span>29 Orders</span>
+                    </p>
+                    <div class="dropdown dropleft ml-auto pt-2">
+                      <i class="fas fa-ellipsis-v icon-light" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      </i>
+                      <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                        <a class="dropdown-item" href="#">Action</a>
+                        <a class="dropdown-item" href="#">Another action</a>
+                        <a class="dropdown-item" href="#">Something else here</a>
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div class="d-flex order-text">
-                  <div class="cu-img">T</div>
-                  <p>Cook Your Own Dish<span>29 Orders</span></p>
-                  <div class="dropdown dropleft ml-auto pt-2">
-                    <i class="fas fa-ellipsis-v icon-light" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    </i>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                      <a class="dropdown-item" href="#">Action</a>
-                      <a class="dropdown-item" href="#">Another action</a>
-                      <a class="dropdown-item" href="#">Something else here</a>
-                    </div>
-                  </div>
-                </div>
-                <div class="d-flex order-text">
-                  <div class="cu-img">D</div>
-                  <p>Cook Your Own Dish<span>29 Orders</span></p>
-                  <div class="dropdown dropleft ml-auto pt-2">
-                    <i class="fas fa-ellipsis-v icon-light" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    </i>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                      <a class="dropdown-item" href="#">Action</a>
-                      <a class="dropdown-item" href="#">Another action</a>
-                      <a class="dropdown-item" href="#">Something else here</a>
-                    </div>
-                  </div>
-                </div>
-                <div class="d-flex order-text">
-                  <div class="cu-img">F</div>
-                  <p>Cook Your Own Dish<span>29 Orders</span></p>
-                  <div class="dropdown dropleft ml-auto pt-2">
-                    <i class="fas fa-ellipsis-v icon-light" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    </i>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                      <a class="dropdown-item" href="#">Action</a>
-                      <a class="dropdown-item" href="#">Another action</a>
-                      <a class="dropdown-item" href="#">Something else here</a>
-                    </div>
-                  </div>
-                </div>
+                @endforeach
+
               </div>
             </div>
             <div class="card border-0 mb-4">
@@ -284,4 +307,7 @@
   </div>
 </main>
 @endsection
-      
+
+@section('script')
+    
+@endsection

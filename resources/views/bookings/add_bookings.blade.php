@@ -184,7 +184,7 @@
                               
                             </div>
                         </div>
-                        <button class="btn btn-primary" id="submitButton" type="submit">Submit form</button>
+                        <button class="btn order-btn" id="submitButton" type="submit">Submit form</button>
                     </form>
                 </div>
             </div>
