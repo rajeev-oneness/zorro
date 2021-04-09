@@ -24,22 +24,22 @@
                                             <label for="validationCustom01" class="form-label">Area Name</label>
                                             <input type="text" class="form-control" name="name" id="name" value="{{$editedoffers_data->name}}" required>
                                             @error('name')
-					<span class="text-danger">{{ $message }}</span>
-					@enderror
+                                                <span class="text-danger">{{ $message }}</span>
+                                            @enderror
                                         </div>
                                         <div class="col-md-4">
                                             <label for="validationCustom01" class="form-label">Latitude</label>
                                             <input type="text" class="form-control" name="lat" id="lat" value="{{$editedoffers_data->lat}}" required>
                                             @error('lat')
-					<span class="text-danger">{{ $message }}</span>
-					@enderror
+                                                <span class="text-danger">{{ $message }}</span>
+                                            @enderror
                                         </div>
                                         <div class="col-md-4">
                                             <label for="validationCustom01" class="form-label">Longitude</label>
                                             <input type="text" class="form-control" name="lon" id="lon" value="{{$editedoffers_data->lon}}" required>
                                             @error('lon')
-					<span class="text-danger">{{ $message }}</span>
-					@enderror
+                                                <span class="text-danger">{{ $message }}</span>
+                                            @enderror
                                         </div>
                                      
                                     </div>

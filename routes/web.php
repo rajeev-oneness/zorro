@@ -141,5 +141,19 @@ Route::post('update_password', 'AdminLoginController@updatePassword')->name('adm
         Route::get('edit-booking/{id}', 'BookingController@editBooking')->name('admin.edit_bookings');
         Route::post('update-booking', 'BookingController@updateBooking')->name('admin.update_bookings');
         Route::get('delete-booking/{id}', 'BookingController@deleteBooking')->name('admin.delete_bookings');
+
+        Route::post('get-customer-details', 'BookingController@getCustomer')->name('admin.booking.customer');
+
+
+        //--------------------------------------------------------------Customer Section-----------------------------------------------//
+        Route::group(['prefix' => 'customer'], function(){
+            Route::get('manage', 'CustomerController@index')->name('admin.customer.index');
+            Route::get('create', 'CustomerController@create')->name('admin.customer.create');
+            Route::post('store', 'CustomerController@store')->name('admin.customer.store');
+            Route::get('edit/{id}', 'CustomerController@edit')->name('admin.customer.edit');
+            Route::post('update', 'CustomerController@update')->name('admin.customer.update');
+            Route::get('delete/{id}', 'CustomerController@delete')->name('admin.customer.delete');
+        });
+        
     });
 });

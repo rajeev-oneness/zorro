@@ -22,6 +22,16 @@
 
                         <div class="row">
                                 <div class="col-md-4">
+                                    <label for="driver" class="form-label">Customer</label>
+                                    <select class="custom-select form-control mr-sm-2" id="from-customer" name="from_customer_id" onchange="chooseFromCustomer()" required>
+                                        <option value="">Choose...</option>
+                                        @foreach ($customers as $customer)
+                                            <option value="{{$customer->id}}">{{$customer->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <input type="hidden" class="form-control" name="from_name" id="from_name">
+                                <div class="col-md-4">
                                     <label for="validationCustom01" class="form-label">From Location</label>
                                     <input type="text" class="form-control" name="from_location" id="from_location" required>
                                     @error('from_location')
@@ -51,16 +61,9 @@
                                     @enderror
                                 </div>
                                 <div class="col-md-4">
-                                    <label for="validationCustom01" class="form-label">From Name</label>
-                                    <input type="text" class="form-control" name="from_name" id="from_name">
-                                    @error('from_name')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                                <div class="col-md-4">
                                     <label for="validationCustom01" class="form-label">From Mobile</label>
-                                    <input type="number" class="form-control" name="From_mobile" id="From_mobile">
-                                    @error('From_mobile')
+                                    <input type="number" class="form-control" name="from_mobile" id="from_mobile">
+                                    @error('from_mobile')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
@@ -76,7 +79,16 @@
                         <h4 class="pt-2">To</h4><hr>
 
                         <div class="row">
-                            
+                                <div class="col-md-4">
+                                    <label for="driver" class="form-label">Customer</label>
+                                    <select class="custom-select form-control mr-sm-2" id="to-customer" name="to_customer_id" onchange="chooseToCustomer()" required>
+                                        <option value="">Choose...</option>
+                                        @foreach ($customers as $customer)
+                                            <option value="{{$customer->id}}">{{$customer->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <input type="hidden" class="form-control" name="to_name" id="to_name">
                                 <div class="col-md-4">
                                     <label for="validationCustom01" class="form-label">To Location</label>
                                     <input type="text" class="form-control" name="to_location" id="to_location" required>
@@ -102,13 +114,6 @@
                                     <label for="validationCustom01" class="form-label">To Landmark</label>
                                     <textarea class="form-control" name="to_landmark" id="to_landmark" cols="30" rows="2"></textarea>
                                     @error('to_landmark')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                                <div class="col-md-4">
-                                    <label for="validationCustom01" class="form-label">To Name</label>
-                                    <input type="text" class="form-control" name="to_name" id="to_name">
-                                    @error('to_name')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
@@ -189,9 +194,54 @@
 </div>
 <!-- Container-fluid Ends -->
 
+@endsection
+
+@section('script')
+    
 <script>
     $('form').submit(function() {
         $('#submitButton').attr('disabled', 'true');
     });
+
+    function chooseFromCustomer() {
+        var customerId = $("#from-customer").val();
+        // alert(customerId);
+        $.ajax({
+            type: 'POST',
+            url: '{{route("admin.booking.customer")}}',           
+            data: {'id': customerId, '_token': '{{csrf_token()}}'},
+            success:function(data) {
+                console.log(data);
+                $("#from_name").val(data.data.name);
+                $("#from_location").val(data.data.location);
+                $("#from_lat").val(data.data.lat);
+                $("#from_lon").val(data.data.long);
+                $("#from_mobile").val(data.data.mobile);
+                $("#from_email").val(data.data.email);
+                $("#from_landmark").val(data.data.landmark);
+            }
+        }); 
+    };
+
+    function chooseToCustomer() {
+        var customerId = $("#to-customer").val();
+        // alert(customerId);
+        $.ajax({
+            type: 'POST',
+            url: '{{route("admin.booking.customer")}}',           
+            data: {'id': customerId, '_token': '{{csrf_token()}}'},
+            success:function(data) {
+                console.log(data);
+                $("#to_name").val(data.data.name);
+                $("#to_location").val(data.data.location);
+                $("#to_lat").val(data.data.lat);
+                $("#to_lon").val(data.data.long);
+                $("#to_mobile").val(data.data.mobile);
+                $("#to_email").val(data.data.email);
+                $("#to_landmark").val(data.data.landmark);
+            }
+        }); 
+    }
 </script>
+
 @endsection

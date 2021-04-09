@@ -57,40 +57,42 @@
 
 @csrf
 
+@endsection
+
+@section('script')
 <script>
        
-$(document).ready(function (){
-
-    $(".edit_areas").click(function(){
-        var app_id=this.id;
-        var fd = {'app_id': app_id,'_token':$('input[name="_token"]').val()};
-        redirectPost('edit_areas', fd);
-    });
-    $(".delete_app").click(function(){
-        if (confirm('Are you sure?')) {
-            var appdel_id=this.id;
-            var fd = {'appdel_id': appdel_id,'_token':$('input[name="_token"]').val()};
-            redirectPost('delete_areas', fd);
-        }
-    });
-
-
-    });
-    var redirectPost = function (url, data = null, method = 'post') {
-         var form = document.createElement('form');
-         form.method = method;
-         form.action = url;
-         for (var name in data) {
-             var input = document.createElement('input');
-             input.type = 'hidden';
-             input.name = name;
-             input.value = data[name];
-             form.appendChild(input);
-         }
-         $('body').append(form);
-         form.submit();
-     }
+  $(document).ready(function (){
   
- </script>
-
- @endsection
+      $(".edit_areas").click(function(){
+          var app_id=this.id;
+          var fd = {'app_id': app_id,'_token':$('input[name="_token"]').val()};
+          redirectPost('edit_areas', fd);
+      });
+      $(".delete_app").click(function(){
+          if (confirm('Are you sure?')) {
+              var appdel_id=this.id;
+              var fd = {'appdel_id': appdel_id,'_token':$('input[name="_token"]').val()};
+              redirectPost('delete_areas', fd);
+          }
+      });
+  
+  
+      });
+      var redirectPost = function (url, data = null, method = 'post') {
+           var form = document.createElement('form');
+           form.method = method;
+           form.action = url;
+           for (var name in data) {
+               var input = document.createElement('input');
+               input.type = 'hidden';
+               input.name = name;
+               input.value = data[name];
+               form.appendChild(input);
+           }
+           $('body').append(form);
+           form.submit();
+       }
+    
+   </script>
+@endsection

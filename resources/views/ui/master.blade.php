@@ -21,7 +21,10 @@
       }
     </style>
 
-    <script src="{{asset('assets/js/jquery-3.2.1.min.js')}}" ></script>
+    {{-- <script src="{{asset('assets/js/jquery-3.2.1.min.js')}}" ></script> --}}
+    {{-- <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script> --}}
+    {{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> --}}
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDPuZ9AcP4PHUBgbUsT6PdCRUUkyczJ66I&libraries=places"></script>
     
 </head>
 <body class="sb-nav-fixed">
@@ -66,12 +69,25 @@
                       <div class="sb-nav-link-icon"><i class="fas fa-home"></i></div>
                       Dashboard
                   </a>
+
                   <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+                    <div class="sb-nav-link-icon"><i class="fas fa-clipboard-list"></i></div>
+                    Customers
+                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                  </a>
+                  <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
+                    <nav class="sb-sidenav-menu-nested nav">
+                        <a class="nav-link" href="{{route('admin.customer.create')}}">Add Customer</a>
+                        <a class="nav-link" href="{{route('admin.customer.index')}}">Manage Customer</a>
+                    </nav>
+                  </div>
+
+                  <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayouts0" aria-expanded="false" aria-controls="collapseLayouts0">
                       <div class="sb-nav-link-icon"><i class="fas fa-clipboard-list"></i></div>
                       Bookings
                       <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                   </a>
-                  <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
+                  <div class="collapse" id="collapseLayouts0" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
                       <nav class="sb-sidenav-menu-nested nav">
                           <a class="nav-link" href="{{route('admin.view_bookings')}}">Add Booking</a>
                           <a class="nav-link" href="{{route('admin.manage_bookings')}}">Manage Booking</a>
@@ -128,14 +144,6 @@
                   {{-- <a class="nav-link" href="#">
                     <div class="sb-nav-link-icon"><i class="far fa-file-alt"></i></div>
                       Business Database
-                  </a>
-                  <a class="nav-link" href="#">
-                      <div class="sb-nav-link-icon"><i class="fas fa-motorcycle"></i></div>
-                      Rider Database
-                  </a>
-                  <a class="nav-link" href="tables.html">
-                      <div class="sb-nav-link-icon"><i class="far fa-user-circle"></i></div>
-                      Customer Database
                   </a> --}}
               </div>
           </div>
@@ -158,7 +166,10 @@
 		  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 		<![endif]-->
 		
-		<script type="text/javascript" src="{{asset('ui/js/jQuery v3.5.1.js')}}"></script>
+    <script src="{{asset('assets/js/jquery-3.2.1.min.js')}}" ></script>
+    
+    @yield('script')
+
 		<script type="text/javascript" src="{{asset('ui/js/popper.min.js')}}"></script>
 		<script type="text/javascript" src="{{asset('ui/js/Bootstrap.js')}}"></script>
 		<script type="text/javascript" src="{{asset('ui/js/smoothscroll.js')}}"></script>

@@ -61,10 +61,10 @@
                                 </td>
                                 
                                 <td>
-                                  <a class="edit_vehicletype" href="{{route('admin.edit_bookings', ['id' => $booking->id])}}" title="Edit"><i class="fa fa-edit text-warning"></i></a>
+                                  <a class="edit_vehicletype" href="{{route('admin.edit_bookings', ['id' => encrypt($booking->id)])}}" title="Edit"><i class="fa fa-edit text-warning"></i></a>
                                 </td>
                                 <td>
-                                  <a class="delete_app" href="{{route('admin.delete_bookings', ['id' => $booking->id])}}" title="Delete"><i class="fa fa-trash text-danger" style="margin-left: 25px;" onclick="return confirm('Are you sure?')"></i></a>
+                                  <a class="delete_app" href="{{route('admin.delete_bookings', ['id' => encrypt($booking->id)])}}" title="Delete"><i class="fa fa-trash text-danger" style="margin-left: 25px;" onclick="return confirm('Are you sure?')"></i></a>
                                 </td>
 
                                 <td class="r-redious-15 text-center"><a data-toggle="collapse" href="#collapseExample-{{$booking->id}}" role="button" aria-expanded="false" aria-controls="collapseExample-{{$booking->id}}"><i class="fas fa-caret-down"></i></a></td>
