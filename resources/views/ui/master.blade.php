@@ -24,7 +24,7 @@
     {{-- <script src="{{asset('assets/js/jquery-3.2.1.min.js')}}" ></script> --}}
     {{-- <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script> --}}
     {{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> --}}
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDPuZ9AcP4PHUBgbUsT6PdCRUUkyczJ66I&libraries=places"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDPuZ9AcP4PHUBgbUsT6PdCRUUkyczJ66I&libraries=places,geometry"></script>
     
 </head>
 <body class="sb-nav-fixed">

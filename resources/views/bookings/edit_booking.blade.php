@@ -146,8 +146,8 @@
                                 @enderror
                             </div>
                             <div class="col-md-4">
-                                <label for="validationCustom01" class="form-label">Distance</label>
-                                <input type="number" class="form-control" name="distance" id="distance" value="{{$booking->distance}}">
+                                <label for="validationCustom01" class="form-label">Distance (In KM)</label>
+                                <input type="text" class="form-control" name="distance" id="distance" value="{{$booking->distance}}" onkeypress="return false" required>
                                 @error('distance')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
@@ -206,6 +206,12 @@
         $('#submitButton').attr('disabled', 'true');
     });
 
+    let lat1 = $("#from_lat").val();
+    let lon1 = $("#from_lon").val(); 
+
+    let lat2 = $("#to_lat").val(); 
+    let lon2 = $("#to_lon").val(); 
+
     function chooseFromCustomer() {
         var customerId = $("#from-customer").val();
         // alert(customerId);
@@ -222,6 +228,9 @@
                 $("#from_mobile").val(data.data.mobile);
                 $("#from_email").val(data.data.email);
                 $("#from_landmark").val(data.data.landmark);
+                lat2 = data.data.lat;
+                lon2 = data.data.long;
+                calcDistance();
             }
         }); 
     };
@@ -242,6 +251,9 @@
                 $("#to_mobile").val(data.data.mobile);
                 $("#to_email").val(data.data.email);
                 $("#to_landmark").val(data.data.landmark);
+                lat2 = data.data.lat;
+                lon2 = data.data.long;
+                calcDistance();
             }
         }); 
     }
@@ -261,6 +273,9 @@
             $('#from_lon').val(places.geometry.location.lng());
             $('#from_lat').val(places.geometry.location.lat());
 
+            lat1 = places.geometry.location.lat();
+            lon1 = places.geometry.location.lng();
+            calcDistance();
         });
 
         var autocomplete2= new google.maps.places.Autocomplete(document.getElementById('to_location'));
@@ -274,8 +289,16 @@
             $('#to_lon').val(places.geometry.location.lng());
             $('#to_lat').val(places.geometry.location.lat());
 
+            lat2 = places.geometry.location.lat();
+            lon2 = places.geometry.location.lng();
+            calcDistance();
         });
 
+    }
+
+    function calcDistance() {
+        var distance = google.maps.geometry.spherical.computeDistanceBetween(new google.maps.LatLng(lat1, lon1), new google.maps.LatLng(lat2, lon2));
+        $('#distance').val((distance/1000).toFixed(2));
     }
 </script>
 
