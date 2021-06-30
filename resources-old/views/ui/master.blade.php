@@ -50,9 +50,9 @@
           <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle user-img" id="userDropdown" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="{{asset('ui/img/userpic.jpg')}}"></a>
               <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-                  <!-- <a class="dropdown-item" href="#">Settings</a>
+                  <a class="dropdown-item" href="#">Settings</a>
                   <a class="dropdown-item" href="{{ route('admin.change_password') }}">Change Password</a>
-                  <div class="dropdown-divider"></div> -->
+                  <div class="dropdown-divider"></div>
                   <a class="dropdown-item" href="{{ route("admin.logout") }}">Logout</a>
               </div>
           </li>
@@ -69,43 +69,20 @@
                       <div class="sb-nav-link-icon"><i class="fas fa-home"></i></div>
                       Dashboard
                   </a>
-                  <a class="nav-link active" href="{{route('admin.manage_bookings')}}">
-                      <div class="sb-nav-link-icon"><i class="fas fa-clipboard-list"></i></div>
-                      Order Sheet
-                  </a>
-                  <a class="nav-link active" href="{{route('admin.business')}}">
-                      <div class="sb-nav-link-icon"><i class="fas fa-clipboard-list"></i></div>
-                      Business Database
-                  </a>
-                  <!-- <a class="nav-link active" href="{{route('admin.dashboard')}}">
-                      <div class="sb-nav-link-icon"><i class="fas clipboard-list"></i></div>
-                      Dashboard
-                  </a> -->
-                  <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayouts3" aria-expanded="false" aria-controls="collapseLayouts3">
-                    <div class="sb-nav-link-icon"><i class="fas fa-clipboard-list"></i></div>
-                    Rider Database
-                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                  </a>
-                  <div class="collapse" id="collapseLayouts3" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
-                      <nav class="sb-sidenav-menu-nested nav">
-                        <a class="nav-link" href="{{route('admin.manage_drivers')}}">Rider List</a>
-                        <a class="nav-link" href="{{route('admin.driver_view')}}">Add Rider</a>  
-                      </nav>
-                  </div>
 
                   <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
                     <div class="sb-nav-link-icon"><i class="fas fa-clipboard-list"></i></div>
-                    Customer Database
+                    Customers
                     <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                   </a>
                   <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
                     <nav class="sb-sidenav-menu-nested nav">
-                      <a class="nav-link" href="{{route('admin.customer.index')}}">Customer List</a>
-                      <a class="nav-link" href="{{route('admin.customer.create')}}">Add Customer</a>  
+                        <a class="nav-link" href="{{route('admin.customer.create')}}">Add Customer</a>
+                        <a class="nav-link" href="{{route('admin.customer.index')}}">Manage Customer</a>
                     </nav>
                   </div>
 
-                  <!-- <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayouts0" aria-expanded="false" aria-controls="collapseLayouts0">
+                  <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayouts0" aria-expanded="false" aria-controls="collapseLayouts0">
                       <div class="sb-nav-link-icon"><i class="fas fa-clipboard-list"></i></div>
                       Bookings
                       <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
@@ -115,7 +92,7 @@
                           <a class="nav-link" href="{{route('admin.view_bookings')}}">Add Booking</a>
                           <a class="nav-link" href="{{route('admin.manage_bookings')}}">Manage Booking</a>
                       </nav>
-                  </div> -->
+                  </div>
 
                   <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayouts1" aria-expanded="false" aria-controls="collapseLayouts1">
                     <div class="sb-nav-link-icon"><i class="fas fa-clipboard-list"></i></div>
@@ -141,7 +118,17 @@
                       </nav>
                   </div>
 
-                  
+                  <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayouts3" aria-expanded="false" aria-controls="collapseLayouts3">
+                    <div class="sb-nav-link-icon"><i class="fas fa-clipboard-list"></i></div>
+                    Driver
+                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                  </a>
+                  <div class="collapse" id="collapseLayouts3" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
+                      <nav class="sb-sidenav-menu-nested nav">
+                          <a class="nav-link" href="{{route('admin.driver_view')}}">Add Driver</a>
+                          <a class="nav-link" href="{{route('admin.manage_drivers')}}">Manage Driver</a>
+                      </nav>
+                  </div>
 
                   <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayouts4" aria-expanded="false" aria-controls="collapseLayouts4">
                     <div class="sb-nav-link-icon"><i class="fas fa-clipboard-list"></i></div>

@@ -1,3 +1,28 @@
 [17-Mar-2021 06:19:17 UTC] PHP Warning:  require(/home/demo9dtx/public_html/dev/zorro/public/../vendor/autoload.php): failed to open stream: No such file or directory in /home/demo9dtx/public_html/dev/zorro/public/index.php on line 24
 [17-Mar-2021 06:19:17 UTC] PHP Warning:  require(/home/demo9dtx/public_html/dev/zorro/public/../vendor/autoload.php): failed to open stream: No such file or directory in /home/demo9dtx/public_html/dev/zorro/public/index.php on line 24
 [17-Mar-2021 06:19:17 UTC] PHP Fatal error:  require(): Failed opening required '/home/demo9dtx/public_html/dev/zorro/public/../vendor/autoload.php' (include_path='.:/opt/cpanel/ea-php73/root/usr/share/pear') in /home/demo9dtx/public_html/dev/zorro/public/index.php on line 24
+[14-Apr-2021 13:45:11 UTC] PHP Notice:  Undefined variable: otp in /home/demo9dtx/public_html/dev/zorro/public/Api.php on line 402
+[16-Apr-2021 08:21:58 UTC] PHP Notice:  Undefined variable: otp in /home/demo9dtx/public_html/dev/zorro/public/Api.php on line 402
+[16-Apr-2021 08:35:15 UTC] PHP Notice:  Undefined variable: otp in /home/demo9dtx/public_html/dev/zorro/public/Api.php on line 402
+[06-May-2021 06:19:18 UTC] PHP Notice:  Undefined variable: otp in /home/demo9dtx/public_html/dev/zorro/public/Api.php on line 402
+[04-Jun-2021 11:00:15 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function privacyploicy() in /home/demo9dtx/public_html/dev/zorro/public/Api.php:25
+Stack trace:
+#0 {main}
+  thrown in /home/demo9dtx/public_html/dev/zorro/public/Api.php on line 25
+[10-Jun-2021 11:09:50 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function privacyploicy() in /home/demo9dtx/public_html/dev/zorro/public/Api.php:25
+Stack trace:
+#0 {main}
+  thrown in /home/demo9dtx/public_html/dev/zorro/public/Api.php on line 25
+[11-Jun-2021 11:25:13 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function privacyploicy() in /home/demo9dtx/public_html/dev/zorro/public/Api.php:25
+Stack trace:
+#0 {main}
+  thrown in /home/demo9dtx/public_html/dev/zorro/public/Api.php on line 25
+[14-Jun-2021 09:17:19 UTC] PHP Notice:  Undefined variable: otp in /home/demo9dtx/public_html/dev/zorro/public/Api.php on line 402
+[15-Jun-2021 11:31:04 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function privacyploicy() in /home/demo9dtx/public_html/dev/zorro/public/Api.php:25
+Stack trace:
+#0 {main}
+  thrown in /home/demo9dtx/public_html/dev/zorro/public/Api.php on line 25
+[21-Jun-2021 05:33:51 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function admin/admins() in /home/demo9dtx/public_html/dev/zorro/public/Api.php:25
+Stack trace:
+#0 {main}
+  thrown in /home/demo9dtx/public_html/dev/zorro/public/Api.php on line 25

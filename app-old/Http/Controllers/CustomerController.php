@@ -12,17 +12,9 @@ class CustomerController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        $customers = Customer::
-        when($request->name, function($query) use ($request){
-            $query->where('name', '=', $request->name);
-        })
-        ->when($request->mobile, function($query) use ($request){
-            $query->where('mobile', '=', $request->mobile);
-        })
-        ->get();
-        //$customers = Customer::all();
+        $customers = Customer::all();
         return view('customer.index', compact('customers'));
     }
 

@@ -13,7 +13,7 @@
             <div class="card border-0">
               <div class="card-body">
                 <div class="row m-0 ">
-                  <h5 class="card-title col-8 p-0">Customer Database</h5>
+                  <h5 class="card-title col-8 p-0">Business Database</h5>
                   <div class="col-4 text-right ml-auto filter-div">
                     <a href="javascript:void(0);" id="btnExport"><img src="{{asset('ui/img/export-icon.png')}}"> &nbsp; Export</a> &nbsp; &nbsp;
                     <a href="#" data-toggle="modal" data-target="#filterModal"><i class="fas fa-filter"></i> &nbsp; Filter</a>
@@ -23,35 +23,34 @@
                   <table class="table table-striped table-sm">
                     <thead>
                       <tr>
-                        <th class="l-redious-15 pl-15">Sl.</th>
+                        <th class="l-redious-15 pl-15">ID</th>
+                        <th>From</th>
+                        <th>Type</th>
+                        <th>Pick Up</th>
                         <th>Customer Name</th>
-                        <th>Customer Delivery Address</th>
                         <th>Phone Number</th>
-                        <!-- <th style="width: 45%;">Location</th>
-                        <th>Edit</th>
-                        <th class="r-redious-15">Delete</th> -->
+                        <th>Order Value</th>
+                        <th>Delivery Cost</th>
+                        <th>Profit</th>
+                        <th>GST Number</th>
                       </tr>
                     </thead>
                     <tbody>
                         @php
                             $i = 1;
                         @endphp
-                        @foreach ($customers as $customer)
+                        @foreach ($bookings as $booking)
                             <tr>
-                                <td>{{$i++}}</td>
-                                <td>{{$customer->name}}</td>
-                                <td>
-                                  {{$customer->location}}
-                                </td>
-                                <!-- <td>{{$customer->email}}</td> -->
-                                <td>{{$customer->mobile}}</td>
-                                
-                                <!-- <td>
-                                  <a class="edit_vehicletype" href="{{route('admin.customer.edit', ['id' => encrypt($customer->id)])}}" title="Edit"><i class="fa fa-edit text-warning"></i></a>
-                                </td>
-                                <td class="pr-2">
-                                  <a class="delete_app" href="{{route('admin.customer.delete', ['id' => encrypt($customer->id)])}}" title="Delete"><i class="fa fa-trash text-danger" style="margin-left: 25px;" onclick="return confirm('Are you sure?')"></i></a>
-                                </td> -->
+                                <td>{{$booking->id}}</td>
+                                <td>{{$booking->from_name}}</td>
+                                <td></td>
+                                <td>{{$booking->from_location}}</td>
+                                <td>{{$booking->to_name}}</td>
+                                <td>{{$booking->to_mobile}}</td>
+                                <td>{{$booking->price}}</td>
+                                <td>0</td>
+                                <td>0</td>
+                                </tr>
                             </tr>
                         @endforeach
                       
@@ -62,35 +61,34 @@
                   <table class="table table-striped table-sm">
                     <thead>
                       <tr>
-                        <th class="l-redious-15 pl-15">Sl.</th>
+                        <th class="l-redious-15 pl-15">ID</th>
+                        <th>From</th>
+                        <th>Type</th>
+                        <th>Pick Up</th>
                         <th>Customer Name</th>
-                        <th>Customer Delivery Address</th>
                         <th>Phone Number</th>
-                        <!-- <th style="width: 45%;">Location</th>
-                        <th>Edit</th>
-                        <th class="r-redious-15">Delete</th> -->
+                        <th>Order Value</th>
+                        <th>Delivery Cost</th>
+                        <th>Profit</th>
+                        <th>GST Number</th>
                       </tr>
                     </thead>
                     <tbody>
                         @php
                             $i = 1;
                         @endphp
-                        @foreach ($customers as $customer)
+                        @foreach ($bookings as $booking)
                             <tr>
-                                <td>{{$i++}}</td>
-                                <td>{{$customer->name}}</td>
-                                <td>
-                                  {{$customer->location}}
-                                </td>
-                                <!-- <td>{{$customer->email}}</td> -->
-                                <td>{{$customer->mobile}}</td>
-                                
-                                <!-- <td>
-                                  <a class="edit_vehicletype" href="{{route('admin.customer.edit', ['id' => encrypt($customer->id)])}}" title="Edit"><i class="fa fa-edit text-warning"></i></a>
-                                </td>
-                                <td class="pr-2">
-                                  <a class="delete_app" href="{{route('admin.customer.delete', ['id' => encrypt($customer->id)])}}" title="Delete"><i class="fa fa-trash text-danger" style="margin-left: 25px;" onclick="return confirm('Are you sure?')"></i></a>
-                                </td> -->
+                                <td>{{$booking->id}}</td>
+                                <td>{{$booking->from_name}}</td>
+                                <td></td>
+                                <td>{{$booking->from_location}}</td>
+                                <td>{{$booking->to_name}}</td>
+                                <td>{{$booking->to_mobile}}</td>
+                                <td>{{$booking->price}}</td>
+                                <td>0</td>
+                                <td>0</td>
+                                </tr>
                             </tr>
                         @endforeach
                       
@@ -111,14 +109,10 @@
                       <form class="needs-validation" action="">
                       <div class="modal-body">
                         <!--<h3>Modal Body</h3>-->
-                        <div class="col-md-12">
-                            <label for="validationCustom01" class="form-label">Name</label>
-                            <input type="text" class="form-control" name="name" id="name">
-                        </div>
-                        <div class="col-md-12">
-                            <label for="validationCustom01" class="form-label">Mobile No</label>
-                            <input type="text" class="form-control" name="mobile" id="mobile">
-                        </div>
+                            <div class="col-md-12">
+                                <label for="validationCustom01" class="form-label">Order Id</label>
+                                <input type="text" class="form-control" name="order_id" id="order_id">
+                            </div>
                         
                       </div>
                       <div class="modal-footer">
@@ -129,7 +123,6 @@
                     </div>
                   </div>
                 </div>
-                
               </div>
             </div>
           </div>

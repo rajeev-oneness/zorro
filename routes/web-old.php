@@ -137,7 +137,6 @@ Route::post('update_password', 'AdminLoginController@updatePassword')->name('adm
         //--------------------------------------------------------------Booking Section-----------------------------------------------//
         Route::get('view-booking', 'BookingController@viewBooking')->name('admin.view_bookings');
         Route::get('manage-booking', 'BookingController@manageBooking')->name('admin.manage_bookings');
-        Route::get('business', 'BookingController@business')->name('admin.business');
         Route::post('add-booking', 'BookingController@addBooking')->name('admin.add_bookings');
         Route::get('edit-booking/{id}', 'BookingController@editBooking')->name('admin.edit_bookings');
         Route::post('update-booking', 'BookingController@updateBooking')->name('admin.update_bookings');

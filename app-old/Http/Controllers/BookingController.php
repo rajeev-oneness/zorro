@@ -70,56 +70,9 @@ class BookingController extends Controller
      * @return view
      */
     public function manageBooking(Request $request){
-        $start_date = (isset($_GET['start_date']) && $_GET['start_date']!='')?$_GET['start_date']:'';
-        $end_date = (isset($_GET['end_date']) && $_GET['end_date']!='')?$_GET['end_date']:'';
-        $order_id = (isset($_GET['order_id']) && $_GET['order_id']!='')?$_GET['order_id']:'';
-
-        // $queryBuilder = Booking::with('rider');
-
-        // if($start_date!='' && $end_date!=''){
-        //     $where1 = where('created_at','>=',$start_date)->('created_at','<=',$end_date);
-        // }else{
-        //     $where1 = '';
-        // }
-
-        // if($start_date!=''){
-        //     $where2 = where('id',$order_id);
-        // }else{
-        //     $where2 = '';
-        // }
-
-        // $orderBy = orderBy('created_at', 'DESC')->get();
-
-        // $bookings = $queryBuilder.$where1.$where2.$orderBy;
-
-        $bookings = Booking::with('rider')->
-        when($start_date, function($query) use ($request){
-            $query->where('created_at', '>=', $request->start_date);
-        })
-        ->when($end_date, function($query) use ($request){
-            $query->where('created_at', '<=', $request->end_date);
-        })
-        ->when( $order_id, function($query) use ($request){
-            $query->where('id', '=', $request->order_id);
-        })
-        ->get();
-
-        //$bookings = Booking::with('rider')->orderBy('created_at', 'DESC')->get();
-         //dd($bookings);
+        $bookings = Booking::orderBy('created_at', 'DESC')->get();
+        // dd($bookings);
         return view('/bookings.manage_bookings',compact('bookings'));
-    }
-
-    public function business(Request $request){
-        $order_id = (isset($_GET['order_id']) && $_GET['order_id']!='')?$_GET['order_id']:'';
-
-        if($order_id!=''){
-            $bookings = Booking::with('rider')->where('id',$order_id)->orderBy('created_at', 'DESC')->get();
-        }else{
-            $bookings = Booking::with('rider')->orderBy('created_at', 'DESC')->get();
-        }
-        
-         //dd($bookings);
-        return view('/bookings.business',compact('bookings'));
     }
 
      /**
