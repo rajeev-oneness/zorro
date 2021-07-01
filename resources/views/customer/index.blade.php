@@ -140,7 +140,6 @@
 <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
 <script>
     jQuery('#btnExport').on('click',function(){
-        alert("hello");
         //$('#tblHead').css("display","block");
         var url='data:application/vnd.ms-excel,' + encodeURIComponent(jQuery('#tableWrap').html()) 
         location.href=url

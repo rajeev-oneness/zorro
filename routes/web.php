@@ -89,7 +89,8 @@ Route::prefix('admin')->group(function () {
         Route::post('/update_driver', 'DriverController@updateDriver')->name('admin.update_driver');
 
         Route::post('/delete_driver', 'DriverController@deleteDriver')->name('delete_driver');
-
+        
+        Route::get('change-rider-status', 'DriverController@changeStatus')->name('admin.change.driver.status');
           //-------------------------------------------------------------- area Section-----------------------------------------------//
 
 

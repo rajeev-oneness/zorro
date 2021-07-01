@@ -1,9 +1,13 @@
 <?php
 
-function helperFunction($d)
+function helperFunction($d, $forWhom)
 {
     $actualPrice = 0;
-    $pricingBracket = \App\Model\PricingBracket::orderBy('upper','ASC')->get();
+    if($forWhom == 'cost') {
+        $pricingBracket = \App\Model\PricingBracket::orderBy('upper','ASC')->get();
+    } elseif($forWhom == 'riderFee') {
+        $pricingBracket = \App\Model\RiderFee::orderBy('upper','ASC')->get();
+    }
     foreach($pricingBracket as $pc){
         $totalDistance = $pc->upper - $pc->lower;
         if($d >= $totalDistance){

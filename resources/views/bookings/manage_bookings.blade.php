@@ -44,7 +44,7 @@
                             $i = 1;
                         @endphp
                         @foreach ($bookings as $booking)
-                            <tr>
+                              <tr>
                                 <td>{{$booking->id}}</td>
                                 <td>{{$booking->created_at}}</td>
                                 <td>{{$booking->from_name}}</td>
@@ -58,17 +58,20 @@
                                 <td>{{$booking->time}}</td>
                                 <td>{{($booking->rider) ? $booking->rider->fname .' '. $booking->rider->lname : ''}}</td>
                                 <td>0</td>
-                                <td>
-                                    @if ($booking->is_delivered == 0)
-                                      <span class="bg-read">Not Delivered</span>
-                                    @else
-                                      <span class="bg-green">Delivered</span>
-                                    @endif
+                                <td data-toggle="modal" data-target="#changeStatusModal-{{$booking->id}}">
+                                  @if (($booking->is_delivered == 0) && ($booking->is_accepted == 0) && ($booking->is_rejected == 0))
+                                    <span class="bg-yellow">New Order</span>
+                                  @elseif (($booking->is_delivered == 1) && ($booking->is_accepted == 1) && ($booking->is_rejected == 0))
+                                    <span class="bg-green">Delivered</span>
+                                  @elseif (($booking->is_delivered == 2) && ($booking->is_accepted == 0) && ($booking->is_rejected == 0))
+                                    <span class="bg-read">Not Delivered</span>
+                                  @elseif (($booking->is_delivered == 0) && ($booking->is_accepted == 1) && ($booking->is_rejected == 0))
+                                    <span class="bg-perple">Process</span>
+                                  @elseif (($booking->is_delivered == 0) && ($booking->is_accepted == 0) && ($booking->is_rejected == 1))
+                                    <span class="bg-read">Rejected</span>
+                                  @endif
                                 </td>
-                                
-
-                                </tr>
-                            </tr>
+                              </tr>
                         @endforeach
                       
                     </tbody>
@@ -143,7 +146,7 @@
                                           </div>
                                           <div class="col-12 col-md-5 pl-2 pl-md-4">
                                             <div class="form-group mb-0 position-relative">
-                                              <textarea class="form-control teble-textarea" rows="4" id="booking_description" placeholder="Additional Comments:">{{$booking->description}}</textarea>
+                                              <textarea class="form-control teble-textarea" rows="4" id="{{encrypt($booking->id)}}" placeholder="Additional Comments:" onblur="changeDescription(this.id)">{{$booking->description}}</textarea>
                                               <div class="comant-icon">
                                                 <i class="far fa-comment-dots"></i>
                                               </div>
@@ -317,16 +320,15 @@
 <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
 <script>
     jQuery('#btnExport').on('click',function(){
-        alert("hello");
         //$('#tblHead').css("display","block");
         var url='data:application/vnd.ms-excel,' + encodeURIComponent(jQuery('#tableWrap').html()) 
         location.href=url
         return false
          //$('#tblHead').css("display","none");
     });
-    $('#booking_description').blur(function() {
-      bookingDescription = $(this).val();
-      bookingId = $('#bookingId').val();
+    function changeDescription(bookingId) {
+      bookingDescription = $('#'+bookingId).val();
+      alert(bookingId);
       $.ajax({
         url: "{{route('change.booking.description')}}",
         type: "POST",
@@ -337,6 +339,6 @@
           location.reload();
         }
       }) 
-    })
+    }
 </script>
 @endsection

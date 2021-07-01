@@ -107,7 +107,7 @@
                       <div class="card-body d-flex order-text p-2 m-0">
                         <div class="cu-img"><i class="fas fa-user"></i></div>
                         <p>Active Rider</p>
-                        <h6 class=" ml-auto">{{count($drivers)}}</h6>
+                        <h6 class=" ml-auto">{{count($active)}}</h6>
                         <div class="dropdown dropleft ml-auto">
                           <i class="fas fa-ellipsis-v icon-light" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                           </i>
@@ -123,7 +123,7 @@
                       <div class="card-body d-flex order-text p-2 m-0">
                         <div class="cu-img"><i class="fas fa-user"></i></div>
                         <p>Inactive Rider</p>
-                        <h6 class=" ml-auto">12</h6>
+                        <h6 class=" ml-auto">{{count($inactive)}}</h6>
                         <div class="dropdown dropleft ml-auto">
                           <i class="fas fa-ellipsis-v icon-light" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                           </i>
@@ -138,8 +138,8 @@
                     <div class="card col-12 p-0 rider-active-card shadow-sm">
                       <div class="card-body d-flex order-text p-2 m-0">
                         <div class="cu-img"><i class="fas fa-user"></i></div>
-                        <p>Blockrd Rider</p>
-                        <h6 class=" ml-auto">24</h6>
+                        <p>Blocked Rider</p>
+                        <h6 class=" ml-auto">{{count($blocked)}}</h6>
                         <div class="dropdown dropleft ml-auto">
                           <i class="fas fa-ellipsis-v icon-light" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                           </i>
@@ -183,6 +183,7 @@
                           <th>Address</th>
                           <th>Mobile</th>
                           <th>Pan No</th>
+                          <th>Status</th>
                           <th>Edit</th>
                           <th class="r-redious-15">Delete</th>
                         </tr>
@@ -194,7 +195,16 @@
                           <td>{{$driver->fname}}</td> 
                           <td>{{$driver->address}}</td>
                           <td>{{$driver->mobile}}</td> 
-                          <td>{{$driver->pan_no}}</td>   
+                          <td>{{$driver->pan_no}}</td>
+                          <td data-toggle="modal" data-target="#changeStatusModal-{{$driver->id}}">
+                              @if (($driver->is_active == 1) && ($driver->is_blocked == 0))
+                                <span class="bg-green">Active</span>
+                              @elseif (($driver->is_active == 0) && ($driver->is_blocked == 0))
+                                <span class="bg-yellow">Inactive</span>
+                              @elseif (($driver->is_blocked == 1))
+                                <span class="bg-read">Blocked</span>
+                              @endif
+                          </td>   
                           <td>
                               <a class="edit_driver"  href="{{route('edit_driver', base64_encode($driver->id))}}" id=""><i class="fa fa-edit"></i></a>
                           </td>
@@ -202,6 +212,37 @@
                               <a class="delete_app" id="{{$driver->id}}"><i class="fa fa-trash" style="margin-left: 25px;"></i></a>
                           </td>
                         </tr>
+
+                        <!-- change status modal -->
+                        <div class="modal fade" id="changeStatusModal-{{$driver->id}}" tabindex="-1" role="dialog" aria-labelledby="changeStatusModal-{{$driver->id}}" aria-hidden="true">
+                          <div class="modal-dialog">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h4 class="modal-title" id="myModalLabel">Change order status</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                                </button>
+                              </div>
+                              <form class="needs-validation" action="{{route('admin.change.driver.status')}}">
+                              <div class="modal-body">
+                                    <div class="col-md-12">
+                                      <input type="hidden" id="driverId" name="driverId" value="{{base64_encode($driver->id)}}">
+                                        <label for="validationCustom01" class="form-label">Status</label>
+                                        <select name="driverStatus" id="driverStatus" class="form-control">
+                                          <option value="" hidden>Select</option>
+                                          <option value="0">Active</option>
+                                          <option value="1">Inactive</option>
+                                          <option value="2">Block</option>
+                                        </select>
+                                    </div>
+                              </div>
+                              <div class="modal-footer">
+                                <button type="submit" class="btn order-btn">Update Status</button>
+                              </div>
+                              </form>
+                            </div>
+                          </div>
+                        </div>
                         @endforeach
                       </tbody>
                     </table>
@@ -258,7 +299,6 @@
   <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
   <script>
       $('#btnExport').on('click',function(){
-          alert("hello");
           //$('#tblHead').css("display","block");
           var url='data:application/vnd.ms-excel,' + encodeURIComponent(jQuery('#tableWrap').html()) 
           location.href=url
@@ -289,6 +329,15 @@
                   table += "<td>"+val.address+"</td>";
                   table += "<td>"+val.mobile+"</td>";
                   table += "<td>"+val.pan_no+"</td>";
+                  table += "<td data-toggle='modal' data-target='#changeStatusModal-"+val.id+"'>";
+                  if ((val.is_active == 1) && (val.is_blocked == 0)){
+                    table += '<span class="bg-green">Active</span>';
+                  } else if((val.is_active == 0) && (val.is_blocked == 0)){
+                    table += '<span class="bg-yellow">Inactive</span>';
+                  } else if((val.is_blocked == 1)){
+                    table += '<span class="bg-read">Blocked</span>';
+                  }
+                  table += "</td>";
                   table += "<td><a class='edit_driver'  href='"+editHref+"' id=''><i class='fa fa-edit'></i></a></td>";
                   table += "<td><a class='delete_app' id='"+val.id+"'><i class='fa fa-trash' style='margin-left: 25px;'></i></a></td>";
                   table += "</tr>";
@@ -331,6 +380,15 @@
                     table += "<td>"+val.address+"</td>";
                     table += "<td>"+val.mobile+"</td>";
                     table += "<td>"+val.pan_no+"</td>";
+                    table += "<td data-toggle='modal' data-target='#changeStatusModal-"+val.id+"'>";
+                    if ((val.is_active == 1) && (val.is_blocked == 0)){
+                      table += '<span class="bg-green">Active</span>';
+                    } else if((val.is_active == 0) && (val.is_blocked == 0)){
+                      table += '<span class="bg-yellow">Inactive</span>';
+                    } else if((val.is_blocked == 1)){
+                      table += '<span class="bg-read">Blocked</span>';
+                    }
+                    table += "</td>";
                     table += "<td><a class='edit_driver'  href='"+editHref+"' id=''><i class='fa fa-edit'></i></a></td>";
                     table += "<td><a class='delete_app' id='"+val.id+"'><i class='fa fa-trash' style='margin-left: 25px;'></i></a></td>";
                     table += "</tr>";

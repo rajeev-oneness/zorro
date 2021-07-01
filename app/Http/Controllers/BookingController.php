@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Model\Vehicle;
 use App\Model\Booking;
 use App\Model\Driver;
-use App\Model\PricingBracket;
+use App\Model\Revenue;
 use App\Model\Customer;
 
 class BookingController extends Controller
@@ -18,10 +18,9 @@ class BookingController extends Controller
     */
     public function viewBooking(){
         $drivers = Driver::all();
-        $pricingBrackets = PricingBracket::all();
         $customers = Customer::all();
         // dd(\json_decode($pricingBrackets));
-        return view('/bookings.add_bookings', compact('drivers', 'pricingBrackets', 'customers'));
+        return view('/bookings.add_bookings', compact('drivers', 'customers'));
     }
 
     /**
@@ -31,11 +30,10 @@ class BookingController extends Controller
      */
     public function addBooking(Request $req)
     {
+        // dd($req->all());
             $length = 6;
 
             //$otp = substr(str_shuffle(str_repeat($x = '0123456789', ceil($length / strlen($x)))), 2, $length);
-            $otp = '1234';
-            $is_delivered = 0;
 
             $booking = new Booking();
             $booking->from_location = $req->from_location;
@@ -43,7 +41,6 @@ class BookingController extends Controller
             $booking->from_lon = $req->from_lon;
             $booking->from_landmark = $req->from_landmark;
             $booking->from_name = $req->from_name;
-            // $booking->from_customer_id = $req->from_customer_id;
             $booking->from_mobile = $req->from_mobile;
             $booking->from_email = $req->from_email;
 
@@ -59,15 +56,15 @@ class BookingController extends Controller
                 $customer->landmark = $req->from_landmark;
                 $customer->save();
                 $booking->from_customer_id = $customer->id;
+            } else {
+                $booking->from_customer_id = $fromcustomer->id;
             }
-            $booking->from_customer_id = $fromcustomer->id;
             
             $booking->to_location = $req->to_location;
             $booking->to_lat = $req->to_lat;
             $booking->to_lon = $req->to_lon;
             $booking->to_landmark = $req->to_landmark;
             $booking->to_name = $req->to_name;
-            // $booking->to_customer_id = $req->to_customer_id;
             $booking->to_mobile = $req->to_mobile;
             $booking->to_email = $req->to_email;
 
@@ -83,18 +80,25 @@ class BookingController extends Controller
                 $customer->landmark = $req->to_landmark;
                 $customer->save();
                 $booking->to_customer_id = $customer->id;
+            } else {
+                $booking->to_customer_id = $tocustomer->id;
             }
-            $booking->to_customer_id = $tocustomer->id;
 
             $booking->description = $req->description;
             $booking->distance = $req->distance;
             $booking->time = $req->time;
             $booking->driver_id = $req->driver_id;
-            $booking->price = $req->price;
-            $booking->otp = $otp;
-            $booking->is_delivered = $is_delivered;
+            $booking->price = helperFunction($req->distance, 'cost');
+            $booking->otp = $req->otp;
             $booking->save();
 
+            $revenue = new Revenue();
+            $revenue->rider_id = $req->driver_id;
+            $revenue->order_id = $booking->id;
+            $revenue->amount = helperFunction($req->distance, 'cost');
+            $revenue->rider_free = helperFunction($req->distance, 'riderFee');
+            $revenue->incentive = 0;
+            $revenue->save();
             return redirect()->route('admin.manage_bookings');
     }
 
@@ -214,7 +218,7 @@ class BookingController extends Controller
         $booking->time = $req->time;
         $booking->driver_id = $req->driver_id;
         $booking->price = $req->price;
-        $booking->is_delivered = 0;         
+        $booking->otp = $req->otp;         
         $booking->save();
         return redirect()->route('admin.manage_bookings');
     }
@@ -274,7 +278,8 @@ class BookingController extends Controller
     
     public function calculatePrice(Request $req)
     {
-        $price = helperFunction($req->distance);
+        $price = helperFunction($req->distance, $req->for);
+        // $riderFee = calculateRiderFee($req->distance);
         return response()->json([
             'error' => false, 
             'message' => 'calculated price', 

@@ -111,8 +111,11 @@ class DriverController extends Controller
      * @return view
      */
     public function manageDriversView(Request $request){
-        $drivers = Driver::all();
-        return view('/drivers.manage_drivers',compact('drivers'));
+        $drivers = Driver::get();
+        $active = Driver::where('is_active', 1)->where('is_blocked', 0)->get()->pluck('id');
+        $inactive = Driver::where('is_active', 0)->where('is_blocked', 0)->get()->pluck('id');
+        $blocked = Driver::where('is_blocked', 1)->get()->pluck('id');
+        return view('/drivers.manage_drivers',compact('drivers', 'active', 'inactive', 'blocked'));
     }
 
       /**
@@ -139,14 +142,14 @@ class DriverController extends Controller
      * @param  Request $request
      * @return view
      */
-  public function editDriver(Request $req)
-  {
-    $categoriesveh = Vehicle::all();
-            $categoriesjob = JobTiming::all();
-            $categoriesarea = Area::all();
-      $editedoffers_data = Driver::findOrFail(base64_decode($req->id));
+    public function editDriver(Request $req)
+    {
+        $categoriesveh = Vehicle::all();
+        $categoriesjob = JobTiming::all();
+        $categoriesarea = Area::all();
+        $editedoffers_data = Driver::findOrFail(base64_decode($req->id));
         return view('/drivers.edit_driver', compact('editedoffers_data', 'categoriesveh', 'categoriesjob', 'categoriesarea'));
-}
+    }
 
     /**
     * Go to Update Offers.
@@ -155,57 +158,77 @@ class DriverController extends Controller
     */
     public function updateDriver(Request $request)
     {
-        // echo 'hi';die;
         $validator = Validator::make($request->all(), [
-            'fname' => 'required|string',
-            'lname' => 'required|string',
-            'email' => 'required|email',
-            'password' => 'required',
-            'mobile' => 'required|digits:10|numeric',
-            'dob' => 'required',  
-            'address' => 'required',
-            'image' => 'required|mimes:jpeg,png,jpg,gif,svg|max:2048',  
-            'landmark' => 'required|string',
-            'vehicle_name' => 'required|string',  
-            'pan_no' => 'required|max:10',
-            'aadhar' => 'required|max:12',         
+            'fname' => 'string',
+            'lname' => 'string',
+            'email' => 'email',
+            'mobile' => 'digits:10|numeric',
+            'image' => 'mimes:jpeg,png,jpg,gif,svg|max:2048',  
+            'landmark' => 'string',
+            'vehicle_name' => 'string',  
+            'pan_no' => 'max:10',
+            'aadhar' => 'max:12',         
         ]);
-       $validator->validate();
+        $validator->validate();
 
         $hid_id = $request->hid_id;
+        $dob = $request->dob;
+        $timestamp = strtotime($dob);
+        $new_date = date("Y-m-d", $timestamp);
 
-        $fileName1 = time().'.'.$request->file('image')->extension(); 
+        // $length = 6;
+        // $otp = substr(str_shuffle(str_repeat($x = '0123456789', ceil($length / strlen($x)))), 2, $length);
+
+        $otp = 1234;
+        $driver_data = Driver::find( $hid_id);
+        // dd($driver_data);
+        $driver_data->fname = $request->fname; 
+        $driver_data->lname = $request->lname; 
+        $driver_data->email = $request->email; 
+        if($request->password != ''){
+            $password = \Hash::make($request->password);
+            $driver_data->password = $password; 
+        }
+        $driver_data->mobile = $request->mobile; 
+        $driver_data->whatsapp_no = $request->whatsapp_no; 
+        $driver_data->dob = $new_date; 
+
+        if ($request->hasFile('image')) {
+            $fileName1 = time().'.'.$request->file('image')->getClientOriginalExtension(); 
             $request->file('image')->move(public_path('uploads/'), $fileName1);
             $imgupdate ='uploads/'.$fileName1;
+            $driver_data->image = $imgupdate; 
+        }
 
-            $fileName = time().'.'.$request->file('license_image')->extension(); 
-                    // echo json_encode($fileName);die;
+        $driver_data->address = $request->address; 
+        $driver_data->landmark = $request->landmark; 
+        $driver_data->gender = $request->gender; 
+        $driver_data->vehicle_type = $request->vehicle_type;
 
+        if ($request->hasFile('license_image')) {
+            $fileName = time().'.'.$request->file('license_image')->getClientOriginalExtension();
             $request->file('license_image')->move(public_path('uploads/'), $fileName);
             $imgupdate1 ='uploads/'.$fileName;
+            $driver_data->license_image = $imgupdate1; 
+        } 
 
-       $password = \Hash::make($request->password);
-
-      
-
-       $dob = $request->dob;
-       $timestamp = strtotime($dob);
-       $new_date = date("Y-m-d", $timestamp);
-
-       $length = 6;
-
-       $otp = substr(str_shuffle(str_repeat($x = '0123456789', ceil($length / strlen($x)))), 2, $length);
-
-       $is_verified = 1;
-       if($request->password!=""){
-        $update_driver_data = Driver::where('id', $hid_id)->update(['fname' => $request->fname, 'lname' => $request->lname, 'email' => $request->email, 'password' => $password, 'mobile' => $request->mobile, 'whatsapp_no' => $request->whatsapp_no, 'dob' => $new_date, 'image' => $imgupdate, 'address' => $request->address, 'landmark' => $request->landmark, 'gender' => $request->gender, 'vehicle_type' => $request->vehicle_type, 'license_image' => $imgupdate1, 'vehicle_name' => $request->vehicle_name, 'vehicle_no' => $request->vehicle_no, 'emergency_contact_name' => $request->emergency_contact_name, 'emergency_contact_no' => $request->emergency_contact_no, 'relation' => $request->relation, 'preferred_job_timing_id' => $request->preferred_job_timing_id, 'preferred_area_id' => $request->preferred_area_id, 'pan_no' => $request->pan_no, 'aadhar' => $request->aadhar, 'driver_license' => $request->driver_license, 'bank_account_no' => $request->bank_account_no, 'ifsc_code' => $request->ifsc_code, 'otp' => $otp, 'is_verified' => $is_verified]);   
-       
-       }else{
-        $update_driver_data = Driver::where('id', $hid_id)->update(['fname' => $request->fname, 'lname' => $request->lname, 'email' => $request->email,'mobile' => $request->mobile, 'whatsapp_no' => $request->whatsapp_no, 'dob' => $new_date, 'image' => $imgupdate, 'address' => $request->address, 'landmark' => $request->landmark, 'gender' => $request->gender, 'vehicle_type' => $request->vehicle_type, 'license_image' => $imgupdate1, 'vehicle_name' => $request->vehicle_name, 'vehicle_no' => $request->vehicle_no, 'emergency_contact_name' => $request->emergency_contact_name, 'emergency_contact_no' => $request->emergency_contact_no, 'relation' => $request->relation, 'preferred_job_timing_id' => $request->preferred_job_timing_id, 'preferred_area_id' => $request->preferred_area_id, 'pan_no' => $request->pan_no, 'aadhar' => $request->aadhar, 'driver_license' => $request->driver_license, 'bank_account_no' => $request->bank_account_no, 'ifsc_code' => $request->ifsc_code, 'otp' => $otp, 'is_verified' => $is_verified]);   
-       
-       }
-       // $update_driver_data = Driver::where('id', $hid_id)->update(['start_time' => $request->start_time, 'end_time' => $request->end_time]);   
-            return redirect()->route('admin.manage_drivers');
+        $driver_data->vehicle_name = $request->vehicle_name; 
+        $driver_data->vehicle_no = $request->vehicle_no; 
+        $driver_data->emergency_contact_name = $request->emergency_contact_name;
+        $driver_data->emergency_contact_no = $request->emergency_contact_no; 
+        $driver_data->relation = $request->relation; 
+        $driver_data->preferred_job_timing_id = $request->preferred_job_timing_id; 
+        $driver_data->preferred_area_id = $request->preferred_area_id; 
+        $driver_data->pan_no = $request->pan_no; 
+        $driver_data->aadhar = $request->aadhar; 
+        $driver_data->driver_license = $request->driver_license; 
+        $driver_data->bank_account_no = $request->bank_account_no; 
+        $driver_data->ifsc_code = $request->ifsc_code; 
+        $driver_data->otp = $otp; 
+        $driver_data->is_verified = 1;
+        $driver_data->save();
+    
+        return redirect()->route('admin.manage_drivers');
     }
 
      /**
@@ -242,5 +265,22 @@ class DriverController extends Controller
         $drivers = array_unique($drivers);
         $rider = Driver::whereIn('id',$drivers)->get();
         return response()->json(['error' => false, 'message' => 'calendar', 'data' => $rider]);
+    }
+
+    public function changeStatus(Request $req)
+    {
+        // dd($req->all());
+        $driver = driver::find(base64_decode($req->driverId));
+        if($req->driverStatus == 0) {
+            $status = [1, 0];
+        } elseif($req->driverStatus == 1) {
+            $status = [0, 0];
+        } elseif($req->driverStatus == 2) {
+            $status = [0, 1];
+        }
+        $driver->is_active = $status[0];
+        $driver->is_blocked = $status[1];
+        $driver->save();
+        return redirect()->route('admin.manage_drivers');
     }
 }

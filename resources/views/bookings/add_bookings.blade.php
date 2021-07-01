@@ -15,7 +15,7 @@
                     <h5>Add Booking</h5>
                 </div>
                 <div class="card-body">
-                    <form class="needs-validation" method="post" action="{{route('admin.add_bookings')}}">
+                    <form class="needs-validation" method="post" action="{{route('admin.add_bookings')}}" id="booking_form">
                     {{csrf_field()}}
                     
                     <h4>From</h4><hr>
@@ -173,8 +173,16 @@
                             
                             <div class="col-md-4">
                                 <label for="validationCustom01" class="form-label">Price</label>
-                                <input type="number" class="form-control" name="price" readonly id="total_price" required>
+                                <input type="number" class="form-control" readonly id="total_price" required>
                                 @error('price')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            
+                            <div class="col-md-4">
+                                <label for="validationCustom01" class="form-label">OTP</label>
+                                <input type="number" class="form-control" name="otp" id="otp" value="1234" required>
+                                @error('otp')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
@@ -254,12 +262,22 @@
         $.ajax({
             url: "{{route('calculate.price')}}",
             type: "POST",
-            data: { _token: '{{csrf_token()}}', distance: actualDistance },
+            data: { _token: '{{csrf_token()}}', distance: actualDistance , for: 'cost' },
             success:function(data) {
-                console.log(data);
+                console.log('cost', data);
                 $("#total_price").val(data.data);
             }
         })
+        // $.ajax({
+        //     url: "{{route('calculate.price')}}",
+        //     type: "POST",
+        //     data: { _token: '{{csrf_token()}}', distance: actualDistance, for: 'riderFee' },
+        //     success:function(data) {
+        //         console.log('riderFee', data);
+        //         field = "<input type='hidden' value='"+data.data+"'>";
+        //         $("#booking_form").append(field);
+        //     }
+        // })
     }
 </script>
 
