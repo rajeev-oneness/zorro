@@ -68,14 +68,15 @@ class AdminLoginController extends Controller
 
     public function dashboardView(Request $request)
     {
-        $customers = Customer::all();
+        $deliverStatus = Admin::pluck('delivery_status')->toArray();
+        $customers = Customer::with('orderDetails')->get();
         $drivers = Driver::all();
         $bookings = Booking::all()->count();
         $revenue = Booking::where('is_delivered', 1)->sum('price');
         $pb = PricingBracket::all();
         $rf = RiderFee::all();
         $ib = IncentiveBracket::all();
-        return view('ui.dashboard', compact('drivers', 'bookings','revenue','customers','pb','rf','ib'));
+        return view('ui.dashboard', compact('deliverStatus', 'drivers', 'bookings','revenue','customers','pb','rf','ib'));
     }
     
      /**
@@ -103,6 +104,24 @@ class AdminLoginController extends Controller
         $updatedpassdata = Admin::find(auth()->user()->id)->update(['password'=> Hash::make($request->new_pass)]);
         // dd('Password change successfully.');
         return redirect()->route('admin.logout');
+    }
+    
+    public function changeDeliveryStatus()
+    {
+        $status = Admin::find(1);
+        if($status['delivery_status'] == 1) {
+            $status->delivery_status = 0;
+            $status->save();
+        } elseif($status['delivery_status'] == 0) {
+            $status->delivery_status = 1;
+            $status->save();
+        }
+        // dd($status);
+        return response()->json([
+            'error' => false, 
+            'message' => 'Delivary status changed', 
+            'data' =>$status
+        ]);
     }
 
     public function modalStore(Request $request) {

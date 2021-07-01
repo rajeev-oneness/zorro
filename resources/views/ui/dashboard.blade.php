@@ -20,8 +20,12 @@
                     <p>Select the delivery dtatus</p>
                     <p>
                       <b>Start</b> 
-                      <a href="" class="tuggle-btn">
+                      <a href="javascript:void(0);" id="delivery_status" class="tuggle-btn">
+                        @if ($deliverStatus[0] == 1)
                         <i class="fas fa-toggle-on"></i>
+                        @else
+                        <i class="fas fa-toggle-off"></i>
+                        @endif
                       </a>
                       <b>Stop</b>
                     </p>
@@ -266,7 +270,7 @@
                     <div class="cu-img">{{ucfirst(substr($customer->name, 0, 1))}}</div>
                     <p>
                       {{$customer->name}}
-                      <span>29 Orders</span>
+                      <span>{{count($customer->orderDetails)}} Orders</span>
                     </p>
                     <div class="dropdown dropleft ml-auto pt-2">
                       <i class="fas fa-ellipsis-v icon-light" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -316,4 +320,20 @@
 
 @section('script')
     
+<script>
+  $('#delivery_status').click(function() {
+      bookingDescription = $(this).val();
+      bookingId = $('#bookingId').val();
+      $.ajax({
+        url: "{{route('change.delivery.status')}}",
+        type: "POST",
+        dataType:'JSON',
+        data: { _token: '{{csrf_token()}}'  },
+        success:function(data) {
+          location.reload();
+        }
+      }) 
+    })
+</script>
+
 @endsection

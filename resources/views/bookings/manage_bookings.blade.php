@@ -56,7 +56,7 @@
                                 <td>{{$booking->distance}}</td>
                                 <td>{{$booking->price}}</td>
                                 <td>{{$booking->time}}</td>
-                                <td>{{$booking->rider['fname'].' '.$booking->rider['lname']}}</td>
+                                <td>{{($booking->rider) ? $booking->rider->fname .' '. $booking->rider->lname : ''}}</td>
                                 <td>0</td>
                                 <td>
                                     @if ($booking->is_delivered == 0)
@@ -96,14 +96,8 @@
                       </tr>
                     </thead>
                     <tbody>
+                        @foreach ($bookings as $key => $booking)
                         @php
-                            $i = 1;
-                        @endphp
-                        @foreach ($bookings as $booking)
-                        @php
-                        /*echo "<pre>";
-                        print_r($booking->rider);
-                        die();*/
                         @endphp
                             <tr>
                                 <td>{{$booking->id}}</td>
@@ -117,13 +111,19 @@
                                 <td>{{$booking->distance}}</td>
                                 <td>{{$booking->price}}</td>
                                 <td>{{$booking->time}}</td>
-                                <td>{{$booking->rider['fname'].' '.$booking->rider['lname']}}</td>
+                                <td>{{($booking->rider) ? $booking->rider->fname .' '. $booking->rider->lname : ''}}</td>
                                 <td>0</td>
-                                <td>
-                                    @if ($booking->is_delivered == 0)
-                                      <span class="bg-read">Not Delivered</span>
-                                    @else
+                                <td data-toggle="modal" data-target="#changeStatusModal-{{$booking->id}}">
+                                    @if (($booking->is_delivered == 0) && ($booking->is_accepted == 0) && ($booking->is_rejected == 0))
+                                      <span class="bg-yellow">New Order</span>
+                                    @elseif (($booking->is_delivered == 1) && ($booking->is_accepted == 1) && ($booking->is_rejected == 0))
                                       <span class="bg-green">Delivered</span>
+                                    @elseif (($booking->is_delivered == 2) && ($booking->is_accepted == 0) && ($booking->is_rejected == 0))
+                                      <span class="bg-read">Not Delivered</span>
+                                    @elseif (($booking->is_delivered == 0) && ($booking->is_accepted == 1) && ($booking->is_rejected == 0))
+                                      <span class="bg-perple">Process</span>
+                                    @elseif (($booking->is_delivered == 0) && ($booking->is_accepted == 0) && ($booking->is_rejected == 1))
+                                      <span class="bg-read">Rejected</span>
                                     @endif
                                 </td>
                                 
@@ -143,7 +143,7 @@
                                           </div>
                                           <div class="col-12 col-md-5 pl-2 pl-md-4">
                                             <div class="form-group mb-0 position-relative">
-                                              <textarea class="form-control teble-textarea" rows="4" placeholder="Additional Comments:"></textarea>
+                                              <textarea class="form-control teble-textarea" rows="4" id="booking_description" placeholder="Additional Comments:">{{$booking->description}}</textarea>
                                               <div class="comant-icon">
                                                 <i class="far fa-comment-dots"></i>
                                               </div>
@@ -154,12 +154,44 @@
                                   </td>
                                 </tr>
                             </tr>
+                            <!-- change status modal -->
+                            <div class="modal fade" id="changeStatusModal-{{$booking->id}}" tabindex="-1" role="dialog" aria-labelledby="changeStatusModal-{{$booking->id}}" aria-hidden="true">
+                              <div class="modal-dialog">
+                                <div class="modal-content">
+                                  <div class="modal-header">
+                                    <h4 class="modal-title" id="myModalLabel">Change order status</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                      <span aria-hidden="true">&times;</span>
+                                    </button>
+                                  </div>
+                                  <form class="needs-validation" action="{{route('admin.change.booking.status')}}">
+                                  <div class="modal-body">
+                                        <div class="col-md-12">
+                                          <input type="hidden" id="bookingId" name="bookingId" value="{{encrypt($booking->id)}}">
+                                            <label for="validationCustom01" class="form-label">Status</label>
+                                            <select name="orderStatus" id="orderStatus" class="form-control">
+                                              <option value="" hidden>Select</option>
+                                              <option value="0">Not Delivered</option>
+                                              <option value="1">Delivered</option>
+                                              <option value="2">Process</option>
+                                              <option value="3">Rejected</option>
+                                            </select>
+                                        </div>
+                                  </div>
+                                  <div class="modal-footer">
+                                    <button type="submit" class="btn order-btn">Update Status</button>
+                                  </div>
+                                  </form>
+                                </div>
+                              </div>
+                            </div>
                         @endforeach
                       
                     </tbody>
                   </table>
                 </div>
                 
+
                 <!-- basic modal -->
                 <div class="modal fade" id="filterModal" tabindex="-1" role="dialog" aria-labelledby="filterModal" aria-hidden="true">
                   <div class="modal-dialog">
@@ -170,7 +202,7 @@
                           <span aria-hidden="true">&times;</span>
                         </button>
                       </div>
-                      <form class="needs-validation" action="">
+                      <form class="needs-validation" action="{{route('admin.manage_bookings')}}">
                       <div class="modal-body">
                         <!--<h3>Modal Body</h3>-->
                         
@@ -292,5 +324,19 @@
         return false
          //$('#tblHead').css("display","none");
     });
+    $('#booking_description').blur(function() {
+      bookingDescription = $(this).val();
+      bookingId = $('#bookingId').val();
+      $.ajax({
+        url: "{{route('change.booking.description')}}",
+        type: "POST",
+        dataType:'JSON',
+        data: { _token: '{{csrf_token()}}', description: bookingDescription, bookingId: bookingId  },
+        success:function(data) {
+          console.log(data);
+          location.reload();
+        }
+      }) 
+    })
 </script>
 @endsection

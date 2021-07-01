@@ -23,14 +23,15 @@
                         <div class="row">
                                 <div class="col-md-4">
                                     <label for="driver" class="form-label">Customer</label>
-                                    <select class="custom-select form-control mr-sm-2" id="from-customer" name="from_customer_id" onchange="chooseFromCustomer()" required>
+                                    {{-- <select class="custom-select form-control mr-sm-2" id="from-customer" name="from_customer_id" onchange="chooseFromCustomer()" required>
                                         <option value="">Choose...</option>
                                         @foreach ($customers as $customer)
                                             <option value="{{$customer->id}}">{{$customer->name}}</option>
                                         @endforeach
-                                    </select>
+                                    </select> --}}
+                                    <input type="text" class="form-control" name="from_name">
                                 </div>
-                                <input type="hidden" class="form-control" name="from_name" id="from_name">
+                                {{-- <input type="hidden" class="form-control" name="from_name" id="from_name"> --}}
                                 <div class="col-md-4">
                                     <label for="validationCustom01" class="form-label">From Location</label>
                                     <input type="text" class="form-control" name="from_location" id="from_location" required>
@@ -81,14 +82,14 @@
                         <div class="row">
                                 <div class="col-md-4">
                                     <label for="driver" class="form-label">Customer</label>
-                                    <select class="custom-select form-control mr-sm-2" id="to-customer" name="to_customer_id" onchange="chooseToCustomer()" required>
+                                    {{-- <select class="custom-select form-control mr-sm-2" id="to-customer" name="to_customer_id" onchange="chooseToCustomer()" required>
                                         <option value="">Choose...</option>
                                         @foreach ($customers as $customer)
                                             <option value="{{$customer->id}}">{{$customer->name}}</option>
                                         @endforeach
-                                    </select>
+                                    </select> --}}
+                                    <input type="text" class="form-control" name="to_name">
                                 </div>
-                                <input type="hidden" class="form-control" name="to_name" id="to_name">
                                 <div class="col-md-4">
                                     <label for="validationCustom01" class="form-label">To Location</label>
                                     <input type="text" class="form-control" name="to_location" id="to_location" required>
@@ -145,7 +146,7 @@
                             </div>
                             <div class="col-md-4">
                                 <label for="validationCustom01" class="form-label">Distance <span> (in KM)</span> </label>
-                                <input type="text" class="form-control" name="distance" id="distance" onkeypress="return false" required>
+                                <input type="text" class="form-control" name="distance" id="distance" readonly onkeypress="return false" required>
                                 @error('distance')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
@@ -158,7 +159,7 @@
                                 @enderror
                             </div>
                             <div class="col-md-4">
-                                <label for="driver" class="form-label">Driver</label>
+                                <label for="driver" class="form-label">Rider</label>
                                 <select class="custom-select form-control mr-sm-2" id="driver" name="driver_id" required>
                                     <option value="">Choose...</option>
                                     @foreach ($drivers as $driver)
@@ -172,7 +173,7 @@
                             
                             <div class="col-md-4">
                                 <label for="validationCustom01" class="form-label">Price</label>
-                                <input type="number" class="form-control" name="price" id="price" required>
+                                <input type="number" class="form-control" name="price" readonly id="total_price" required>
                                 @error('price')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
@@ -208,50 +209,6 @@
 
     let lat2 = ''; 
     let lon2 = ''; 
-
-
-    function chooseFromCustomer() {
-        var customerId = $("#from-customer").val();
-        $.ajax({
-            type: 'POST',
-            url: '{{route("admin.booking.customer")}}',           
-            data: {'id': customerId, '_token': '{{csrf_token()}}'},
-            success:function(data) {
-                $("#from_name").val(data.data.name);
-                $("#from_location").val(data.data.location);
-                $("#from_lat").val(data.data.lat);
-                $("#from_lon").val(data.data.long);
-                lat1 = data.data.lat;
-                lon1 = data.data.long;
-                $("#from_mobile").val(data.data.mobile);
-                $("#from_email").val(data.data.email);
-                $("#from_landmark").val(data.data.landmark);
-                calcDistance();    
-            }
-        }); 
-    };
-
-    function chooseToCustomer() {
-        var customerId = $("#to-customer").val();
-        $.ajax({
-            type: 'POST',
-            url: '{{route("admin.booking.customer")}}',           
-            data: {'id': customerId, '_token': '{{csrf_token()}}'},
-            success:function(data) {
-                $("#to_name").val(data.data.name);
-                $("#to_location").val(data.data.location);
-                $("#to_lat").val(data.data.lat);
-                $("#to_lon").val(data.data.long);
-                lat2 = data.data.lat;
-                lon2 = data.data.long;
-                $("#to_mobile").val(data.data.mobile);
-                $("#to_email").val(data.data.email);
-                $("#to_landmark").val(data.data.landmark);
-                calcDistance();
-
-            }
-        }); 
-    }
 
     google.maps.event.addDomListener(window,'load',initialize);
 
@@ -290,8 +247,19 @@
 
     }
     function calcDistance() {
+        console.log(lat1);
         var distance = google.maps.geometry.spherical.computeDistanceBetween(new google.maps.LatLng(lat1, lon1), new google.maps.LatLng(lat2, lon2));
-        $('#distance').val((distance/1000).toFixed(2));
+        let actualDistance = (distance/1000).toFixed(2);
+        $('#distance').val(actualDistance);
+        $.ajax({
+            url: "{{route('calculate.price')}}",
+            type: "POST",
+            data: { _token: '{{csrf_token()}}', distance: actualDistance },
+            success:function(data) {
+                console.log(data);
+                $("#total_price").val(data.data);
+            }
+        })
     }
 </script>
 

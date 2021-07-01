@@ -17,3 +17,6 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::post('/get-rider-by-name', 'DriverController@getRiderByName')->name('get.rider.by.name');
+Route::post('/get-months-date', 'DriverController@getMonthDates')->name('get.month.dates');

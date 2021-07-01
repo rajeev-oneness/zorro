@@ -22,16 +22,17 @@
                         <div class="row">
                                 <div class="col-md-4">
                                     <label for="driver" class="form-label">Customer</label>
-                                    <select class="custom-select form-control mr-sm-2" id="from-customer" name="from_customer_id" onchange="chooseFromCustomer()" required>
+                                    {{-- <select class="custom-select form-control mr-sm-2" id="from-customer" name="from_customer_id" onchange="chooseFromCustomer()" required>
                                         <?php
                                             foreach ($customers as $customer) {
                                                 $selected = ($sel_from_customer->id == $customer->id) ? "selected" : "";
                                                 echo '<option '.$selected.' value="'.$customer->id.'">'.$customer->name.'</option>';
                                             }
                                         ?>
-                                    </select>
+                                    </select> --}}
+                                    <input type="text" class="form-control" name="from_name" value="{{$booking->from_name}}">
                                 </div>
-                                <input type="hidden" class="form-control" name="from_name" id="from_name"  value="{{$booking->from_name}}">
+                                <input type="hidden" class="form-control" name="from_customer_id"  value="{{$sel_from_customer->id}}">
                                 <div class="col-md-4">
                                     <label for="validationCustom01" class="form-label">From Location</label>
                                     <input type="text" class="form-control" name="from_location" id="from_location"  value="{{$booking->from_location}}" required>
@@ -89,8 +90,9 @@
                                             }
                                         ?>
                                     </select>
+                                    <input type="text" class="form-control" name="to_name" value="{{$booking->to_name}}">
                                 </div>
-                                <input type="hidden" class="form-control" name="to_name" id="to_name" value="{{$booking->to_name}}">
+                                <input type="hidden" class="form-control" name="to_customer_id"  value="{{$sel_to_customer->id}}">
                                 <div class="col-md-4">
                                     <label for="validationCustom01" class="form-label">To Location</label>
                                     <input type="text" class="form-control" name="to_location" id="to_location" value="{{$booking->to_location}}" required>
@@ -160,7 +162,7 @@
                                 @enderror
                             </div>
                             <div class="col-md-4">
-                                <label for="driver" class="form-label">Driver</label>
+                                <label for="driver" class="form-label">Rider</label>
                                 <select class="custom-select form-control mr-sm-2" id="driver" name="driver_id">
                                     <?php
                                         foreach ($drivers as $driver) {

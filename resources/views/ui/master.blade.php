@@ -29,7 +29,7 @@
 </head>
 <body class="sb-nav-fixed">
   <nav class="sb-topnav navbar navbar-expand navbar-dark bg-none">
-    <a class="navbar-brand text-center pt-0 pt-md-5" href="index.html"><img src="{{asset('ui/img/left-nav-logo.png')}}" class="pt-0 pt-md-3"></a>
+    <a class="navbar-brand text-center pt-0 pt-md-5" href="javascript:void(0);"><img src="{{asset('ui/img/left-nav-logo.png')}}" class="pt-0 pt-md-3"></a>
     <button class="btn btn-link btn-sm order-1 order-lg-0 d-block d-md-none" id="sidebarToggle" href="#"><i class="fas fa-bars"></i></button>
     <!-- Navbar Search-->
     <div class="bg-light-yellow d-flex ml-2">

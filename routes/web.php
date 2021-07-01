@@ -113,7 +113,7 @@ Route::prefix('admin')->group(function () {
 
            Route::get('booking', 'BookingController@bookingView')->name('admin.booking');
 
-           Route::post('/add_booking', 'BookingController@addBooking')->name('admin.add_booking');
+           Route::post('/add_booking', 'BookingController@addBooking')->name('admin.add_booking')->middleware('delivery.status.check');
    
            //--------------------------------------------------------------manage Booking Section-----------------------------------------------//
    
@@ -135,11 +135,14 @@ Route::post('update_password', 'AdminLoginController@updatePassword')->name('adm
         
 
         //--------------------------------------------------------------Booking Section-----------------------------------------------//
-        Route::get('view-booking', 'BookingController@viewBooking')->name('admin.view_bookings');
+        Route::get('view-booking', 'BookingController@viewBooking')->name('admin.view_bookings')->middleware('delivery.status.check');
         Route::get('manage-booking', 'BookingController@manageBooking')->name('admin.manage_bookings');
         Route::get('business', 'BookingController@business')->name('admin.business');
-        Route::post('add-booking', 'BookingController@addBooking')->name('admin.add_bookings');
+        Route::post('add-booking', 'BookingController@addBooking')->name('admin.add_bookings')->middleware('delivery.status.check');
+        Route::post('calculate-price', 'BookingController@calculatePrice')->name('calculate.price');
         Route::get('edit-booking/{id}', 'BookingController@editBooking')->name('admin.edit_bookings');
+        Route::get('change-status', 'BookingController@changeStatus')->name('admin.change.booking.status');
+        Route::post('change-description', 'BookingController@changeDescription')->name('change.booking.description');
         Route::post('update-booking', 'BookingController@updateBooking')->name('admin.update_bookings');
         Route::get('delete-booking/{id}', 'BookingController@deleteBooking')->name('admin.delete_bookings');
 
@@ -158,5 +161,10 @@ Route::post('update_password', 'AdminLoginController@updatePassword')->name('adm
         
         Route::post('modalstore', 'AdminLoginController@modalStore')->name('dashboard.modal.store');
         Route::get('modaldelete/{id}/{modal_name}', 'AdminLoginController@modalDelete')->name('dashboard.modal.delete');
+
+
+        Route::post('change-delivery-status', 'AdminLoginController@changeDeliveryStatus')->name('change.delivery.status');
     });
+
+    
 });

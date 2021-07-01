@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Model\Driver;
 use App\Model\JobTiming;
 use App\Model\Vehicle;
+use App\Model\Booking;
 use Validator,Redirect,Response;
 
 class DriverController extends Controller
@@ -110,9 +111,8 @@ class DriverController extends Controller
      * @return view
      */
     public function manageDriversView(Request $request){
-        $categories = Driver::all();
-        // echo json_encode($categories1);die;
-        return view('/drivers.manage_drivers',compact('categories'));
+        $drivers = Driver::all();
+        return view('/drivers.manage_drivers',compact('drivers'));
     }
 
       /**
@@ -139,12 +139,12 @@ class DriverController extends Controller
      * @param  Request $request
      * @return view
      */
-  public function editDriver($id)
+  public function editDriver(Request $req)
   {
     $categoriesveh = Vehicle::all();
             $categoriesjob = JobTiming::all();
             $categoriesarea = Area::all();
-      $editedoffers_data = Driver::findOrFail(decrypt($id));
+      $editedoffers_data = Driver::findOrFail(base64_decode($req->id));
         return view('/drivers.edit_driver', compact('editedoffers_data', 'categoriesveh', 'categoriesjob', 'categoriesarea'));
 }
 
@@ -218,5 +218,29 @@ class DriverController extends Controller
         $lead_delete_id = $request->appdel_id;
         $delete_event = Driver::where('id', $lead_delete_id)->delete();
         return redirect()->route('admin.manage_drivers');
+    }
+    
+    public function getRiderByName(Request $req)
+    {
+        $req->validate([
+            '_token'=> 'required',
+            'riderName'=> 'required|string',
+        ]);
+        $driver = Driver::where('fname', 'like', '%'.$req->riderName.'%')->orWhere('lname', 'like', '%'.$req->riderName.'%')->get();
+        return response()->json(['error' => false, 'message' => 'rider data', 'data' => $driver]);
+    }
+
+    public function getMonthDates(Request $req)
+    {
+        // $req->validate([
+        //     '_token'=> 'required',
+        //     'riderName'=> 'required|string',
+        // ]);
+        $start_date = date('Y-m-d', strtotime($req->startDate));
+        $end_date = date('Y-m-d', strtotime($req->endDate));
+        $drivers = Booking::where('created_at', '>=', $start_date)->where('created_at', '<=', $end_date)->pluck('driver_id')->toArray();
+        $drivers = array_unique($drivers);
+        $rider = Driver::whereIn('id',$drivers)->get();
+        return response()->json(['error' => false, 'message' => 'calendar', 'data' => $rider]);
     }
 }
