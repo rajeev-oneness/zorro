@@ -10,6 +10,7 @@ use App\Model\Booking;
 use App\Model\Customer;
 use App\Model\PricingBracket;
 use App\Model\RiderFee;
+use App\Model\Revenue;
 use App\Model\IncentiveBracket;
 use Illuminate\Support\Facades\Hash;
 use App\Rules\MatchOldPassword;
@@ -69,14 +70,15 @@ class AdminLoginController extends Controller
     public function dashboardView(Request $request)
     {
         $deliverStatus = Admin::pluck('delivery_status')->toArray();
-        $customers = Customer::with('orderDetails')->get();
-        $drivers = Driver::all();
+        $customers = Customer::with('orderDetails')->limit(5)->get();
+        $drivers = Driver::limit(5)->get();
         $bookings = Booking::all()->count();
-        $revenue = Booking::where('is_delivered', 1)->sum('price');
+        $totalAmount = Revenue::get()->sum('amount');
+        $riderFee = Revenue::get()->sum('rider_fee');
         $pb = PricingBracket::all();
         $rf = RiderFee::all();
         $ib = IncentiveBracket::all();
-        return view('ui.dashboard', compact('deliverStatus', 'drivers', 'bookings','revenue','customers','pb','rf','ib'));
+        return view('ui.dashboard', compact('deliverStatus', 'drivers', 'bookings','totalAmount','riderFee','customers','pb','rf','ib'));
     }
     
      /**

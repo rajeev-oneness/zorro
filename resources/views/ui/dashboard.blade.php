@@ -44,7 +44,7 @@
                     <div class="col-8 pr-md-0">
                       <p>
                         Total Revenue
-                        <span>Rs. {{$revenue}}</span>
+                        <span>Rs. {{($totalAmount-$riderFee)}}</span>
                       </p>
                     </div>
                   </div>

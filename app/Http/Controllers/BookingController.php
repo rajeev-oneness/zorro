@@ -96,7 +96,7 @@ class BookingController extends Controller
             $revenue->rider_id = $req->driver_id;
             $revenue->order_id = $booking->id;
             $revenue->amount = helperFunction($req->distance, 'cost');
-            $revenue->rider_free = helperFunction($req->distance, 'riderFee');
+            $revenue->rider_fee = helperFunction($req->distance, 'riderFee');
             $revenue->incentive = 0;
             $revenue->save();
             return redirect()->route('admin.manage_bookings');
