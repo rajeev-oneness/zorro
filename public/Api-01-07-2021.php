@@ -331,7 +331,7 @@
 		$landmark = (isset($_REQUEST['landmark']) && $_REQUEST['landmark']!='')?$_REQUEST['landmark']:"";
 		$gender = (isset($_REQUEST['gender']) && $_REQUEST['gender']!='')?$_REQUEST['gender']:"";
 		$vehicle_type = (isset($_REQUEST['vehicle_type']) && $_REQUEST['vehicle_type']!='')?$_REQUEST['vehicle_type']:"";
-		//$license_image = (isset($_REQUEST['license_image']) && $_REQUEST['license_image']!='')?$_REQUEST['license_image']:"";
+		$license_image = (isset($_REQUEST['license_image']) && $_REQUEST['license_image']!='')?$_REQUEST['license_image']:"";
 		$vehicle_name = (isset($_REQUEST['vehicle_name']) && $_REQUEST['vehicle_name']!='')?$_REQUEST['vehicle_name']:"";
 		$vehicle_no = (isset($_REQUEST['vehicle_no']) && $_REQUEST['vehicle_no']!='')?$_REQUEST['vehicle_no']:"";
 		$emergency_contact_name = (isset($_REQUEST['emergency_contact_name']) && $_REQUEST['emergency_contact_name']!='')?$_REQUEST['emergency_contact_name']:"";
@@ -348,16 +348,6 @@
 		$encpass = md5($password);
 		$opt = '1234';
 
-		$file_name = $_FILES['image']['name'];
-      	$file_tmp =$_FILES['image']['tmp_name'];
-
-      	move_uploaded_file($file_tmp,"uploads/".$file_name);
-
-      	$file_name1 = $_FILES['license_image']['name'];
-      	$file_tmp1 =$_FILES['license_image']['tmp_name'];
-
-      	move_uploaded_file($file_tmp1,"uploads/".$file_name1);
-
 		$query = "insert into drivers
 					(fname,
 					lname,
@@ -365,7 +355,6 @@
 					password,
 					mobile,
 					whatsapp_no,
-					image,
 					dob,
 					address,
 					landmark,
@@ -392,13 +381,12 @@
 					'$encpass',
 					'$mobile',
 					'$whatsapp_no',
-					'$file_name',
 					'$dob',
 					'$address',
 					'$landmark',
 					'$gender',
 					'$vehicle_type',
-					'$file_name1',
+					'$license_image',
 					'$vehicle_name',
 					'$vehicle_no',
 					'$emergency_contact_name',
@@ -417,26 +405,10 @@
 		$result=mysqli_query(connect(),$query) or die(mysqli_error());
 
 		if($result){
-			$driver = array();
-
-			$query = "select * from drivers order by id desc limit 1";
-
-			//Execute query
-			$result=mysqli_query(connect(),$query) or die(mysqli_error());
-
-			//If result is present
-			if(mysqli_num_rows($result)>0){
-				$row = mysqli_fetch_assoc($result);
-				$driver = $row;
-			}else{
-				$driver = array();
-			}
-
 			//Calling succuss response
 			die(json_encode(array(
 				"status"     =>"1",
 				"message"    =>"Driver registration is successful",
-				"driver"     => $driver
 			)));
 		}else{
 			//Calling error response
@@ -445,127 +417,5 @@
 				"message"    =>"Failed to register driver data",
 			)));
 		}
-	}
-
-	function forgetPassword(){
-		$email = (isset($_REQUEST['email']) && $_REQUEST['email']!='')?$_REQUEST['email']:"";
-
-		$query = "select * from drivers where email='$email'";
-
-		//Execute query
-		$result=mysqli_query(connect(),$query) or die(mysqli_error());
-
-		//If result is present
-		if(mysqli_num_rows($result)>0){
-			$newpass = '123456';
-			$encpass = md5($newpass);
-
-			$query1 = "update drivers set password='$encpass' where email='$email'";
-
-			$result1 = mysqli_query(connect(),$query1) or die(mysqli_error());
-
-			//Calling succuss response
-			die(json_encode(array(
-				"status"     =>"1",
-				"message"    =>"Your password has been updated successfully. Please check your sms for the new password and try with that credentials.",
-			)));
-		}else{
-
-			//Calling error response
-			die(json_encode(array(
-				"status"     =>"0",
-				"message"    =>"This email id does not exists in the database. Please try with the correct one.",
-			)));
-		}
-	}
-
-	function updateDriverLocation(){
-		$driver_id = (isset($_REQUEST['driver_id']) && $_REQUEST['driver_id']!='')?$_REQUEST['driver_id']:"";
-		$lat = (isset($_REQUEST['lat']) && $_REQUEST['lat']!='')?$_REQUEST['lat']:"";
-		$lon = (isset($_REQUEST['lon']) && $_REQUEST['lon']!='')?$_REQUEST['lon']:"";
-
-		$query = "select * from driver_locations where driver_id='$driver_id'";
-
-		//Execute query
-		$result=mysqli_query(connect(),$query) or die(mysqli_error());
-
-		//If result is present
-		if(mysqli_num_rows($result)>0){
-			$query1 = "update driver_locations set lat='$lat' , lon='$lon' where driver_id='$driver_id'";
-
-			$result1 = mysqli_query(connect(),$query1) or die(mysqli_error());
-		}else{
-			$query1 = "insert into driver_locations
-						(driver_id,
-						lat,
-						lon)
-						values
-						('$driver_id',
-						'$lat',
-						'$lon')";
-
-			$result1 = mysqli_query(connect(),$query1) or die(mysqli_error());
-		}
-
-		//Calling success response
-		die(json_encode(array(
-			"status"     =>"1",
-			"message"    =>"Success",
-		)));
-	}
-
-	function getNewBookingForDrivers(){
-		$driver_id = (isset($_REQUEST['driver_id']) && $_REQUEST['driver_id']!='')?$_REQUEST['driver_id']:"";
-
-		$query = "select * from bookings where driver_id='$driver_id' and is_accepted = 0 and is_rejected = 0 order by id desc limit 1";
-
-		//Execute query
-		$result=mysqli_query(connect(),$query) or die(mysqli_error());
-
-		//If result is present
-		if(mysqli_num_rows($result)>0){
-			$row = mysqli_fetch_assoc($result);
-
-			//Calling success response
-			die(json_encode(array(
-				"status"     =>"1",
-				"message"    =>"Success",
-				"booking"    => $row
-			)));
-		}else{
-			//Calling success response
-			die(json_encode(array(
-				"status"     =>"0",
-				"message"    =>"No new booking found",
-			)));
-		}
-	}
-
-	function rejectBooking(){
-		$booking_id = (isset($_REQUEST['booking_id']) && $_REQUEST['booking_id']!='')?$_REQUEST['booking_id']:"";
-
-		$query = "update bookings set is_rejected=1 where id='$booking_id'";
-
-		$result = mysqli_query(connect(),$query) or die(mysqli_error());
-
-		//Calling succuss response
-		die(json_encode(array(
-			"status"     =>"1",
-			"message"    =>"You have successfully rejected this booking",
-		)));
-	}
-
-	function acceptBooking(){
-		$booking_id = (isset($_REQUEST['booking_id']) && $_REQUEST['booking_id']!='')?$_REQUEST['booking_id']:"";
-
-		$query = "update bookings set is_accepted=1 where id='$booking_id'";
-
-		$result = mysqli_query(connect(),$query) or die(mysqli_error());
-
-		//Calling succuss response
-		die(json_encode(array(
-			"status"     =>"1",
-			"message"    =>"You have successfully accepted this booking",
-		)));
 	}
 ?>
