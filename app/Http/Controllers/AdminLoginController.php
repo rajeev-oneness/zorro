@@ -71,6 +71,7 @@ class AdminLoginController extends Controller
     {
         $deliverStatus = Admin::pluck('delivery_status')->toArray();
         $bookings = Booking::get();
+        $customerCount = Customer::get()->count();
         $customers = Booking::select('from_customer_id',\DB::raw('COUNT(bookings.id) as TotalCount'))->orderBy('TotalCount','DESC')->groupBy('bookings.from_customer_id')->limit(5)->get();
         // dd($customers);
         $drivers = Booking::select('driver_id',\DB::raw('COUNT(bookings.id) as TotalCount'))->orderBy('TotalCount','DESC')->groupBy('bookings.driver_id')->limit(5)->get();
@@ -80,7 +81,7 @@ class AdminLoginController extends Controller
         $pb = PricingBracket::all();
         $rf = RiderFee::all();
         $ib = IncentiveBracket::all();
-        return view('ui.dashboard', compact('deliverStatus', 'drivers', 'bookings','totalAmount','riderFee','customers','pb','rf','ib'));
+        return view('ui.dashboard', compact('deliverStatus', 'customerCount','drivers', 'bookings','totalAmount','riderFee','customers','pb','rf','ib'));
     }
     
      /**

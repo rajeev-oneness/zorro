@@ -60,7 +60,7 @@
                     <div class="col-8 pr-md-0">
                       <p>
                         Total Customer
-                        <span>{{count($customers)}}</span>
+                        <span>{{$customerCount}}</span>
                       </p>
                     </div>
                   </div>
