@@ -9,4 +9,9 @@ class Driver extends Model
 {
     use SoftDeletes;
     protected $table = 'drivers';
+
+    public function orderDetails()
+    {
+        return $this->hasMany(Booking::class, 'driver_id', 'id');
+    }
 }

@@ -21,6 +21,9 @@ class CustomerController extends Controller
         ->when($request->mobile, function($query) use ($request){
             $query->where('mobile', '=', $request->mobile);
         })
+        ->when($request->location, function($query) use ($request){
+            $query->where('location', 'LIKE', '%'.$request->location.'%');
+        })
         ->get();
         //$customers = Customer::all();
         return view('customer.index', compact('customers'));

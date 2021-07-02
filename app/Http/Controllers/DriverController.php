@@ -111,7 +111,20 @@ class DriverController extends Controller
      * @return view
      */
     public function manageDriversView(Request $request){
-        $drivers = Driver::get();
+        $drivers = Driver::
+        when($request->name, function($query) use ($request){
+            $query->where('fname', 'LIKE', '%'.$request->name.'%')->orWhere('lname', 'LIKE', '%'.$request->name.'%');
+        })
+        ->when($request->mobile, function($query) use ($request){
+            $query->where('mobile', 'LIKE', '%'.$request->mobile.'$');
+        })
+        ->when($request->address, function($query) use ($request){
+            $query->where('address', 'LIKE', '%'.$request->address.'%');
+        })
+        ->when($request->pan_no, function($query) use ($request){
+            $query->where('pan_no', 'LIKE', '%'.$request->pan_no.'%');
+        })
+        ->get();
         $active = Driver::where('is_active', 1)->where('is_blocked', 0)->get()->pluck('id');
         $inactive = Driver::where('is_active', 0)->where('is_blocked', 0)->get()->pluck('id');
         $blocked = Driver::where('is_blocked', 1)->get()->pluck('id');

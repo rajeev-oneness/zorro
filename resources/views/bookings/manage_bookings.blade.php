@@ -84,7 +84,7 @@
                         <th class="l-redious-15 pl-15">Order Id</th>
                         <th>Date</th>
                         <th>From</th>
-                        <th>Type</th>
+                        <th>Object</th>
                         <th>Pick Up</th>
                         <th>Delivery At</th>
                         <th>Cust. Name</th>
@@ -106,7 +106,7 @@
                                 <td>{{$booking->id}}</td>
                                 <td>{{$booking->created_at}}</td>
                                 <td>{{$booking->from_name}}</td>
-                                <td></td>
+                                <td>{{($booking->objectDetail)? $booking->objectDetail->name : ''}}</td>
                                 <td>{{$booking->from_location}}</td>
                                 <td>{{$booking->to_location}}</td>
                                 <td>{{$booking->to_name}}</td>
@@ -221,7 +221,52 @@
                                 <label for="validationCustom01" class="form-label">Order Id</label>
                                 <input type="text" class="form-control" name="order_id" id="order_id">
                             </div>
-                        
+                            <div class="col-md-12">
+                                <label for="validationCustom01" class="form-label">from</label>
+                                <input type="text" class="form-control" name="from_name" id="from_name">
+                            </div>
+                            <div class="col-md-12">
+                                <label for="validationCustom01" class="form-label">Pickup</label>
+                                <input type="text" class="form-control" name="from_location" id="from_location">
+                            </div>
+                            <div class="col-md-12">
+                                <label for="validationCustom01" class="form-label">Delivery at</label>
+                                <input type="text" class="form-control" name="to_location" id="to_location">
+                            </div>
+                            <div class="col-md-12">
+                                <label for="validationCustom01" class="form-label">Cust. name</label>
+                                <input type="text" class="form-control" name="to_name" id="to_name">
+                            </div>
+                            <div class="col-md-12">
+                                <label for="validationCustom01" class="form-label">Cust. contact</label>
+                                <input type="text" class="form-control" name="to_mobile" id="to_mobile">
+                            </div>
+                            <div class="col-md-12">
+                                <label for="validationCustom01" class="form-label">Order Value</label>
+                                <input type="text" class="form-control" name="price" id="price">
+                            </div>
+                            <div class="col-md-12">
+                                <label for="validationCustom01" class="form-label">Time</label>
+                                <input type="time" class="form-control" name="time" id="time">
+                            </div>
+                            <div class="col-md-12">
+                                <label for="validationCustom01" class="form-label">Rider Name</label>
+                                <select name="driver_id" class="form-control">
+                                  <option value="" hidden>Choose...</option>
+                                  @foreach ($riders as $rider)
+                                      <option value="{{$rider->id}}">{{$rider->fname . ' ' . $rider->lname}}</option>
+                                  @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-12">
+                              <label for="validationCustom01" class="form-label">Rider Name</label>
+                              <select name="object_id" class="form-control">
+                                <option value="" hidden>Choose...</option>
+                                @foreach ($bookingObjects as $bookingObject)
+                                    <option value="{{$bookingObject->id}}">{{$bookingObject->name}}</option>
+                                @endforeach
+                              </select>
+                          </div>
                       </div>
                       <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

@@ -171,7 +171,7 @@
                     </div>
                     <div class="col-md-3 col-5 text-right ml-auto filter-div">
                       <a href="javascript:void(0);" id="btnExport"><img src="{{asset('ui/img/export-icon.png')}}"> &nbsp; Export</a> &nbsp; &nbsp;
-                      <a href="javascript:void(0);"><i class="fas fa-filter"></i> &nbsp; Filter</a>
+                      <a href="javascript:void(0);" data-toggle="modal" data-target="#filterModal"><i class="fas fa-filter"></i> &nbsp; Filter</a>
                     </div>
                   </div>
                   <div id="tableWrap" class="table-responsive rider-table">
@@ -248,6 +248,46 @@
                     </table>
                   </div>
                 </div>
+                {{-- modal --}}
+                <div class="modal fade" id="filterModal" tabindex="-1" role="dialog" aria-labelledby="filterModal" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h4 class="modal-title" id="myModalLabel">Search</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <form class="needs-validation" action="">
+                      <div class="modal-body">
+                        <!--<h3>Modal Body</h3>-->
+                        <div class="col-md-12">
+                            <label for="validationCustom01" class="form-label">Name</label>
+                            <input type="text" class="form-control" name="name" id="name">
+                        </div>
+                        <div class="col-md-12">
+                            <label for="validationCustom01" class="form-label">Mobile No</label>
+                            <input type="text" class="form-control" name="mobile" id="mobile">
+                        </div>
+                        <div class="col-md-12">
+                            <label for="validationCustom01" class="form-label">Address</label>
+                            <input type="text" class="form-control" name="address" id="address">
+                        </div>
+                        <div class="col-md-12">
+                            <label for="validationCustom01" class="form-label">Pan No</label>
+                            <input type="text" class="form-control" name="pan_no" id="pan_no">
+                        </div>
+                        
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn order-btn">Search</button>
+                      </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+                {{-- modal end --}}
               </div>
             </div>
           </div>

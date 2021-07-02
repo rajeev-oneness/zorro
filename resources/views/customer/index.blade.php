@@ -65,7 +65,7 @@
                         <th class="l-redious-15 pl-15">Sl.</th>
                         <th>Customer Name</th>
                         <th>Customer Delivery Address</th>
-                        <th>Phone Number</th>
+                        <th class="r-redious-15">Phone Number</th>
                         <!-- <th style="width: 45%;">Location</th>
                         <th>Edit</th>
                         <th class="r-redious-15">Delete</th> -->
@@ -118,6 +118,10 @@
                         <div class="col-md-12">
                             <label for="validationCustom01" class="form-label">Mobile No</label>
                             <input type="text" class="form-control" name="mobile" id="mobile">
+                        </div>
+                        <div class="col-md-12">
+                            <label for="validationCustom01" class="form-label">Location</label>
+                            <input type="text" class="form-control" name="location" id="location">
                         </div>
                         
                       </div>

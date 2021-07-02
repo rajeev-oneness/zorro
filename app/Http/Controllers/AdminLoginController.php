@@ -70,11 +70,12 @@ class AdminLoginController extends Controller
     public function dashboardView(Request $request)
     {
         $deliverStatus = Admin::pluck('delivery_status')->toArray();
-        $customers = Customer::with('orderDetails')->limit(5)->get();
-        $drivers = Driver::limit(5)->get();
-        $bookings = Booking::all()->count();
-        $totalAmount = Revenue::get()->sum('amount');
-        $riderFee = Revenue::get()->sum('rider_fee');
+        $bookings = Booking::get();
+        $customers = Booking::select('*',\DB::raw('COUNT(id) as TotalCount'))->groupBy('from_customer_id')->orderBy('TotalCount','DESC')->with('customerDetail')->limit(5)->get();
+        $drivers = Booking::select('*',\DB::raw('COUNT(id) as TotalCount'))->groupBy('driver_id')->orderBy('TotalCount','DESC')->with('rider')->limit(5)->get();
+        $revenue = Revenue::get();
+        $totalAmount = $revenue->sum('amount');
+        $riderFee = $revenue->sum('rider_fee');
         $pb = PricingBracket::all();
         $rf = RiderFee::all();
         $ib = IncentiveBracket::all();

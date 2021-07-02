@@ -76,7 +76,7 @@
                     <div class="col-8 pr-md-0">
                       <p>
                         Total Order
-                        <span>{{$bookings}}</span>
+                        <span>{{count($bookings)}}</span>
                       </p>
                     </div>
                   </div>
@@ -267,10 +267,10 @@
                 
                 @foreach ($customers as $customer)
                   <div class="d-flex order-text">
-                    <div class="cu-img">{{ucfirst(substr($customer->name, 0, 1))}}</div>
+                    <div class="cu-img">{{ucfirst(substr($customer->customerDetail->name, 0, 1))}}</div>
                     <p>
-                      {{$customer->name}}
-                      <span>{{count($customer->orderDetails)}} Orders</span>
+                      {{$customer->customerDetail->name}}
+                      <span>{{$customer->TotalCount}} Orders</span>
                     </p>
                     <div class="dropdown dropleft ml-auto pt-2">
                       <i class="fas fa-ellipsis-v icon-light" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -296,8 +296,8 @@
                   <div class="d-flex order-text">
                     <div class="cu-img rider-img">{{$i++}}</div>
                     <p>
-                      {{$driver->fname}}&nbsp; {{$driver->lname}}
-                      <span>+91&nbsp;{{$driver->mobile}}</span>
+                      {{$driver->rider->fname}}&nbsp; {{$driver->rider->lname}}
+                      <span>{{$driver->TotalCount}} Rides</span>
                     </p>
                     <div class="dropdown dropleft ml-auto pt-2">
                       <i class="fas fa-ellipsis-v icon-light" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

@@ -178,6 +178,19 @@
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
+
+                            <div class="col-md-4">
+                                <label for="driver" class="form-label">Object Type</label>
+                                <select class="custom-select form-control mr-sm-2" id="booking_object" name="booking_object" required>
+                                    <option value="">Choose...</option>
+                                    @foreach ($bookingObjects as $bookingObject)
+                                        <option value="{{$bookingObject->id}}">{{$bookingObject->name}}</option>
+                                    @endforeach
+                                </select>
+                                @error('time')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
                             
                             <div class="col-md-4">
                                 <label for="validationCustom01" class="form-label">OTP</label>

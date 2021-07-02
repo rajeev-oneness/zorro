@@ -8,6 +8,7 @@ use App\Model\Booking;
 use App\Model\Driver;
 use App\Model\Revenue;
 use App\Model\Customer;
+use App\Model\BookingObject;
 
 class BookingController extends Controller
 {
@@ -19,8 +20,8 @@ class BookingController extends Controller
     public function viewBooking(){
         $drivers = Driver::all();
         $customers = Customer::all();
-        // dd(\json_decode($pricingBrackets));
-        return view('/bookings.add_bookings', compact('drivers', 'customers'));
+        $bookingObjects = BookingObject::all();
+        return view('/bookings.add_bookings', compact('drivers', 'customers', 'bookingObjects'));
     }
 
     /**
@@ -84,6 +85,7 @@ class BookingController extends Controller
                 $booking->to_customer_id = $tocustomer->id;
             }
 
+            $booking->object = $req->booking_object;
             $booking->description = $req->description;
             $booking->distance = $req->distance;
             $booking->time = $req->time;
@@ -109,25 +111,49 @@ class BookingController extends Controller
      * @return view
      */
     public function manageBooking(Request $request){
-        $start_date = (isset($_GET['start_date']) && $_GET['start_date']!='')?$_GET['start_date']:'';
-        $end_date = (isset($_GET['end_date']) && $_GET['end_date']!='')?$_GET['end_date']:'';
-        $order_id = (isset($_GET['order_id']) && $_GET['order_id']!='')?$_GET['order_id']:'';
+        $riders = Driver::get();
+        $bookingObjects = BookingObject::get();
 
-        $bookings = Booking::with('rider')
-        ->when($start_date, function($query) use ($request){
+        $bookings = Booking::
+        when($request->tart_date, function($query) use ($request){
             $query->where('created_at', '>=', $request->start_date);
         })
-        ->when($end_date, function($query) use ($request){
+        ->when($request->nd_date, function($query) use ($request){
             $query->where('created_at', '<=', $request->end_date);
         })
-        ->when( $order_id, function($query) use ($request){
+        ->when( $request->order_id, function($query) use ($request){
             $query->where('id', '=', $request->order_id);
         })
-        ->get();
-
-        //$bookings = Booking::with('rider')->orderBy('created_at', 'DESC')->get();
+        ->when( $request->from_name, function($query) use ($request){
+            $query->where('from_name', 'LIKE', '%'.$request->from_name.'%');
+        })
+        ->when( $request->from_location, function($query) use ($request){
+            $query->where('from_location', 'LIKE', '%'.$request->from_location.'%');
+        })
+        ->when( $request->to_location, function($query) use ($request){
+            $query->where('to_location', 'LIKE', '%'.$request->to_location.'%');
+        })
+        ->when( $request->to_name, function($query) use ($request){
+            $query->where('to_name', 'LIKE', '%'.$request->to_name.'%');
+        })
+        ->when( $request->to_mobile, function($query) use ($request){
+            $query->where('to_mobile', 'LIKE', '%'.$request->to_mobile.'%');
+        })
+        ->when( $request->price, function($query) use ($request){
+            $query->where('price', '=', $request->price);
+        })
+        ->when( $request->time, function($query) use ($request){
+            $query->where('time', '=', $request->time);
+        })
+        ->when( $request->driver_id, function($query) use ($request){
+            $query->where('driver_id', '=', $request->driver_id);
+        })
+        ->when( $request->object_id, function($query) use ($request){
+            $query->where('object', '=', $request->object_id);
+        })
+        ->with('rider','objectDetail')->get();
         //  dd($bookings);
-        return view('bookings.manage_bookings',compact('bookings'));
+        return view('bookings.manage_bookings',compact('bookings', 'riders', 'bookingObjects'));
     }
 
     public function business(Request $request){

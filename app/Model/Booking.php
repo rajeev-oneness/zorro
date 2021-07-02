@@ -12,6 +12,14 @@ class Booking extends Model
 
     //hasMany relation with Category Model
 	public function rider(){
-	    return $this->hasOne(Driver::class, 'id', 'driver_id');
+	    return $this->belongsTo(Driver::class, 'driver_id', 'id');
+	}
+	
+    public function customerDetail(){
+	    return $this->belongsTo(Customer::class, 'from_customer_id', 'id');
+	}
+    
+	public function objectDetail(){
+	    return $this->belongsTo(BookingObject::class, 'object', 'id');
 	}
 }
