@@ -38,7 +38,7 @@ class BusinessController extends Controller
         })
         ->get();
         //$businesses = Customer::all();
-        return view('\business.index', compact('businesses'));
+        return view('business.index', compact('businesses'));
     }
 
     /**
