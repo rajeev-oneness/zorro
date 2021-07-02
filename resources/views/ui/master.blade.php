@@ -73,10 +73,17 @@
                       <div class="sb-nav-link-icon"><i class="fas fa-clipboard-list"></i></div>
                       Order Sheet
                   </a>
-                  <a class="nav-link active" href="{{route('admin.business')}}">
-                      <div class="sb-nav-link-icon"><i class="fas fa-clipboard-list"></i></div>
-                      Business Database
+                  <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayouts11" aria-expanded="false" aria-controls="collapseLayouts11">
+                    <div class="sb-nav-link-icon"><i class="fas fa-clipboard-list"></i></div>
+                    Business Database
+                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                   </a>
+                  <div class="collapse" id="collapseLayouts11" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
+                    <nav class="sb-sidenav-menu-nested nav">
+                      <a class="nav-link" href="{{route('admin.business.index')}}">Business List</a>
+                      <a class="nav-link" href="{{route('admin.business.create')}}">Add Business</a>  
+                    </nav>
+                  </div>
                   <!-- <a class="nav-link active" href="{{route('admin.dashboard')}}">
                       <div class="sb-nav-link-icon"><i class="fas clipboard-list"></i></div>
                       Dashboard

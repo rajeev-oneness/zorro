@@ -159,6 +159,16 @@ Route::post('update_password', 'AdminLoginController@updatePassword')->name('adm
             Route::post('update', 'CustomerController@update')->name('admin.customer.update');
             Route::get('delete/{id}', 'CustomerController@delete')->name('admin.customer.delete');
         });
+
+        //--------------------------------------------------------------Business Section-----------------------------------------------//
+        Route::group(['prefix' => 'business'], function(){
+            Route::get('manage', 'BusinessController@index')->name('admin.business.index');
+            Route::get('create', 'BusinessController@create')->name('admin.business.create');
+            Route::post('store', 'BusinessController@store')->name('admin.business.store');
+            Route::get('edit/{id}', 'BusinessController@edit')->name('admin.business.edit');
+            Route::post('update', 'BusinessController@update')->name('admin.business.update');
+            Route::get('delete/{id}', 'BusinessController@delete')->name('admin.business.delete');
+        });
         
         Route::post('modalstore', 'AdminLoginController@modalStore')->name('dashboard.modal.store');
         Route::get('modaldelete/{id}/{modal_name}', 'AdminLoginController@modalDelete')->name('dashboard.modal.delete');
