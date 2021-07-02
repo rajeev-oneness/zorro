@@ -373,7 +373,6 @@
     });
     function changeDescription(bookingId) {
       bookingDescription = $('#'+bookingId).val();
-      alert(bookingId);
       $.ajax({
         url: "{{route('change.booking.description')}}",
         type: "POST",
