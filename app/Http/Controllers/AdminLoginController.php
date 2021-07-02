@@ -71,8 +71,12 @@ class AdminLoginController extends Controller
     {
         $deliverStatus = Admin::pluck('delivery_status')->toArray();
         $bookings = Booking::get();
-        $customers = Booking::select('*',\DB::raw('COUNT(bookings.id) as TotalCount'))->groupBy('bookings.from_customer_id')->orderBy('TotalCount','DESC')->with('customerDetail')->limit(5)->get();
-        $drivers = Booking::select('*',\DB::raw('COUNT(bookings.id) as TotalCount'))->groupBy('bookings.driver_id')->orderBy('TotalCount','DESC')->with('rider')->limit(5)->get();
+        $customers = Booking::select('from_customer_id','from_name',\DB::raw('COUNT(bookings.id) as TotalCount'))->orderBy('TotalCount','DESC')->groupBy('bookings.from_customer_id')->limit(5)->get();
+        // dd($customers);
+        $drivers = Booking::select('driver_id',\DB::raw('COUNT(bookings.id) as TotalCount'))->orderBy('TotalCount','DESC')->groupBy('bookings.driver_id')->limit(5)->get();
+        // foreach ($drivers as $key => $value) {
+        //     $value->rider;
+        // }
         $revenue = Revenue::get();
         $totalAmount = $revenue->sum('amount');
         $riderFee = $revenue->sum('rider_fee');
