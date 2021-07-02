@@ -49,3 +49,8 @@ Stack trace:
 [01-Jul-2021 11:26:37 UTC] PHP Notice:  Undefined index: license_image in /home/demo9dtx/public_html/dev/zorro/public/Api.php on line 356
 [01-Jul-2021 11:26:37 UTC] PHP Notice:  Undefined index: license_image in /home/demo9dtx/public_html/dev/zorro/public/Api.php on line 357
 [01-Jul-2021 11:26:37 UTC] PHP Notice:  Undefined variable: otp in /home/demo9dtx/public_html/dev/zorro/public/Api.php on line 414
+[02-Jul-2021 09:23:41 UTC] PHP Warning:  mysqli_error() expects exactly 1 parameter, 0 given in /home/demo9dtx/public_html/dev/zorro/public/Api.php on line 583
+[02-Jul-2021 09:24:13 UTC] PHP Warning:  mysqli_error() expects exactly 1 parameter, 0 given in /home/demo9dtx/public_html/dev/zorro/public/Api.php on line 583
+[02-Jul-2021 09:26:38 UTC] PHP Warning:  mysqli_error() expects exactly 1 parameter, 0 given in /home/demo9dtx/public_html/dev/zorro/public/Api.php on line 583
+[02-Jul-2021 09:30:36 UTC] PHP Warning:  mysqli_error() expects exactly 1 parameter, 0 given in /home/demo9dtx/public_html/dev/zorro/public/Api.php on line 618
+[02-Jul-2021 09:33:24 UTC] PHP Warning:  mysqli_error() expects exactly 1 parameter, 0 given in /home/demo9dtx/public_html/dev/zorro/public/Api.php on line 655
