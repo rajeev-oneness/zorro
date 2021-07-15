@@ -468,7 +468,7 @@
           new google.maps.Marker({
             position: { lat: location['lat'], lng: location['lng'] },
             map,
-            icon: "http://localhost/zorro/public/ui/img/left-nav-logo.png",
+            // icon: "http://localhost/zorro/public/ui/img/left-nav-logo.png",
             label: location['fn']+' '+location['ln'],
           });
         }
