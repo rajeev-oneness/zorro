@@ -222,7 +222,7 @@
 		$bookings = array();
 
 		//Query is written for getting all category
-		$query = "select * from bookings where driver_id='$driver_id' and is_delivered=0";
+		$query = "select * from bookings where driver_id='$driver_id' and is_delivered=0 and is_accepted=1";
 
 		//Execute query
 		$result=mysqli_query(connect(),$query) or die(mysqli_error());
@@ -676,5 +676,47 @@
 				"message"    =>"No job timing found",
 			)));
 		}
+	}
+
+	function todayData(){
+		$driver_id = (isset($_REQUEST['driver_id']) && $_REQUEST['driver_id']!='')?$_REQUEST['driver_id']:"";
+		$today = date("Y-m-d");
+
+		$total_distance = 0;
+		$total_income = 0;
+		$rank = 1;
+
+		$query = "select sum(distance) as total_distance from bookings where driver_id='$driver_id' and created_at like '$today%'";
+
+		//Execute query
+		$result=mysqli_query(connect(),$query) or die(mysqli_error());
+
+		//If result is present
+		if(mysqli_num_rows($result)>0){
+			$row = mysqli_fetch_assoc($result);
+
+			$total_distance = $row['total_distance'];
+		}
+
+		$query1 = "select sum(rider_fee) as total_fee from revenue where rider_id='$driver_id' and created_at like '$today%'";
+
+		//Execute query
+		$result1=mysqli_query(connect(),$query1) or die(mysqli_error());
+
+		//If result1 is present
+		if(mysqli_num_rows($result1)>0){
+			$row1 = mysqli_fetch_assoc($result1);
+
+			$total_income = $row1['total_fee'];
+		}
+
+		//Calling succuss response
+		die(json_encode(array(
+			"status"     =>"1",
+			"message"    =>"Success",
+			"total_distance" =>$total_distance,
+			"total_income" =>$total_income,
+			"rank" =>$rank,
+		)));
 	}
 ?>

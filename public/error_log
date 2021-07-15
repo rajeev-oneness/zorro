@@ -54,3 +54,10 @@ Stack trace:
 [02-Jul-2021 09:26:38 UTC] PHP Warning:  mysqli_error() expects exactly 1 parameter, 0 given in /home/demo9dtx/public_html/dev/zorro/public/Api.php on line 583
 [02-Jul-2021 09:30:36 UTC] PHP Warning:  mysqli_error() expects exactly 1 parameter, 0 given in /home/demo9dtx/public_html/dev/zorro/public/Api.php on line 618
 [02-Jul-2021 09:33:24 UTC] PHP Warning:  mysqli_error() expects exactly 1 parameter, 0 given in /home/demo9dtx/public_html/dev/zorro/public/Api.php on line 655
+[02-Jul-2021 13:52:42 UTC] PHP Notice:  Undefined variable: otp in /home/demo9dtx/public_html/dev/zorro/public/Api.php on line 414
+[07-Jul-2021 11:42:05 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function privacyploicy() in /home/demo9dtx/public_html/dev/zorro/public/Api.php:25
+Stack trace:
+#0 {main}
+  thrown in /home/demo9dtx/public_html/dev/zorro/public/Api.php on line 25
+[08-Jul-2021 13:39:31 UTC] PHP Notice:  Undefined variable: otp in /home/demo9dtx/public_html/dev/zorro/public/Api.php on line 414
+[12-Jul-2021 10:21:51 UTC] PHP Notice:  Undefined variable: otp in /home/demo9dtx/public_html/dev/zorro/public/Api.php on line 414
