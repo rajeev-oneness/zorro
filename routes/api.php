@@ -20,3 +20,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::post('/get-rider-by-name', 'DriverController@getRiderByName')->name('get.rider.by.name');
 Route::post('/get-months-date', 'DriverController@getMonthDates')->name('get.month.dates');
+Route::post('/get-driver-location', 'DriverController@getDriverLocation')->name('get.driver.location');

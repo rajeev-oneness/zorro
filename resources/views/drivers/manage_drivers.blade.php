@@ -151,7 +151,7 @@
                         </div>
                       </div>
                     </div>
-                    <div class="card col-12 p-0 rider-active-card shadow-sm">
+                    <div class="card col-12 p-0 rider-active-card shadow-sm" onclick="toggleMap()" style="cursor: pointer;">
                       <div class="card-body d-flex order-text p-2 m-0">
                         <div class="cu-img"><i class="fas fa-map-marker-alt"></i></div>
                         <p>Locate Active Rider</p>
@@ -247,7 +247,10 @@
                       </tbody>
                     </table>
                   </div>
+                  {{-- map section --}}
+                  <div class="rider-map position-relative" id="map"></div>                  
                 </div>
+                
                 {{-- modal --}}
                 <div class="modal fade" id="filterModal" tabindex="-1" role="dialog" aria-labelledby="filterModal" aria-hidden="true">
                   <div class="modal-dialog">
@@ -338,31 +341,82 @@
   </script>
   <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
   <script>
-      $('#btnExport').on('click',function(){
-          //$('#tblHead').css("display","block");
-          var url='data:application/vnd.ms-excel,' + encodeURIComponent(jQuery('#tableWrap').html()) 
-          location.href=url
-          return false
-           //$('#tblHead').css("display","none");
-      });
+    $('#btnExport').on('click',function(){
+        //$('#tblHead').css("display","block");
+        var url='data:application/vnd.ms-excel,' + encodeURIComponent(jQuery('#tableWrap').html()) 
+        location.href=url
+        return false
+          //$('#tblHead').css("display","none");
+    });
 
-      $('#rider_name').keyup(function() {
-        let riderName = $(this).val();
-        if(riderName != '') {
-          $.ajax({
-            url: "{{route('get.rider.by.name')}}",
-            type: "POST",
-            dataType:'JSON',
-            data: { _token: '{{csrf_token()}}', riderName: riderName  },
-            success:function(data) {
-              console.log(data);
-              // $('#table_body').empty();
-              table = '';
-              if (data.data.length > 0) {
-                $('#table_body').empty();
-                $.each(data.data, function(i, val) {
+    $('#rider_name').keyup(function() {
+      let riderName = $(this).val();
+      if(riderName != '') {
+        $.ajax({
+          url: "{{route('get.rider.by.name')}}",
+          type: "POST",
+          dataType:'JSON',
+          data: { _token: '{{csrf_token()}}', riderName: riderName  },
+          success:function(data) {
+            console.log(data);
+            // $('#table_body').empty();
+            table = '';
+            if (data.data.length > 0) {
+              $('#table_body').empty();
+              $.each(data.data, function(i, val) {
+                editHref = "{{route('edit_driver', ['id' => 'driverId'])}}";
+                editHref = editHref.replace('driverId', btoa(val.id));
+                table += "<tr>";
+                table += "<td>"+(i+1)+"</td>";
+                table += "<td>"+val.fname+"</td>";
+                table += "<td>"+val.address+"</td>";
+                table += "<td>"+val.mobile+"</td>";
+                table += "<td>"+val.pan_no+"</td>";
+                table += "<td data-toggle='modal' data-target='#changeStatusModal-"+val.id+"'>";
+                if ((val.is_active == 1) && (val.is_blocked == 0)){
+                  table += '<span class="bg-green">Active</span>';
+                } else if((val.is_active == 0) && (val.is_blocked == 0)){
+                  table += '<span class="bg-yellow">Inactive</span>';
+                } else if((val.is_blocked == 1)){
+                  table += '<span class="bg-read">Blocked</span>';
+                }
+                table += "</td>";
+                table += "<td><a class='edit_driver'  href='"+editHref+"' id=''><i class='fa fa-edit'></i></a></td>";
+                table += "<td><a class='delete_app' id='"+val.id+"'><i class='fa fa-trash' style='margin-left: 25px;'></i></a></td>";
+                table += "</tr>";
+              })
+            } else {
+              $('#table_body').empty();
+              table += "<tr>";
+              table += "<td colspan='7' class='text-center'>No Data Found!</td>";
+              table += "<tr>";
+            }
+            $('#table_body').append(table);
+          }
+        })
+      }
+    });
+
+    $("#start_date, #end_date").change(function() {
+      // alert($(this).val())
+      let startDate = $('#start_date').val();
+      let endDate = $('#end_date').val();
+      console.log(startDate);
+      console.log(endDate);
+      $.ajax({
+          url: "{{route('get.month.dates')}}",
+          type: "POST",
+          dataType:'JSON',
+          data: { _token: '{{csrf_token()}}', startDate: startDate, endDate: endDate },
+          success:function(data) {
+            console.log(data);
+            table = '';
+            if (data.data.length > 0) {
+              $('#table_body').empty();
+              $.each(data.data, function(i, val) {
+                if(val){
                   editHref = "{{route('edit_driver', ['id' => 'driverId'])}}";
-                  editHref = editHref.replace('driverId', btoa(val.id));
+                  // editHref = editHref.replace('driverId', btoa(val.id));
                   table += "<tr>";
                   table += "<td>"+(i+1)+"</td>";
                   table += "<td>"+val.fname+"</td>";
@@ -381,69 +435,79 @@
                   table += "<td><a class='edit_driver'  href='"+editHref+"' id=''><i class='fa fa-edit'></i></a></td>";
                   table += "<td><a class='delete_app' id='"+val.id+"'><i class='fa fa-trash' style='margin-left: 25px;'></i></a></td>";
                   table += "</tr>";
-                })
-              } else {
-                $('#table_body').empty();
-                table += "<tr>";
-                table += "<td colspan='7' class='text-center'>No Data Found!</td>";
-                table += "<tr>";
-              }
-              $('#table_body').append(table);
+                }
+                
+              })
+            } else {
+              $('#table_body').empty();
+              table += "<tr>";
+              table += "<td colspan='7' class='text-center'>No Data Found!</td>";
+              table += "<tr>";
             }
-          })
+            $('#table_body').append(table);
+          }
+      })
+    })
+
+    $("#map").hide();
+    function toggleMap() {
+      $("#tableWrap").toggle();
+      $("#map").toggle();
+    }
+    
+    function initMap() {
+      const map = new google.maps.Map(document.getElementById("map"), {
+        zoom: 6,
+        center: { lat: 23.132375294339866, lng: 86.78944795641858 }
+      });
+      setMarkers(map);
+      function setMarkers(map) {
+        for (let i = 0; i < locations.length; i++) {
+          const location = locations[i];
+          console.log(location);
+          new google.maps.Marker({
+            position: { lat: location['lat'], lng: location['lng'] },
+            map,
+            icon: "http://localhost/zorro/public/ui/img/left-nav-logo.png",
+            label: location['fn']+' '+location['ln'],
+          });
+        }
+      }
+    }
+    let locations = [];
+    
+    function loadMap() {
+      $.ajax({
+        type:"POST",
+        url:"{{route('get.driver.location')}}",
+        data:{_token: "{{csrf_token()}}"},
+        success:function(data) {
+          if(data.error == false){
+            if(data.data.length > 0) {
+              locations = [];
+              $.each(data.data, function(index, value){
+                // map view
+                let lat = Number(value.live_location.lat);
+                let lng = Number(value.live_location.lon);
+                let fn = value.fname;
+                let ln = value.lname;
+                if(lat != 0 && lng != 0){
+                  locations.push({ lat : lat, lng : lng , fn: fn, ln: ln});
+                  initMap();
+                }
+              })
+            }
+          }
         }
       });
-
-      $("#start_date, #end_date").change(function() {
-        // alert($(this).val())
-        let startDate = $('#start_date').val();
-        let endDate = $('#end_date').val();
-        console.log(startDate);
-        console.log(endDate);
-        $.ajax({
-            url: "{{route('get.month.dates')}}",
-            type: "POST",
-            dataType:'JSON',
-            data: { _token: '{{csrf_token()}}', startDate: startDate, endDate: endDate },
-            success:function(data) {
-              console.log(data);
-              table = '';
-              if (data.data.length > 0) {
-                $('#table_body').empty();
-                $.each(data.data, function(i, val) {
-                  if(val){
-                    editHref = "{{route('edit_driver', ['id' => 'driverId'])}}";
-                    // editHref = editHref.replace('driverId', btoa(val.id));
-                    table += "<tr>";
-                    table += "<td>"+(i+1)+"</td>";
-                    table += "<td>"+val.fname+"</td>";
-                    table += "<td>"+val.address+"</td>";
-                    table += "<td>"+val.mobile+"</td>";
-                    table += "<td>"+val.pan_no+"</td>";
-                    table += "<td data-toggle='modal' data-target='#changeStatusModal-"+val.id+"'>";
-                    if ((val.is_active == 1) && (val.is_blocked == 0)){
-                      table += '<span class="bg-green">Active</span>';
-                    } else if((val.is_active == 0) && (val.is_blocked == 0)){
-                      table += '<span class="bg-yellow">Inactive</span>';
-                    } else if((val.is_blocked == 1)){
-                      table += '<span class="bg-read">Blocked</span>';
-                    }
-                    table += "</td>";
-                    table += "<td><a class='edit_driver'  href='"+editHref+"' id=''><i class='fa fa-edit'></i></a></td>";
-                    table += "<td><a class='delete_app' id='"+val.id+"'><i class='fa fa-trash' style='margin-left: 25px;'></i></a></td>";
-                    table += "</tr>";
-                  }
-                  
-                })
-              } else {
-                $('#table_body').empty();
-                table += "<tr>";
-                table += "<td colspan='7' class='text-center'>No Data Found!</td>";
-                table += "<tr>";
-              }
-              $('#table_body').append(table);
-            }
-        })
-      })
+    }
+    window.onload = function () {
+      // Initial function call
+      loadMap();
+      setInterval(function () {
+        // Invoke function every 10 minutes
+        loadMap();
+      }, 600000);
+    }
   </script>
 @endsection

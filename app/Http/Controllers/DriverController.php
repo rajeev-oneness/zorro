@@ -8,6 +8,7 @@ use App\Model\Driver;
 use App\Model\JobTiming;
 use App\Model\Vehicle;
 use App\Model\Booking;
+use App\Model\DriverLiveLocation;
 use Validator,Redirect,Response;
 
 class DriverController extends Controller
@@ -295,5 +296,11 @@ class DriverController extends Controller
         $driver->is_blocked = $status[1];
         $driver->save();
         return redirect()->route('admin.manage_drivers');
+    }
+
+    public function getDriverLocation(Request $req)
+    {
+        $location = Driver::where('is_active', 1)->where('is_blocked', 0)->with('liveLocation')->get();
+        return response()->json(['error' => false, 'message' => 'live location', 'data' => $location]);
     }
 }
