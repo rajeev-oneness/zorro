@@ -271,6 +271,7 @@
         console.log(lat1);
         var distance = google.maps.geometry.spherical.computeDistanceBetween(new google.maps.LatLng(lat1, lon1), new google.maps.LatLng(lat2, lon2));
         let actualDistance = (distance/1000).toFixed(2);
+        // console.log(actualDistance, 'dis');
         $('#distance').val(actualDistance);
         $.ajax({
             url: "{{route('calculate.price')}}",

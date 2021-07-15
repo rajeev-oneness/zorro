@@ -15,12 +15,20 @@ class CreateIncentiveBracketsTable extends Migration
     {
         Schema::create('incentive_brackets', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('no_of_orders');
-            $table->bigInteger('cost');
-            $table->softDeletes();
+            $table->integer('no_of_orders');
+            $table->float('cost', 8,2);
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'));
         });
+        $data = [
+            ['no_of_orders' => 3, 'cost' => 30],
+            ['no_of_orders' => 6, 'cost' => 50],
+            ['no_of_orders' => 15, 'cost' => 80],
+            ['no_of_orders' => 50, 'cost' => 160],
+            ['no_of_orders' => 100, 'cost' => 250],
+            ['no_of_orders' => 500, 'cost' => 400],
+        ];
+        DB::table('incentive_brackets')->insert($data);
     }
 
     /**
