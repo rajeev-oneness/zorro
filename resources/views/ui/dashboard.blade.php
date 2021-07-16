@@ -107,7 +107,7 @@
                         <td class="pl-3">{{$item->lower}} KM</td>
                         <td>{{$item->upper}} KM</td>
                         <td>Rs. {{$item->cost}}</td>
-                        <td> <a href="{{route('dashboard.modal.delete', ['id'=>encrypt($item->id), 'modal_name'=>'pb'])}}"><i class="fas fa-trash"></i></a> </td>
+                        <td> <a onclick="return confirm('Are you sure?')" href="{{route('dashboard.modal.delete', ['id'=>encrypt($item->id), 'modal_name'=>'pb'])}}"><i class="fas fa-trash"></i></a> </td>
                       </tr> 
                       @endforeach
                     </tbody>
@@ -135,7 +135,7 @@
                         <td class="pl-3">{{$item->lower}} KM</td>
                         <td>{{$item->upper}} KM</td>
                         <td>Rs. {{$item->cost}}</td>
-                        <td> <a href="{{route('dashboard.modal.delete', ['id'=>encrypt($item->id), 'modal_name'=>'rf'])}}"><i class="fas fa-trash"></i></a> </td>
+                        <td> <a onclick="return confirm('Are you sure?')" href="{{route('dashboard.modal.delete', ['id'=>encrypt($item->id), 'modal_name'=>'rf'])}}"><i class="fas fa-trash"></i></a> </td>
                       </tr> 
                       @endforeach
                     </tbody>
@@ -161,7 +161,7 @@
                       <tr>
                         <td class="pl-3">{{$item->no_of_orders}} KM</td>
                         <td>Rs. {{$item->cost}}</td>
-                        <td> <a href="{{route('dashboard.modal.delete', ['id'=>encrypt($item->id), 'modal_name'=>'ib'])}}"><i class="fas fa-trash"></i></a> </td>
+                        <td> <a onclick="return confirm('Are you sure?')" href="{{route('dashboard.modal.delete', ['id'=>encrypt($item->id), 'modal_name'=>'ib'])}}"><i class="fas fa-trash"></i></a> </td>
                       </tr> 
                       @endforeach
                     </tbody>
@@ -186,11 +186,11 @@
                   <div class="modal-body">
                     <input type="hidden" name="modal_name" value="pb">
                     <label for="lower">Lower</label>
-                    <input type="number" placeholder="In Kilometer" class="form-control" name="lower" id="lower">
+                    <input type="text" placeholder="In Kilometer" onkeypress="return isNumberKey(event);" class="form-control" name="lower" id="lower">
                     <label for="upper">Upper</label>
-                    <input type="number" placeholder="In Kilometer" class="form-control" name="upper" id="upper">
+                    <input type="text" placeholder="In Kilometer" onkeypress="return isNumberKey(event);" class="form-control" name="upper" id="upper">
                     <label for="cost">Cost</label>
-                    <input type="number" placeholder="In Ruppess" class="form-control" name="cost" id="cost">
+                    <input type="text" placeholder="In Ruppess" onkeypress="return isNumberKey(event);" class="form-control" name="cost" id="cost">
                   </div>
                   <div class="modal-footer">
                     <button type="submit" class="btn order-btn" id="save-modal">Save changes</button>
@@ -217,11 +217,11 @@
                     <input type="hidden" name="modal_name" value="rf">
 
                     <label for="lower">Lower</label>
-                    <input type="number" placeholder="In Kilometer" class="form-control" name="lower" id="lower">
+                    <input type="text" placeholder="In Kilometer" onkeypress="return isNumberKey(event);" class="form-control" name="lower" id="lower">
                     <label for="upper">Upper</label>
-                    <input type="number" placeholder="In Kilometer" class="form-control" name="upper" id="upper">
+                    <input type="text" placeholder="In Kilometer" onkeypress="return isNumberKey(event);" class="form-control" name="upper" id="upper">
                     <label for="cost">Cost</label>
-                    <input type="number" placeholder="In Ruppess" class="form-control" name="cost" id="cost">
+                    <input type="text" placeholder="In Ruppess" onkeypress="return isNumberKey(event);" class="form-control" name="cost" id="cost">
                   </div>
                   <div class="modal-footer">
                     <button type="submit" class="btn order-btn" id="save-modal">Save changes</button>
@@ -247,9 +247,9 @@
                   <div class="modal-body">
                     <input type="hidden" name="modal_name" value="ib">
                     <label for="upper">Orders</label>
-                    <input type="number" placeholder="No of order" class="form-control" name="no_of_orders" id="no_of_orders">
+                    <input type="text" placeholder="No of order" onkeypress="return isNumberKey(event);" class="form-control" name="no_of_orders" id="no_of_orders">
                     <label for="cost">Cost</label>
-                    <input type="number" placeholder="In Ruppess" class="form-control" name="cost" id="cost">
+                    <input type="text" placeholder="In Ruppess" onkeypress="return isNumberKey(event);" class="form-control" name="cost" id="cost">
                   </div>
                   <div class="modal-footer">
                     <button type="submit" class="btn order-btn" id="save-modal">Save changes</button>
@@ -321,6 +321,12 @@
 @section('script')
     
 <script>
+  function isNumberKey(evt){
+    if((evt.charCode >= 48 && evt.charCode <= 57) || evt.charCode == 46) {
+        return true;
+    }
+    return false;
+  }
   $('#delivery_status').click(function() {
       bookingDescription = $(this).val();
       bookingId = $('#bookingId').val();
