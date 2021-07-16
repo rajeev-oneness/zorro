@@ -273,17 +273,21 @@ class BookingController extends Controller
     {
         $booking = Booking::find(decrypt($req->bookingId));
         if($req->orderStatus == 0) {
-            $status = [2, 0, 0];
+            $status = [2, 0, 0, 0];
         } elseif($req->orderStatus == 1) {
-            $status = [1, 1, 0];
+            $status = [1, 1, 0, 0];
         } elseif($req->orderStatus == 2) {
-            $status = [0, 1, 0];
+            $status = [0, 1, 0, 0];
         } elseif($req->orderStatus == 3) {
-            $status = [0, 0, 1];
+            $status = [0, 0, 1, 0];
+        } elseif($req->orderStatus == 4) {
+            $status = [0, 0, 0, 1];
+            $booking->cancelation_charge = 25;
         }
         $booking->is_delivered = $status[0];
         $booking->is_accepted = $status[1];
         $booking->is_rejected = $status[2];
+        $booking->is_cancelled = $status[3];
         $booking->save();
         return redirect()->route('admin.manage_bookings');
     }

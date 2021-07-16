@@ -61,16 +61,19 @@
                                 <td data-toggle="modal" data-target="#changeStatusModal-{{$booking->id}}">
                                   @if (($booking->is_delivered == 0) && ($booking->is_accepted == 0) && ($booking->is_rejected == 0))
                                     <span class="bg-yellow">New Order</span>
-                                  @elseif (($booking->is_delivered == 1) && ($booking->is_accepted == 1) && ($booking->is_rejected == 0))
+                                  @elseif (($booking->is_delivered == 1) && ($booking->is_accepted == 1) && ($booking->is_rejected == 0) && ($booking->is_cancelled == 0))
                                     <span class="bg-green">Delivered</span>
-                                  @elseif (($booking->is_delivered == 2) && ($booking->is_accepted == 0) && ($booking->is_rejected == 0))
+                                  @elseif (($booking->is_delivered == 2) && ($booking->is_accepted == 0) && ($booking->is_rejected == 0) && ($booking->is_cancelled == 0))
                                     <span class="bg-read">Not Delivered</span>
-                                  @elseif (($booking->is_delivered == 0) && ($booking->is_accepted == 1) && ($booking->is_rejected == 0))
+                                  @elseif (($booking->is_delivered == 0) && ($booking->is_accepted == 1) && ($booking->is_rejected == 0) && ($booking->is_cancelled == 0))
                                     <span class="bg-perple">Process</span>
-                                  @elseif (($booking->is_delivered == 0) && ($booking->is_accepted == 0) && ($booking->is_rejected == 1))
+                                  @elseif (($booking->is_delivered == 0) && ($booking->is_accepted == 0) && ($booking->is_rejected == 1) && ($booking->is_cancelled == 0))
                                     <span class="bg-read">Rejected</span>
+                                  @elseif (($booking->is_delivered == 0) && ($booking->is_accepted == 0) && ($booking->is_rejected == 0) && ($booking->is_cancelled == 1))
+                                    <span class="bg-read">Cancelled</span>
                                   @endif
-                                </td>
+                              </td>
+                              <td>{{$booking->cancelation_charge}}</td>
                               </tr>
                         @endforeach
                       
@@ -95,6 +98,7 @@
                         <th>Rider Name</th>
                         <th>Profit</th>
                         <th>Status</th>
+                        <th>Cancelation charge</th>
                         <th class="r-redious-15">Details</th>
                       </tr>
                     </thead>
@@ -117,19 +121,21 @@
                                 <td>{{($booking->rider) ? $booking->rider->fname .' '. $booking->rider->lname : ''}}</td>
                                 <td>0</td>
                                 <td data-toggle="modal" data-target="#changeStatusModal-{{$booking->id}}">
-                                    @if (($booking->is_delivered == 0) && ($booking->is_accepted == 0) && ($booking->is_rejected == 0))
+                                    @if (($booking->is_delivered == 0) && ($booking->is_accepted == 0) && ($booking->is_rejected == 0) && ($booking->is_cancelled == 0))
                                       <span class="bg-yellow">New Order</span>
-                                    @elseif (($booking->is_delivered == 1) && ($booking->is_accepted == 1) && ($booking->is_rejected == 0))
+                                    @elseif (($booking->is_delivered == 1) && ($booking->is_accepted == 1) && ($booking->is_rejected == 0) && ($booking->is_cancelled == 0))
                                       <span class="bg-green">Delivered</span>
-                                    @elseif (($booking->is_delivered == 2) && ($booking->is_accepted == 0) && ($booking->is_rejected == 0))
+                                    @elseif (($booking->is_delivered == 2) && ($booking->is_accepted == 0) && ($booking->is_rejected == 0) && ($booking->is_cancelled == 0))
                                       <span class="bg-read">Not Delivered</span>
-                                    @elseif (($booking->is_delivered == 0) && ($booking->is_accepted == 1) && ($booking->is_rejected == 0))
+                                    @elseif (($booking->is_delivered == 0) && ($booking->is_accepted == 1) && ($booking->is_rejected == 0) && ($booking->is_cancelled == 0))
                                       <span class="bg-perple">Process</span>
-                                    @elseif (($booking->is_delivered == 0) && ($booking->is_accepted == 0) && ($booking->is_rejected == 1))
+                                    @elseif (($booking->is_delivered == 0) && ($booking->is_accepted == 0) && ($booking->is_rejected == 1) && ($booking->is_cancelled == 0))
                                       <span class="bg-read">Rejected</span>
+                                    @elseif (($booking->is_delivered == 0) && ($booking->is_accepted == 0) && ($booking->is_rejected == 0) && ($booking->is_cancelled == 1))
+                                      <span class="bg-read">Cancelled</span>
                                     @endif
                                 </td>
-                                
+                                <td>{{$booking->cancelation_charge}}</td>
 
                                 <td class="r-redious-15 text-center"><!-- <a class="edit_vehicletype" href="{{route('admin.edit_bookings', ['id' => encrypt($booking->id)])}}" title="Edit"><i class="fa fa-edit text-warning"></i></a> --><a data-toggle="collapse" href="#collapseExample-{{$booking->id}}" role="button" aria-expanded="false" aria-controls="collapseExample-{{$booking->id}}"><i class="fas fa-caret-down"></i></a></td>
                                 <tr class="collapse bg-transparent" id="collapseExample-{{$booking->id}}">
@@ -178,6 +184,7 @@
                                               <option value="1">Delivered</option>
                                               <option value="2">Process</option>
                                               <option value="3">Rejected</option>
+                                              <option value="4">Cancel</option>
                                             </select>
                                         </div>
                                   </div>
