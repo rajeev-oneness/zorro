@@ -457,8 +457,8 @@
     
     function initMap() {
       const map = new google.maps.Map(document.getElementById("map"), {
-        zoom: 6,
-        center: { lat: 23.132375294339866, lng: 86.78944795641858 }
+        zoom: 11,
+        center: { lat: 22.60807709934321, lng: 88.36398185737436 }
       });
       setMarkers(map);
       function setMarkers(map) {
