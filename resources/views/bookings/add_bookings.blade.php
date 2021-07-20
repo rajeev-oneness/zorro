@@ -269,7 +269,6 @@
     }
     function calcDistance() {
         let actualDistance = 0;
-
         //distance calculation
         var directionsService = new google.maps.DirectionsService();
         var request = {
@@ -282,6 +281,15 @@
             if ( status == google.maps.DirectionsStatus.OK ) {
                 actualDistance = ((response.routes[0].legs[0].distance.value)/1000).toFixed(2);
                 $('#distance').val(actualDistance);
+                $.ajax({
+                    url: "{{route('calculate.price')}}",
+                    type: "POST",
+                    data: { _token: '{{csrf_token()}}', distance: actualDistance , for: 'cost' },
+                    success:function(data) {
+                        console.log('cost', data);
+                        $("#total_price").val(data.data);
+                    }
+                })
             }
             else {
                 // oops, there's no route between these two locations
@@ -293,16 +301,7 @@
         // var distance = google.maps.geometry.spherical.computeDistanceBetween(new google.maps.LatLng(lat1, lon1), new google.maps.LatLng(lat2, lon2));
         // let actualDistance = (distance/1000).toFixed(2);
         
-        $('#distance').val(actualDistance);
-        $.ajax({
-            url: "{{route('calculate.price')}}",
-            type: "POST",
-            data: { _token: '{{csrf_token()}}', distance: actualDistance , for: 'cost' },
-            success:function(data) {
-                console.log('cost', data);
-                $("#total_price").val(data.data);
-            }
-        })
+        
         // $.ajax({
         //     url: "{{route('calculate.price')}}",
         //     type: "POST",
