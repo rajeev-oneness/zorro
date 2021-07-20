@@ -22,4 +22,9 @@ class Booking extends Model
 	public function objectDetail(){
 	    return $this->belongsTo(BookingObject::class, 'object', 'id');
 	}
+
+	public function revenueDetail()
+	{
+		return $this->hasOne(Revenue::class, 'order_id', 'id');
+	}
 }

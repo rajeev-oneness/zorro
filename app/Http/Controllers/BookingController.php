@@ -151,7 +151,8 @@ class BookingController extends Controller
         ->when( $request->object_id, function($query) use ($request){
             $query->where('object', '=', $request->object_id);
         })
-        ->with('rider','objectDetail')->get();
+        // ->where('id', 54)
+        ->with('rider','objectDetail','revenueDetail')->get();
         //  dd($bookings);
         return view('bookings.manage_bookings',compact('bookings', 'riders', 'bookingObjects'));
     }
@@ -272,6 +273,8 @@ class BookingController extends Controller
     public function changeStatus(Request $req)
     {
         $booking = Booking::find(decrypt($req->bookingId));
+        $revenue = Revenue::where('order_id', decrypt($req->bookingId))->first();
+        // dd($revenue);
         if($req->orderStatus == 0) {
             $status = [2, 0, 0, 0];
         } elseif($req->orderStatus == 1) {
@@ -283,6 +286,8 @@ class BookingController extends Controller
         } elseif($req->orderStatus == 4) {
             $status = [0, 0, 0, 1];
             $booking->cancelation_charge = 25;
+            $revenue->cancelation_charge = 25;
+            $revenue->save();
         }
         $booking->is_delivered = $status[0];
         $booking->is_accepted = $status[1];

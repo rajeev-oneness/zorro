@@ -240,7 +240,7 @@
         google.maps.event.addListener(autocomplete, 'place_changed', function(){
 
             var places = autocomplete.getPlace();
-
+            // console.log(places);
             $('#from_location').val(places.formatted_address);
             $('#from_lon').val(places.geometry.location.lng());
             $('#from_lat').val(places.geometry.location.lat());
@@ -268,10 +268,31 @@
 
     }
     function calcDistance() {
-        console.log(lat1);
-        var distance = google.maps.geometry.spherical.computeDistanceBetween(new google.maps.LatLng(lat1, lon1), new google.maps.LatLng(lat2, lon2));
-        let actualDistance = (distance/1000).toFixed(2);
-        // console.log(actualDistance, 'dis');
+        let actualDistance = 0;
+
+        //distance calculation
+        var directionsService = new google.maps.DirectionsService();
+        var request = {
+            origin      : new google.maps.LatLng(lat1, lon1),
+            destination : new google.maps.LatLng(lat2, lon2),
+            travelMode  : google.maps.DirectionsTravelMode.DRIVING
+        };
+
+        directionsService.route(request, function(response, status) {
+            if ( status == google.maps.DirectionsStatus.OK ) {
+                actualDistance = ((response.routes[0].legs[0].distance.value)/1000).toFixed(2);
+                $('#distance').val(actualDistance);
+            }
+            else {
+                // oops, there's no route between these two locations
+                // every time this happens, a kitten dies
+                // so please, ensure your address is formatted properly
+            }
+        });
+        
+        // var distance = google.maps.geometry.spherical.computeDistanceBetween(new google.maps.LatLng(lat1, lon1), new google.maps.LatLng(lat2, lon2));
+        // let actualDistance = (distance/1000).toFixed(2);
+        
         $('#distance').val(actualDistance);
         $.ajax({
             url: "{{route('calculate.price')}}",

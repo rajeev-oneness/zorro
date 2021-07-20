@@ -36,6 +36,7 @@
                         <th>Time</th>
                         <th>Rider Name</th>
                         <th>Profit</th>
+                        <th>Rider Fee</th>
                         <th>Status</th>
                       </tr>
                     </thead>
@@ -57,7 +58,8 @@
                                 <td>{{$booking->price}}</td>
                                 <td>{{$booking->time}}</td>
                                 <td>{{($booking->rider) ? $booking->rider->fname .' '. $booking->rider->lname : ''}}</td>
-                                <td>0</td>
+                                <td>{{($booking->revenueDetail)?($booking->revenueDetail->amount - $booking->revenueDetail->rider_fee) : 'N/A'}}</td>
+                                <td>{{($booking->revenueDetail)? $booking->revenueDetail->rider_fee : 'N/A'}}</td>
                                 <td data-toggle="modal" data-target="#changeStatusModal-{{$booking->id}}">
                                   @if (($booking->is_delivered == 0) && ($booking->is_accepted == 0) && ($booking->is_rejected == 0))
                                     <span class="bg-yellow">New Order</span>
@@ -97,6 +99,7 @@
                         <th>Time</th>
                         <th>Rider Name</th>
                         <th>Profit</th>
+                        <th>Rider Fee</th>
                         <th>Status</th>
                         <th>Cancelation charge</th>
                         <th class="r-redious-15">Details</th>
@@ -119,7 +122,13 @@
                                 <td>{{$booking->price}}</td>
                                 <td>{{$booking->time}}</td>
                                 <td>{{($booking->rider) ? $booking->rider->fname .' '. $booking->rider->lname : ''}}</td>
-                                <td>0</td>
+                                @if ($booking->revenueDetail && $booking->revenueDetail->cancelation_charge == 0)
+                                <td>{{($booking->revenueDetail->amount - $booking->revenueDetail->rider_fee)}}</td>
+                                <td>{{$booking->revenueDetail->rider_fee}}</td>
+                                @else
+                                    <td>0</td>
+                                    <td>0</td>
+                                @endif
                                 <td data-toggle="modal" data-target="#changeStatusModal-{{$booking->id}}">
                                     @if (($booking->is_delivered == 0) && ($booking->is_accepted == 0) && ($booking->is_rejected == 0) && ($booking->is_cancelled == 0))
                                       <span class="bg-yellow">New Order</span>
