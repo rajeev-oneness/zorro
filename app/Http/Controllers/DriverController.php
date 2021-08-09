@@ -35,40 +35,41 @@ class DriverController extends Controller
         $validator = Validator::make($request->all(), [
             'fname' => 'required',
             'lname' => 'required',
-            'email' => 'required',
+            'email' => 'required|email',
             'password' => 'required',  
-            'mobile' => 'required',
+            'mobile' => 'required|digits:10|numeric',
             'dob' => 'required',  
             'address' => 'required',
-            'image' => 'required',  
+            'image' => 'required|mimes:jpeg,png,jpg,gif,svg',  
             'landmark' => 'required',
+            'gender' => 'required',
             'vehicle_name' => 'required',  
-            'pan_no' => 'required:max:10',
-            'aadhar' => 'required|max:12',         
+            'pan_no' => 'required',
+            'aadhar' => 'required|digits:16',         
         ]);
-       $validator->validate();
+        $validator->validate();
 
-       $fileName1 = time().'.'.$request->file('image')->extension(); 
-            $request->file('image')->move(public_path('uploads/'), $fileName1);
-            $imgupdate ='uploads/'.$fileName1;
+        $fileName1 = random_int(0, 999999).randomGenerator().'.'.$request->file('image')->extension(); 
+        $request->file('image')->move(public_path('uploads/driver/profile/'), $fileName1);
+        $imgupdate ='uploads/driver/profile/'.$fileName1;
 
-            $fileName = time().'.'.$request->file('license_image')->extension(); 
-                    // echo json_encode($fileName);die;
+        $fileName = random_int(0, 999999).randomGenerator().'.'.$request->file('license_image')->extension(); 
 
-            $request->file('license_image')->move(public_path('uploads/'), $fileName);
-            $imgupdate1 ='uploads/'.$fileName;
+        $request->file('license_image')->move(public_path('uploads/driver/license/'), $fileName);
+        $imgupdate1 ='uploads/driver/license/'.$fileName;
 
-       $password = \Hash::make($request->password);
+        $password = \Hash::make($request->password);
 
-       $dob = $request->dob;
-       $timestamp = strtotime($dob);
-       $new_date = date("Y-m-d", $timestamp);
+        $dob = $request->dob;
+        $timestamp = strtotime($dob);
+        $new_date = date("Y-m-d", $timestamp);
 
-       $length = 6;
+        $length = 6;
 
-       $otp = substr(str_shuffle(str_repeat($x = '0123456789', ceil($length / strlen($x)))), 2, $length);
+        // $otp = substr(str_shuffle(str_repeat($x = '0123456789', ceil($length / strlen($x)))), 2, $length);
+        $otp = 1234;
 
-       $is_verified = 1;
+        $is_verified = 1;
 
         $Driver = new Driver();
         $Driver->fname = $request->fname;  
@@ -177,11 +178,12 @@ class DriverController extends Controller
             'lname' => 'string',
             'email' => 'email',
             'mobile' => 'digits:10|numeric',
-            'image' => 'mimes:jpeg,png,jpg,gif,svg|max:2048',  
+            'image' => 'mimes:jpeg,png,jpg,gif,svg',  
             'landmark' => 'string',
+            'gender' => 'required',
             'vehicle_name' => 'string',  
-            'pan_no' => 'max:10',
-            'aadhar' => 'max:12',         
+            'pan_no' => 'string',
+            'aadhar' => 'numeric|digits:16',         
         ]);
         $validator->validate();
 
@@ -208,9 +210,12 @@ class DriverController extends Controller
         $driver_data->dob = $new_date; 
 
         if ($request->hasFile('image')) {
-            $fileName1 = time().'.'.$request->file('image')->getClientOriginalExtension(); 
-            $request->file('image')->move(public_path('uploads/'), $fileName1);
-            $imgupdate ='uploads/'.$fileName1;
+            if(\File::exists(public_path($driver_data->image))){
+                \File::delete(public_path($driver_data->image));
+            }
+            $fileName1 = random_int(0, 999999).randomGenerator().'.'.$request->file('image')->extension(); 
+            $request->file('image')->move(public_path('uploads/driver/profile/'), $fileName1);
+            $imgupdate ='uploads/driver/profile/'.$fileName1;
             $driver_data->image = $imgupdate; 
         }
 
@@ -220,9 +225,12 @@ class DriverController extends Controller
         $driver_data->vehicle_type = $request->vehicle_type;
 
         if ($request->hasFile('license_image')) {
-            $fileName = time().'.'.$request->file('license_image')->getClientOriginalExtension();
-            $request->file('license_image')->move(public_path('uploads/'), $fileName);
-            $imgupdate1 ='uploads/'.$fileName;
+            if(\File::exists(public_path($driver_data->license_image))){
+                \File::delete(public_path($driver_data->license_image));
+            }
+            $fileName = random_int(0, 999999).randomGenerator().'.'.$request->file('license_image')->extension();
+            $request->file('license_image')->move(public_path('uploads/driver/license/'), $fileName);
+            $imgupdate1 ='uploads/driver/license/'.$fileName;
             $driver_data->license_image = $imgupdate1; 
         } 
 

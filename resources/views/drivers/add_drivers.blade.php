@@ -47,7 +47,7 @@
                                 <div class="row g-3">
                                     <div class="col-md-4">
                                         <label for="validationCustom01" class="form-label">Password</label>
-                                        <input type="text" class="form-control" name="password" id="password" value="{{old('password')}}" required>
+                                        <input type="password" class="form-control" name="password" id="password" value="{{old('password')}}" required>
                                         @error('password')
                                         <span class="text-danger">{{ $message }}</span>
                                         @enderror
@@ -72,7 +72,7 @@
                                 <div class="row g-3">
                                     <div class="col-md-4">
                                         <label for="validationCustom01" class="form-label">Date Of Birth</label>
-                                                    <input type="text" name="dob" id="dob" value="{{old('dob')}}" data-language="en" class="datepicker-here form-control digits" aria-describedby="basic-addon2">
+                                        <input type="date" name="dob" id="dob" value="{{old('dob')}}" data-language="en" class="datepicker-here form-control digits" aria-describedby="basic-addon2">
      
                                         @error('dob')
                                         <span class="text-danger">{{ $message }}</span>
@@ -107,7 +107,12 @@
                                     </div>
                                     <div class="col-md-4">
                                         <label for="validationCustom01" class="form-label">Gender</label>
-                                        <input type="text" class="form-control" name="gender" id="gender" value="{{old('gender')}}" required>
+                                        <select name="gender" id="gender" class="form-control" required>
+                                            <option value="" hidden>Select</option>
+                                            <option value="male">Male</option>
+                                            <option value="female">Female</option>
+                                            <option value="other">Other</option>
+                                        </select>
                                         @error('gender')
                                         <span class="text-danger">{{ $message }}</span>
                                         @enderror

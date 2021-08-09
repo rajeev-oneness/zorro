@@ -48,7 +48,7 @@
                                 <div class="row g-3">
                                     <div class="col-md-4">
                                         <label for="validationCustom01" class="form-label">Password</label>
-                                        <input type="text" class="form-control" name="password" id="password" value="" required>
+                                        <input type="password" class="form-control" name="password" id="password" value="">
                                         @error('password')
                                         <span class="text-danger">{{ $message }}</span>
                                         @enderror
@@ -73,7 +73,7 @@
                                 <div class="row g-3">
                                     <div class="col-md-4">
                                         <label for="validationCustom01" class="form-label">Date Of Birth</label>
-                                                    <input type="text" name="dob" id="dob" value="{{$editedoffers_data->dob}}" data-language="en" class="datepicker-here form-control digits" aria-describedby="basic-addon2">
+                                        <input type="date" name="dob" id="dob" value="{{$editedoffers_data->dob}}" data-language="en" class="datepicker-here form-control digits" aria-describedby="basic-addon2">
                                         @error('dob')
                                         <span class="text-danger">{{ $message }}</span>
                                         @enderror
@@ -107,7 +107,12 @@
                                     </div>
                                     <div class="col-md-4">
                                         <label for="validationCustom01" class="form-label">Gender</label>
-                                        <input type="text" class="form-control" name="gender" id="gender" value="{{$editedoffers_data->gender}}" required>
+                                        <select name="gender" id="gender" class="form-control" required>
+                                            <option value="" hidden>Select</option>
+                                            <option value="male" {{$editedoffers_data->gender == 'male' ? 'selected' : '' }}>Male</option>
+                                            <option value="female" {{$editedoffers_data->gender == 'female' ? 'selected' : '' }}>Female</option>
+                                            <option value="other" {{$editedoffers_data->gender == 'other' ? 'selected' : '' }}>Other</option>
+                                        </select>
                                         @error('gender')
                                         <span class="text-danger">{{ $message }}</span>
                                         @enderror
@@ -118,7 +123,7 @@
                                             <select id="business_categoryId" name="vehicle_type" class="form-control" required aria-label="select example">
                                                 <option value="{{old('vehicle_type')}}">Select Typ</option>
                                                 @foreach($categoriesveh as $vehicleType)
-                                                <option value="{{$vehicleType->id}}" <?php echo $editedoffers_data->vehicle_type ==  $vehicleType->id ? "selected" : ""; ?>>{{$vehicleType->name}}</option>
+                                                <option value="{{$vehicleType->id}}" {{$editedoffers_data->vehicle_type ==  $vehicleType->id ? "selected" : ""}}>{{$vehicleType->name}}</option>
                                                 @endforeach
                                             </select>
                                             @error('vehicle_type')

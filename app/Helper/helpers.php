@@ -29,4 +29,9 @@ function helperFunction($d, $forWhom)
     return round($actualPrice);
 }
 
+function randomGenerator()
+{
+    return uniqid().''.date('ymdhis').''.uniqid();
+}
+
 ?>
