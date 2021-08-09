@@ -91,7 +91,11 @@ class BookingController extends Controller
             $booking->time = $req->time;
             $booking->driver_id = $req->driver_id;
             $booking->price = helperFunction($req->distance, 'cost');
+            
+            $pickup_otp = 1234;
+            
             $booking->otp = $req->otp;
+            $booking->pickup_otp = $pickup_otp;
             $booking->save();
 
             $revenue = new Revenue();

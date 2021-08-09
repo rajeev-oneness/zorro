@@ -230,7 +230,23 @@
 		//If result is present
 		if(mysqli_num_rows($result)>0){
 			while($row = mysqli_fetch_assoc($result)){
+                $booking_id = $row['id'];
+                
+                $query1 = "select * from revenue where order_id='$booking_id'";
 
+        		//Execute query
+        		$result1=mysqli_query(connect(),$query1) or die(mysqli_error());
+        
+        		//If result1 is present
+        		if(mysqli_num_rows($result1)>0){
+        			$row1 = mysqli_fetch_assoc($result1);
+        
+        			$rider_fee = $row1['rider_fee'];
+        		}else{
+        		    $rider_fee = 0;
+        		}
+		
+		        $row['rider_fee'] = $rider_fee;
 				//Pushing the category array into parent array
 				array_push($bookings, $row);
 			}
@@ -283,6 +299,39 @@
 			)));
 		}
 	}
+	
+	function pickupOrder(){
+		$booking_id = (isset($_REQUEST['booking_id']) && $_REQUEST['booking_id']!='')?$_REQUEST['booking_id']:"";
+		$pickup_otp = (isset($_REQUEST['pickup_otp']) && $_REQUEST['pickup_otp']!='')?$_REQUEST['pickup_otp']:"";
+
+		$query = "select * from bookings where id='$booking_id' and pickup_otp='$pickup_otp'";
+
+		//Execute query
+		$result=mysqli_query(connect(),$query) or die(mysqli_error());
+
+		//If result is present
+		if(mysqli_num_rows($result)>0){
+			$row = mysqli_fetch_assoc($result);
+
+			$query = "update bookings set is_picked=1 where id='$booking_id'";
+
+			//Execute query
+			$result=mysqli_query(connect(),$query) or die(mysqli_error());
+			
+			//Calling succuss response
+			die(json_encode(array(
+				"status"     =>"1",
+				"message"    =>"This order is picked successfully",
+			)));
+		}else{
+
+			//Calling error response
+			die(json_encode(array(
+				"status"     =>"0",
+				"message"    =>"You have entered a wrong OTP. Please enter the correct one to deliver this order",
+			)));
+		}
+	}
 
 	function deliveredBookings(){
 		$driver_id = (isset($_REQUEST['driver_id']) && $_REQUEST['driver_id']!='')?$_REQUEST['driver_id']:"";
@@ -298,6 +347,24 @@
 		//If result is present
 		if(mysqli_num_rows($result)>0){
 			while($row = mysqli_fetch_assoc($result)){
+			    
+			    $booking_id = $row['id'];
+                
+                $query1 = "select * from revenue where order_id='$booking_id'";
+
+        		//Execute query
+        		$result1=mysqli_query(connect(),$query1) or die(mysqli_error());
+        
+        		//If result1 is present
+        		if(mysqli_num_rows($result1)>0){
+        			$row1 = mysqli_fetch_assoc($result1);
+        
+        			$rider_fee = $row1['rider_fee'];
+        		}else{
+        		    $rider_fee = 0;
+        		}
+		
+		        $row['rider_fee'] = $rider_fee;
 
 				//Pushing the category array into parent array
 				array_push($bookings, $row);
