@@ -277,12 +277,24 @@ class BookingController extends Controller
         // dd($revenue);
         if($req->orderStatus == 0) {
             $status = [2, 0, 0, 0];
+            $booking->cancelation_charge = 0;
+            $revenue->cancelation_charge = 0;
+            $revenue->save();
         } elseif($req->orderStatus == 1) {
             $status = [1, 1, 0, 0];
+            $booking->cancelation_charge = 0;
+            $revenue->cancelation_charge = 0;
+            $revenue->save();
         } elseif($req->orderStatus == 2) {
             $status = [0, 1, 0, 0];
+            $booking->cancelation_charge = 0;
+            $revenue->cancelation_charge = 0;
+            $revenue->save();
         } elseif($req->orderStatus == 3) {
             $status = [0, 0, 1, 0];
+            $booking->cancelation_charge = 0;
+            $revenue->cancelation_charge = 0;
+            $revenue->save();
         } elseif($req->orderStatus == 4) {
             $status = [0, 0, 0, 1];
             $booking->cancelation_charge = 25;

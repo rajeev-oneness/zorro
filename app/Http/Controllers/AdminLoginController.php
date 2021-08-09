@@ -75,7 +75,7 @@ class AdminLoginController extends Controller
         $customers = Booking::select('from_customer_id',\DB::raw('COUNT(bookings.id) as TotalCount'))->orderBy('TotalCount','DESC')->groupBy('bookings.from_customer_id')->limit(5)->get();
         // dd($customers);
         $drivers = Booking::select('driver_id',\DB::raw('COUNT(bookings.id) as TotalCount'))->orderBy('TotalCount','DESC')->groupBy('bookings.driver_id')->limit(5)->get();
-        $revenue = Revenue::get();
+        $revenue = Revenue::where('cancelation_charge', 0)->get();
         $totalAmount = $revenue->sum('amount');
         $riderFee = $revenue->sum('rider_fee');
         $pb = PricingBracket::all();
